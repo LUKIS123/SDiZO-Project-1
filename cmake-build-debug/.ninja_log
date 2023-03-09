@@ -1,0 +1,7 @@
+# ninja log v5
+1	263	7001077172379887	CMakeFiles/SDiZO_Project_1.dir/main.cpp.obj	1851e8ba7ebf8d13
+4	268	7001077172428957	CMakeFiles/SDiZO_Project_1.dir/ListBidirectional.cpp.obj	847dd559c34df660
+268	362	7001077173347516	SDiZO_Project_1.exe	75f3e2d7ae29a94
+2	258	7001082414326996	CMakeFiles/SDiZO_Project_1.dir/main.cpp.obj	1851e8ba7ebf8d13
+6	262	7001082414357681	CMakeFiles/SDiZO_Project_1.dir/ListBidirectional.cpp.obj	847dd559c34df660
+262	336	7001082415061792	SDiZO_Project_1.exe	75f3e2d7ae29a94

@@ -3,4 +3,4 @@ project(SDiZO_Project_1)
 
 set(CMAKE_CXX_STANDARD 23)
 
-add_executable(SDiZO_Project_1 main.cpp)
+add_executable(SDiZO_Project_1 main.cpp ListBidirectional.cpp ListBidirectional.h)
