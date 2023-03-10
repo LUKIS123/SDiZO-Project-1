@@ -13,5 +13,25 @@ int main() {
     list.pushEnd(6);
     list.display();
 
+    std::cout << "==========" << std::endl;
+    list.pushEnd(99);
+    list.display();
+    std::cout << "==========" << std::endl;
+    list.pushOnIndex(1, 0);
+    list.display();
+    std::cout << "==========" << std::endl;
+    list.popFront();
+    list.display();
+    std::cout << "==========" << std::endl;
+    list.popEnd();
+    list.display();
+    std::cout << "==========" << std::endl;
+    std::cout << "==========>>>>>" << std::endl;
+    list.popOnIndex(1);
+    list.display();
+    std::cout << "==========" << std::endl;
+
+    std::cout << "==========" << std::endl;
+
     return 0;
 }

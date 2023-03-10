@@ -8,9 +8,7 @@ public:
         NodeBidirectional *prev = nullptr;
         NodeBidirectional *next = nullptr;
     };
-
-    unsigned size = 0;
-
+    
     ListBidirectional() = default;
 
     ~ListBidirectional();
@@ -40,6 +38,7 @@ public:
 private:
     NodeBidirectional *head = nullptr;
     NodeBidirectional *tail = nullptr;
+    unsigned size = 0;
 };
 
 #endif //SDIZO_PROJECT_1_LISTBIDIRECTIONAL_H
