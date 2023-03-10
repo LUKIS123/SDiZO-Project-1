@@ -8,14 +8,12 @@ public:
         NodeBidirectional *prev = nullptr;
         NodeBidirectional *next = nullptr;
     };
-    
+
     ListBidirectional() = default;
 
     ~ListBidirectional();
 
     void display();
-
-    unsigned getSize();
 
     void pushFront(int data);
 
@@ -34,6 +32,12 @@ public:
     int getByValue(int data);
 
     void removeAll();
+
+    unsigned getSize();
+
+    NodeBidirectional *getHead();
+
+    NodeBidirectional *getTail();
 
 private:
     NodeBidirectional *head = nullptr;

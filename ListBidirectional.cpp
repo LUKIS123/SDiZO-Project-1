@@ -24,10 +24,6 @@ void ListBidirectional::display() {
     std::cout << std::endl;
 }
 
-unsigned ListBidirectional::getSize() {
-    return size;
-}
-
 void ListBidirectional::pushFront(int data) {
     size++;
     NodeBidirectional *node = new NodeBidirectional;
@@ -76,6 +72,8 @@ void ListBidirectional::pushOnIndex(int index, int data) {
             return;
         }
     }
+    NodeBidirectional *next = current->next;
+    next->prev = node;
     node->next = current->next;
     current->next = node;
     node->prev = current;
@@ -86,6 +84,9 @@ void ListBidirectional::pushOnIndex(int index, int data) {
 
 int ListBidirectional::popFront() {
     size--;
+    // do przemyslenia
+    if (head == nullptr) return -1;
+    //
     int value = head->data;
 
     if (head->next == nullptr) {
@@ -161,4 +162,16 @@ int ListBidirectional::getByValue(int data) {
 
 void ListBidirectional::removeAll() {
 
+}
+
+unsigned ListBidirectional::getSize() {
+    return size;
+}
+
+ListBidirectional::NodeBidirectional *ListBidirectional::getHead() {
+    return head;
+}
+
+ListBidirectional::NodeBidirectional *ListBidirectional::getTail() {
+    return tail;
 }

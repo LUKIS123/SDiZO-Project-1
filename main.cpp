@@ -26,12 +26,13 @@ int main() {
     list.popEnd();
     list.display();
     std::cout << "==========" << std::endl;
-    std::cout << "==========>>>>>" << std::endl;
+    std::cout << "==========>>>>>POP ON INDEX" << std::endl;
     list.popOnIndex(1);
     list.display();
     std::cout << "==========" << std::endl;
-
-    std::cout << "==========" << std::endl;
-
+    list.pushOnIndex(1, 55);
+    list.display();
+    std::cout << "==========>> head , tail" << std::endl;
+    std::cout << list.getHead()->data << ", " << list.getTail()->data << std::endl;
     return 0;
 }
