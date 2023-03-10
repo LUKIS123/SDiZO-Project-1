@@ -5,6 +5,10 @@ int main() {
     std::cout << "Hello, World!" << std::endl;
 
     ListBidirectional list = *new ListBidirectional();
+    if (list.popFront() == NULL) {
+        std::cout << "NULL\n";
+    }
+
     list.pushFront(1);
     list.pushFront(22);
     list.pushFront(333);
@@ -34,5 +38,13 @@ int main() {
     list.display();
     std::cout << "==========>> head , tail" << std::endl;
     std::cout << list.getHead()->data << ", " << list.getTail()->data << std::endl;
+    std::cout << "==========" << std::endl;
+    std::cout << list.getByIndex(2)->data << ", " << list.getByValue(5)->data;
+
+    std::cout << "==========" << std::endl;
+    // do sprawdzenia!!!! szczegolowo
+    // removeElement()
+    list.removeElement(list.getByIndex(2));
+    list.display();
     return 0;
 }

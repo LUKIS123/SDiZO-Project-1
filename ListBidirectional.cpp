@@ -6,13 +6,7 @@
 #include "iostream"
 
 ListBidirectional::~ListBidirectional() {
-    NodeBidirectional *current = head;
-    while (current != nullptr) {
-        NodeBidirectional *temp = current;
-        current = current->next;
-        delete temp;
-        size--;
-    }
+    removeAll();
 }
 
 void ListBidirectional::display() {
@@ -83,10 +77,10 @@ void ListBidirectional::pushOnIndex(int index, int data) {
 }
 
 int ListBidirectional::popFront() {
-    size--;
     // do przemyslenia
-    if (head == nullptr) return -1;
+    if (head == nullptr) return NULL;
     //
+    size--;
     int value = head->data;
 
     if (head->next == nullptr) {
@@ -105,6 +99,9 @@ int ListBidirectional::popFront() {
 }
 
 int ListBidirectional::popEnd() {
+    // do przemyslenia
+    if (head == nullptr) return NULL;
+    //
     size--;
     int value = tail->data;
 
@@ -125,7 +122,6 @@ int ListBidirectional::popEnd() {
 }
 
 int ListBidirectional::popOnIndex(int index) {
-    size--;
     if (index == 0) {
         return popFront();
     }
@@ -149,19 +145,68 @@ int ListBidirectional::popOnIndex(int index) {
         tail = previous;
     }
     delete current;
+    size--;
     return value;
 }
 
-int ListBidirectional::getByIndex(int index) {
-    return 0;
-}
-
-int ListBidirectional::getByValue(int data) {
-    return 0;
+void ListBidirectional::removeElement(ListBidirectional::NodeBidirectional *node) {
+    if (node == nullptr) return;
+    NodeBidirectional *previous = node->prev;
+    NodeBidirectional *next = node->next;
+    size--;
+    if (previous == nullptr && next == nullptr) {
+        delete node;
+        head = nullptr;
+        tail = nullptr;
+        return;
+    }
+    if (node == head) {
+        next->prev = nullptr;
+        head = next;
+        delete node;
+        return;
+    }
+    if (node == tail) {
+        previous->next = nullptr;
+        tail = previous;
+        delete node;
+        return;
+    }
+    previous->next = next;
+    next->prev = previous;
+    delete node;
 }
 
 void ListBidirectional::removeAll() {
+    NodeBidirectional *current = head;
+    while (current != nullptr) {
+        NodeBidirectional *temp = current;
+        current = current->next;
+        delete temp;
+        size--;
+    }
+}
 
+ListBidirectional::NodeBidirectional *ListBidirectional::getByIndex(int index) {
+    NodeBidirectional *current = head;
+    for (int i = 0; i < index; i++) {
+        current = current->next;
+        if (current == nullptr) {
+            return nullptr;
+        }
+    }
+    return current;
+}
+
+ListBidirectional::NodeBidirectional *ListBidirectional::getByValue(int data) {
+    NodeBidirectional *current = head;
+    while (current != nullptr) {
+        if (current->data == data) {
+            return current;
+        }
+        current = current->next;
+    }
+    return nullptr;
 }
 
 unsigned ListBidirectional::getSize() {

@@ -27,9 +27,11 @@ public:
 
     int popOnIndex(int index);
 
-    int getByIndex(int index);
+    void removeElement(NodeBidirectional *node);
 
-    int getByValue(int data);
+    NodeBidirectional *getByIndex(int index);
+
+    NodeBidirectional *getByValue(int data);
 
     void removeAll();
 
