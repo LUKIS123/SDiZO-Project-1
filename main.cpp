@@ -1,9 +1,8 @@
 #include <iostream>
 #include "ListBidirectional.h"
+#include "DynamicArray.h"
 
-int main() {
-    std::cout << "Hello, World!" << std::endl;
-
+void testList() {
     ListBidirectional list = *new ListBidirectional();
     if (list.popFront() == NULL) {
         std::cout << "NULL\n";
@@ -46,5 +45,24 @@ int main() {
     // removeElement()
     list.removeElement(list.getByIndex(2));
     list.display();
+}
+
+void testArray() {
+    DynamicArray array = *new DynamicArray(3);
+    array.display();
+
+    array.pushFront(22);
+    array.pushFront(22);
+    array.pushBack(33);
+    // pysh back ma problem :(
+    array.display();
+}
+
+int main() {
+    std::cout << "Hello, World!" << std::endl;
+
+//    testList();
+    testArray();
+
     return 0;
 }
