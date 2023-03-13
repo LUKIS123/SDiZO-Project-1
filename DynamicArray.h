@@ -20,22 +20,23 @@ public:
 
     void pushFront(int data);
 
-    void pushBack(int data);
+    void pushEnd(int data);
 
-    void pushOnIndex(int index, int val);
+    void pushOnIndex(int index, int data);
 
-    void pushRandomly(int length);
+    void pushRandomData(int length);
 
-    void popFront();
+    int popFront();
 
-    void popBack();
+    int popEnd();
 
-    void popOnIndex(int index);
+    int popOnIndex(int index);
 
     void removeAll();
 
-    int getSize();
+    unsigned int getSize();
 
+    void setOnIndex(int index, int data);
 };
 
 #endif //SDIZO_PROJECT_1_DYNAMICARRAY_H

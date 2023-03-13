@@ -12,7 +12,7 @@ ListBidirectional::~ListBidirectional() {
 void ListBidirectional::display() {
     NodeBidirectional *current = head;
     while (current != nullptr) {
-        std::cout << current->data << " ";
+        std::cout << "[ " << current->data << " ]";
         current = current->next;
     }
     std::cout << std::endl;

@@ -48,13 +48,33 @@ void testList() {
 }
 
 void testArray() {
-    DynamicArray array = *new DynamicArray(3);
+    DynamicArray array = *new DynamicArray(0);
     array.display();
 
     array.pushFront(22);
-    array.pushFront(22);
-    array.pushBack(33);
-    // pysh back ma problem :(
+    array.pushFront(92);
+    array.pushEnd(33);
+    array.display();
+    std::cout << "==========" << std::endl;
+    array.pushOnIndex(1, 34);
+    array.display();
+    array.popFront(); // git
+    array.display();
+    array.pushOnIndex(0, 55);
+    array.pushOnIndex(2, 66);
+    array.display();
+    std::cout << "==========" << std::endl;
+    array.popEnd();
+    array.display();
+    std::cout << "==========>>>" << std::endl;
+    array.popOnIndex(2);
+    array.display();
+    array.pushOnIndex(3, 88);
+    array.display();
+    array.popOnIndex(0);
+    array.display();
+    std::cout << "==========>>>" << std::endl;
+    array.setOnIndex(1, 4444);
     array.display();
 }
 
@@ -66,3 +86,7 @@ int main() {
 
     return 0;
 }
+
+// sortowanie kopca ->
+// budujemy kopiec typu max, nastepuje zamiana szczytu kopca z ostatnim elementem, obcinamy (traktujemy jako kopiec bez tego ostatniego elementu),
+// przywracana jest wlasnosc kopca zmniejszonego, i--, szczyt zamieniany z przedostatnim elemetem
