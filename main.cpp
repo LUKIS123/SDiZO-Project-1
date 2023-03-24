@@ -1,6 +1,7 @@
 #include <iostream>
 #include "ListBidirectional.h"
 #include "DynamicArray.h"
+#include "BinaryHeap.h"
 
 void testList() {
     ListBidirectional list = *new ListBidirectional();
@@ -78,11 +79,32 @@ void testArray() {
     array.display();
 }
 
+void testHeap() {
+    BinaryHeap heap = *new BinaryHeap;
+    heap.push(11);
+    heap.push(22);
+    heap.display();
+    std::cout << "==========>>>\n" << std::endl;
+    heap.push(33);
+    heap.display();
+    std::cout << "==========>>>\n" << std::endl;
+    heap.push(12);
+    heap.display();
+    std::cout << "==========>>>\n" << std::endl;
+
+    // zle zrobione =>
+    // ALBO moze jednak dziala, tylko algorytm na usuwanie korzenia!!!
+    heap.pop(11);
+    heap.display();
+}
+
 int main() {
     std::cout << "Hello, World!" << std::endl;
 
 //    testList();
-    testArray();
+//    testArray();
+
+    testHeap();
 
     return 0;
 }

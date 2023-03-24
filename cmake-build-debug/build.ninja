@@ -67,6 +67,12 @@ build CMakeFiles/SDiZO_Project_1.dir/DynamicArray.cpp.obj: CXX_COMPILER__SDiZO_P
   OBJECT_DIR = CMakeFiles\SDiZO_Project_1.dir
   OBJECT_FILE_DIR = CMakeFiles\SDiZO_Project_1.dir
 
+build CMakeFiles/SDiZO_Project_1.dir/BinaryHeap.cpp.obj: CXX_COMPILER__SDiZO_Project_1_Debug C$:/Users/lukas/_fork/SDiZO-Project-1/BinaryHeap.cpp || cmake_object_order_depends_target_SDiZO_Project_1
+  DEP_FILE = CMakeFiles\SDiZO_Project_1.dir\BinaryHeap.cpp.obj.d
+  FLAGS = -g -fdiagnostics-color=always -std=gnu++2a
+  OBJECT_DIR = CMakeFiles\SDiZO_Project_1.dir
+  OBJECT_FILE_DIR = CMakeFiles\SDiZO_Project_1.dir
+
 
 # =============================================================================
 # Link build statements for EXECUTABLE target SDiZO_Project_1
@@ -75,7 +81,7 @@ build CMakeFiles/SDiZO_Project_1.dir/DynamicArray.cpp.obj: CXX_COMPILER__SDiZO_P
 #############################################
 # Link the executable SDiZO_Project_1.exe
 
-build SDiZO_Project_1.exe: CXX_EXECUTABLE_LINKER__SDiZO_Project_1_Debug CMakeFiles/SDiZO_Project_1.dir/main.cpp.obj CMakeFiles/SDiZO_Project_1.dir/ListBidirectional.cpp.obj CMakeFiles/SDiZO_Project_1.dir/DynamicArray.cpp.obj
+build SDiZO_Project_1.exe: CXX_EXECUTABLE_LINKER__SDiZO_Project_1_Debug CMakeFiles/SDiZO_Project_1.dir/main.cpp.obj CMakeFiles/SDiZO_Project_1.dir/ListBidirectional.cpp.obj CMakeFiles/SDiZO_Project_1.dir/DynamicArray.cpp.obj CMakeFiles/SDiZO_Project_1.dir/BinaryHeap.cpp.obj
   FLAGS = -g
   LINK_LIBRARIES = -lkernel32 -luser32 -lgdi32 -lwinspool -lshell32 -lole32 -loleaut32 -luuid -lcomdlg32 -ladvapi32
   OBJECT_DIR = CMakeFiles\SDiZO_Project_1.dir
