@@ -2,6 +2,7 @@
 #include "ListBidirectional.h"
 #include "DynamicArray.h"
 #include "BinaryHeap.h"
+#include "BinarySearchTree.h"
 
 void testList() {
     ListBidirectional list = *new ListBidirectional();
@@ -9,33 +10,35 @@ void testList() {
         std::cout << "NULL\n";
     }
 
+    list.displayFromBack();
+
     list.pushFront(1);
     list.pushFront(22);
     list.pushFront(333);
     list.pushEnd(4444);
     list.pushEnd(5);
     list.pushEnd(6);
-    list.display();
+    list.displayFromFront();
 
     std::cout << "==========" << std::endl;
     list.pushEnd(99);
-    list.display();
+    list.displayFromFront();
     std::cout << "==========" << std::endl;
     list.pushOnIndex(1, 0);
-    list.display();
+    list.displayFromFront();
     std::cout << "==========" << std::endl;
     list.popFront();
-    list.display();
+    list.displayFromFront();
     std::cout << "==========" << std::endl;
     list.popEnd();
-    list.display();
+    list.displayFromFront();
     std::cout << "==========" << std::endl;
     std::cout << "==========>>>>>POP ON INDEX" << std::endl;
     list.popOnIndex(1);
-    list.display();
+    list.displayFromFront();
     std::cout << "==========" << std::endl;
     list.pushOnIndex(1, 55);
-    list.display();
+    list.displayFromFront();
     std::cout << "==========>> head , tail" << std::endl;
     std::cout << list.getHead()->data << ", " << list.getTail()->data << std::endl;
     std::cout << "==========" << std::endl;
@@ -45,7 +48,7 @@ void testList() {
     // do sprawdzenia!!!! szczegolowo
     // removeElement()
     list.removeElement(list.getByIndex(2));
-    list.display();
+    list.displayFromFront();
 }
 
 void testArray() {
@@ -80,7 +83,7 @@ void testArray() {
 }
 
 void testHeap() {
-    BinaryHeap heap = *new BinaryHeap;
+    BinaryHeap heap = *new BinaryHeap(30000);
     heap.push(11);
     heap.push(22);
     heap.display();
@@ -91,11 +94,28 @@ void testHeap() {
     heap.push(12);
     heap.display();
     std::cout << "==========>>>\n" << std::endl;
-
-    // zle zrobione =>
-    // ALBO moze jednak dziala, tylko algorytm na usuwanie korzenia!!!
-    heap.pop(11);
+    heap.push(35);
+    heap.push(66);
+    heap.push(44);
+    heap.push(77);
+    heap.push(55);
     heap.display();
+    std::cout << "==========>>>\n" << std::endl;
+
+    heap.pop(22);
+    heap.display();
+}
+
+void testBST() {
+    BinarySearchTree bst = *new BinarySearchTree();
+    bst.push(1);
+    bst.push(19);
+    bst.push(8);
+    bst.push(3);
+    bst.push(6);
+    bst.push(55);
+    bst.push(32);
+    bst.display();
 }
 
 int main() {
@@ -104,7 +124,10 @@ int main() {
 //    testList();
 //    testArray();
 
-    testHeap();
+    // TODO kopiec do przemyslenia...
+//    testHeap();
+
+    testBST();
 
     return 0;
 }

@@ -7,32 +7,36 @@
 
 class BinaryHeap {
 private:
-    const static unsigned size = 3000;
+    unsigned size = 0;
     int sizeInUse = 0;
-    int heapArray[size];
+    int *heapArray = nullptr;
 
     void fixFromTop(int index);
 
     void fixFromBottom(int index);
 
 public:
-    BinaryHeap() = default;
+    explicit BinaryHeap(unsigned size);
 
-    ~BinaryHeap();
+    virtual ~BinaryHeap();
 
     void display();
 
     void push(int data);
 
+    void pushElements(int data);
+
     void pushRandomElements(int howMany);
+
+    void popRoot();
 
     void pop(int data);
 
     void removeAll();
 
-    void getSize();
+    int getSize();
 
-    int find(int data);
+    int findIndexOf(int data);
 };
 
 #endif //SDIZO_PROJECT_1_BINARYHEAP_H

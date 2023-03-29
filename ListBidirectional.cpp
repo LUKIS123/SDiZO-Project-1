@@ -9,11 +9,20 @@ ListBidirectional::~ListBidirectional() {
     removeAll();
 }
 
-void ListBidirectional::display() {
+void ListBidirectional::displayFromFront() {
     NodeBidirectional *current = head;
     while (current != nullptr) {
         std::cout << "[ " << current->data << " ]";
         current = current->next;
+    }
+    std::cout << std::endl;
+}
+
+void ListBidirectional::displayFromBack() {
+    NodeBidirectional *current = tail;
+    while (current != nullptr) {
+        std::cout << "[ " << current->data << " ]";
+        current = current->prev;
     }
     std::cout << std::endl;
 }

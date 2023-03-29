@@ -4,7 +4,7 @@
 class ListBidirectional {
 public:
     struct NodeBidirectional {
-        int data;
+        int data = 0;
         NodeBidirectional *prev = nullptr;
         NodeBidirectional *next = nullptr;
     };
@@ -13,7 +13,9 @@ public:
 
     ~ListBidirectional();
 
-    void display();
+    void displayFromFront();
+
+    void displayFromBack();
 
     void pushFront(int data);
 
