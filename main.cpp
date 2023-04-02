@@ -1,8 +1,13 @@
-#include <iostream>
+#include "iostream"
 #include "ListBidirectional.h"
 #include "DynamicArray.h"
 #include "BinaryHeap.h"
 #include "BinarySearchTree.h"
+
+#include "Testing/Tests.h"
+#include "RandomDataGenerator/RandomNumberGenerator.h"
+#include "FileUtils/DataFileUtility.h"
+#include "View/AppController.h"
 
 void testList() {
     ListBidirectional list = *new ListBidirectional();
@@ -108,6 +113,7 @@ void testHeap() {
 
 void testBST() {
     BinarySearchTree bst = *new BinarySearchTree();
+    bst.push(10);
     bst.push(1);
     bst.push(19);
     bst.push(8);
@@ -124,10 +130,41 @@ int main() {
 //    testList();
 //    testArray();
 
+
+
     // TODO kopiec do przemyslenia...
 //    testHeap();
 
     testBST();
+
+    //    TEST t = *new TEST;
+    //    t.prnt();
+    //RandomNumberGenerator generator = *new RandomNumberGenerator();
+    //generator.setTests(100);
+    //generator.generateWithSeed(44);
+    //generator.generateNonDeterministic();
+
+    DataFileUtility r = *new DataFileUtility;
+    std::string s = "../Resources/test_data.txt";
+    std::cout << "\n==========>>>\n" << std::endl;
+    std::list<int> l = r.readData(s);
+
+    auto l_front = l.begin();
+    for (int i = 0; i < l.size(); i++) {
+        std::cout << *l_front << std::endl;
+        std::advance(l_front, 1);
+    }
+
+    std::string s2 = "../Resources/out.txt";
+    std::string testS1 = "out.txt";
+    std::string testS2 = "../Resources/";
+    std::string testS3 = testS2 + testS1;
+    r.saveData(l, testS3);
+
+
+    ConsoleView consoleView = *new ConsoleView();
+    AppController controller = *new AppController();
+    controller.index(consoleView);
 
     return 0;
 }
