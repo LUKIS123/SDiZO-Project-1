@@ -22,21 +22,27 @@ public:
 
     void display();
 
-    void push(int data);
+    void pushElement(int data);
 
-    void pushElements(int data);
+    void push(int data);
 
     void pushRandomElements(int howMany);
 
     void popRoot();
 
-    void pop(int data);
+    void popElement(int data);
 
     void removeAll();
 
     int getSize();
 
     int findIndexOf(int data);
+
+    int findByIndex(int index);
+
+    void heapify(int index);
+
+    void pop(int data);
 };
 
 #endif //SDIZO_PROJECT_1_BINARYHEAP_H

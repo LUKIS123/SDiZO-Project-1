@@ -1,6 +1,9 @@
 #ifndef SDIZO_PROJECT_1_LISTBIDIRECTIONAL_H
 #define SDIZO_PROJECT_1_LISTBIDIRECTIONAL_H
 
+#include "iostream"
+#include "list"
+
 class ListBidirectional {
 public:
     struct NodeBidirectional {
@@ -10,6 +13,8 @@ public:
     };
 
     ListBidirectional() = default;
+
+    void loadFileData(std::list<int> &dataList);
 
     ~ListBidirectional();
 
@@ -35,9 +40,11 @@ public:
 
     NodeBidirectional *getByValue(int data);
 
+    unsigned getIndexOf(int data);
+
     void removeAll();
 
-    unsigned getSize();
+    unsigned getSize() const;
 
     NodeBidirectional *getHead();
 

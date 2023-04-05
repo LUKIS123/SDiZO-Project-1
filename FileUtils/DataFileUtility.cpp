@@ -61,7 +61,7 @@ void DataFileUtility::test(const string &FileName) {
     iFile.close();
 }
 
-list<int> DataFileUtility::readData(const string &FileName) {
+list<int> *DataFileUtility::readData(const string &FileName) {
     ifstream file;
     file.open(FileName, ios::in);
     int size;
@@ -88,7 +88,7 @@ list<int> DataFileUtility::readData(const string &FileName) {
     } else {
         cout << "File error - OPEN" << endl;
     }
-    return dataList;
+    return &dataList;
 }
 
 bool DataFileUtility::saveData(list<int> &outputList, const string &FileName) {

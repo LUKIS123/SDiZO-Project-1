@@ -4,6 +4,6 @@
 
 #include "ActionResult.h"
 
-ActionResult::ActionResult() {
+ActionResult::ActionResult() = default;
 
-}
+ActionResult::~ActionResult() = default;

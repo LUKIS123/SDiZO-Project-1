@@ -15,9 +15,9 @@ public:
 
     static ActionResult::result menu();
 
-    static ActionResult::result arrayMenu();
+    static ActionResult::arrayResult arrayMenu();
 
-    static ActionResult::result listMenu();
+    static ActionResult::listResult listMenu();
 
     static ActionResult::result heapMenu();
 };

@@ -49,6 +49,20 @@ void testList() {
     std::cout << "==========" << std::endl;
     std::cout << list.getByIndex(2)->data << ", " << list.getByValue(5)->data;
 
+    list.pushFront(71);
+    list.pushFront(72);
+    list.pushFront(73);
+    list.pushFront(74);
+    list.pushFront(75);
+    list.pushFront(76);
+    list.pushFront(77);
+    std::cout << "==========jhhjvvjj>> " << std::endl;
+    list.displayFromFront();
+    std::cout << "==========>>>>>pushElement ON INDEX" << std::endl;
+    list.pushOnIndex(9, 2121);
+    std::cout << list.getIndexOf(2121) << std::endl;
+    list.displayFromFront();
+
     std::cout << "==========" << std::endl;
     // do sprawdzenia!!!! szczegolowo
     // removeElement()
@@ -57,7 +71,7 @@ void testList() {
 }
 
 void testArray() {
-    DynamicArray array = *new DynamicArray(0);
+    DynamicArray array = *new DynamicArray();
     array.display();
 
     array.pushFront(22);
@@ -72,6 +86,11 @@ void testArray() {
     array.pushOnIndex(0, 55);
     array.pushOnIndex(2, 66);
     array.display();
+    std::cout << "==========" << std::endl;
+    std::cout << *array.getByIndex(3) << std::endl;
+    std::cout << "==========" << std::endl;
+    std::cout << array.getIndexOf(66) << std::endl;
+    std::cout << "==========" << std::endl;
     std::cout << "==========" << std::endl;
     array.popEnd();
     array.display();
@@ -89,6 +108,34 @@ void testArray() {
 
 void testHeap() {
     BinaryHeap heap = *new BinaryHeap(30000);
+//    heap.pushElement(11);
+//    heap.pushElement(22);
+//    heap.display();
+//    std::cout << "==========>>>\n" << std::endl;
+//    heap.pushElement(33);
+//    heap.display();
+//    std::cout << "==========>>>\n" << std::endl;
+//    heap.pushElement(12);
+//    heap.display();
+//    std::cout << "==========>>>\n" << std::endl;
+//    heap.pushElement(35);
+//    heap.pushElement(66);
+//    heap.pushElement(44);
+//    heap.pushElement(77);
+//    heap.pushElement(55);
+//    heap.pushElement(56);
+//    heap.pushElement(57);
+//    heap.pushElement(58);
+//    heap.pushElement(59);
+//    heap.pushElement(60);
+//    heap.pushElement(61);
+//    heap.pushElement(62);
+//    heap.pushElement(63);
+//    heap.pushElement(6534);
+//    heap.pushElement(6543);
+//    heap.pushElement(6354);
+//    heap.pushElement(633);
+
     heap.push(11);
     heap.push(22);
     heap.display();
@@ -104,10 +151,28 @@ void testHeap() {
     heap.push(44);
     heap.push(77);
     heap.push(55);
+    heap.push(56);
+    heap.push(57);
+    heap.push(58);
+    heap.push(59);
+    heap.push(60);
+    heap.push(61);
+    heap.push(62);
+    heap.push(63);
+    heap.push(6534);
+    heap.push(6543);
+    heap.push(6354);
+    heap.push(633);
+
     heap.display();
     std::cout << "==========>>>\n" << std::endl;
 
-    heap.pop(22);
+    // TODO; Nie wiem czy popElement dziala poprawnie, raczej zrezygnowac
+    //  ewentualnie dodac metode heapyfy rekurencyjna i zastapic tym
+
+    std::cout << heap.getSize() << std::endl;
+
+    heap.pop(60);
     heap.display();
 }
 
@@ -126,17 +191,22 @@ void testBST() {
 
 int main() {
     std::cout << "Hello, World!" << std::endl;
+    std::cout << std::string(10, ' ');
+    std::cout << "lol" << std::endl;
 
 //    testList();
 //    testArray();
 
+// TODO kopiec do przemyslenia...
+    // + pomiar czasu!!!!!!!!!!!! do zrobienia
+
+    testHeap();
 
 
-    // TODO kopiec do przemyslenia...
-//    testHeap();
+//    testBST();
 
-    testBST();
 
+//======================================================================================================================
     //    TEST t = *new TEST;
     //    t.prnt();
     //RandomNumberGenerator generator = *new RandomNumberGenerator();
@@ -144,27 +214,29 @@ int main() {
     //generator.generateWithSeed(44);
     //generator.generateNonDeterministic();
 
-    DataFileUtility r = *new DataFileUtility;
-    std::string s = "../Resources/test_data.txt";
-    std::cout << "\n==========>>>\n" << std::endl;
-    std::list<int> l = r.readData(s);
+//    DataFileUtility r = *new DataFileUtility;
+//    std::string s = "../Resources/test.txt";
+//    std::cout << "\n==========>>>\n" << std::endl;
+//    std::list<int> *l = r.readData(s);
+//    std::list<int> list_test = *l;
+//
+//    auto l_front = list_test.begin();
+//    for (int i = 0; i < list_test.size(); i++) {
+//        std::cout << *l_front << std::endl;
+//        std::advance(l_front, 1);
+//    }
+//
+//    std::string s2 = "../Resources/out.txt";
+//    std::string testS1 = "out.txt";
+//    std::string testS2 = "../Resources/";
+//    std::string testS3 = testS2 + testS1;
+//    r.saveData(list_test, testS3);
+//======================================================================================================================
 
-    auto l_front = l.begin();
-    for (int i = 0; i < l.size(); i++) {
-        std::cout << *l_front << std::endl;
-        std::advance(l_front, 1);
-    }
+    // TODO do przemyslenia czy jako parametr, moze najpierw wstepnie czytac z pliku i wgrywac tutaj na samym poczatku...
 
-    std::string s2 = "../Resources/out.txt";
-    std::string testS1 = "out.txt";
-    std::string testS2 = "../Resources/";
-    std::string testS3 = testS2 + testS1;
-    r.saveData(l, testS3);
-
-
-    ConsoleView consoleView = *new ConsoleView();
-    AppController controller = *new AppController();
-    controller.index(consoleView);
+//    AppController controller = *new AppController(DynamicArray(), ListBidirectional());
+//    controller.index();
 
     return 0;
 }

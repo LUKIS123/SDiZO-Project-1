@@ -5,7 +5,6 @@
 #include "BinaryHeap.h"
 #include "iostream"
 
-
 BinaryHeap::BinaryHeap(unsigned int size) {
     BinaryHeap::size = size;
     BinaryHeap::heapArray = new int[size];
@@ -16,24 +15,36 @@ BinaryHeap::~BinaryHeap() {
 }
 
 void BinaryHeap::display() {
-    int level = 0;
-    int limit = 1;
-    int counter = 0;
     if (sizeInUse == 0) {
         std::cout << "Heap is empty!" << std::endl;
         return;
     }
+
+    int level = 0;
+    int limit = 1;
+    int counter = 0;
+    int spaces;
+    std::cout << "Heap" << std::endl;
     std::cout << level << ":";
+
+    spaces = sizeInUse * 0.875;
+    std::cout << std::string(spaces, ' ');
+
     for (int i = 0; i < sizeInUse; i++) {
-        std::cout << " " << heapArray[i];
+        std::cout << " " << heapArray[i] << ",";
+        std::cout << std::string(spaces, ' ');
         counter++;
         if (counter == limit) {
             limit = limit * 2;
             counter = 0;
             level++;
             std::cout << "\n" << level << ":";
+
+            spaces = (sizeInUse / limit);
+            std::cout << std::string(spaces, ' ');
         }
     }
+    std::cout << std::endl;
 }
 
 void BinaryHeap::fixFromTop(int index) {
@@ -82,10 +93,9 @@ void BinaryHeap::fixFromBottom(int index) {
     } while (index > 0);
 }
 
-
-void BinaryHeap::push(int data) {
+void BinaryHeap::pushElement(int data) {
     if (sizeInUse + 1 > size) {
-        std::cout << "Unable to push data, heap is full!" << std::endl;
+        std::cout << "Unable to pushElement data, heap is full!" << std::endl;
         return;
     }
     heapArray[sizeInUse] = data;
@@ -95,9 +105,37 @@ void BinaryHeap::push(int data) {
     }
 }
 
-// TODO: do testow czy cos
-void BinaryHeap::pushRandomElements(int howMany) {
+void BinaryHeap::popElement(int data) {
+    int index = findIndexOf(data);
+    if (index == -1) {
+        std::cout << "No such element to delete..." << std::endl;
+        return;
+    }
+    sizeInUse--;
+    heapArray[index] = heapArray[sizeInUse];
+    fixFromTop(index);
+    fixFromBottom(index);
+}
 
+// Do budowania kopca, dodawania elementow
+void BinaryHeap::push(int data) {
+    if (sizeInUse + 1 > size) {
+        std::cout << "Unable to pushElement data, heap is full!" << std::endl;
+        return;
+    }
+    heapArray[sizeInUse] = data;
+    sizeInUse++;
+    // Naprawianie kopca w gore
+    if (sizeInUse > 1) {
+        int index = sizeInUse - 1;
+        int parentPosition = (index - 1) / 2;
+        while (index > 0 && heapArray[parentPosition] < data) {
+            heapArray[index] = heapArray[parentPosition];
+            index = parentPosition;
+            parentPosition = (index - 1) / 2;
+        }
+        heapArray[index] = data;
+    }
 }
 
 void BinaryHeap::popRoot() {
@@ -105,10 +143,10 @@ void BinaryHeap::popRoot() {
         std::cout << "Heap is empty!" << std::endl;
         return;
     }
-    // zamiana wartosci korzenia z lisciem
     sizeInUse--;
+    // Zamiana wartosci korzenia z lisciem
     heapArray[0] = heapArray[sizeInUse];
-    // naprawianie w dol
+    // Naprawianie w dol
     if (sizeInUse == 0) {
         return;
     }
@@ -129,19 +167,6 @@ void BinaryHeap::popRoot() {
     heapArray[currentPosition] = lastDescendant;
 }
 
-
-void BinaryHeap::pop(int data) {
-    int index = findIndexOf(data);
-    if (index == -1) {
-        std::cout << "No such element to delete..." << std::endl;
-        return;
-    }
-    sizeInUse--;
-    heapArray[index] = heapArray[sizeInUse];
-    fixFromTop(index);
-    fixFromBottom(index);
-}
-
 void BinaryHeap::removeAll() {
     sizeInUse = 0;
 }
@@ -159,22 +184,44 @@ int BinaryHeap::findIndexOf(int data) {
     return -1;
 }
 
-// do budowania kopca
-void BinaryHeap::pushElements(int data) {
-    if (sizeInUse + 1 > size) {
-        std::cout << "Unable to push data, heap is full!" << std::endl;
+int BinaryHeap::findByIndex(int index) {
+    return heapArray[index];
+}
+
+// TODO: do testow czy cos
+void BinaryHeap::pushRandomElements(int howMany) {
+}
+
+// TODO: do sprawdzenia heapify
+void BinaryHeap::heapify(int index) {
+    int largest = index;
+    int l = 2 * index + 1;
+    int r = 2 * index + 2;
+
+    // If left child is larger than root
+    if (l < sizeInUse && heapArray[l] > heapArray[largest]) {
+        largest = l;
+    }
+
+    // If right child is larger than largest so far
+    if (r < sizeInUse && heapArray[r] > heapArray[largest])
+        largest = r;
+
+    // If largest is not root
+    if (largest != index) {
+        std::swap(heapArray[index], heapArray[largest]);
+        // Recursively heapify the affected sub-tree
+        heapify(largest);
+    }
+}
+
+void BinaryHeap::pop(int data) {
+    int index = findIndexOf(data);
+    if (index == -1) {
+        std::cout << "No such element to delete..." << std::endl;
         return;
     }
-    heapArray[sizeInUse] = data;
-    sizeInUse++;
-    if (sizeInUse > 1) {
-        int index = sizeInUse - 1;
-        int parentPosition = (index - 1) / 2;
-        while (index > 0 && heapArray[parentPosition] < data) {
-            heapArray[index] = heapArray[parentPosition];
-            index = parentPosition;
-            parentPosition = (index - 1) / 2;
-        }
-        heapArray[index] = data;
-    }
+    sizeInUse--;
+    heapArray[index] = heapArray[sizeInUse];
+    heapify(index);
 }

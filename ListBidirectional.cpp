@@ -9,11 +9,22 @@ ListBidirectional::~ListBidirectional() {
     removeAll();
 }
 
+void ListBidirectional::loadFileData(std::list<int> &dataList) {
+    auto l_front = dataList.begin();
+    for (int i = 0; i < dataList.size(); i++) {
+        pushEnd(*l_front);
+        std::advance(l_front, 1);
+    }
+}
+
 void ListBidirectional::displayFromFront() {
     NodeBidirectional *current = head;
     while (current != nullptr) {
         std::cout << "[ " << current->data << " ]";
         current = current->next;
+    }
+    if (size == 0) {
+        std::cout << "List is empty!";
     }
     std::cout << std::endl;
 }
@@ -23,6 +34,9 @@ void ListBidirectional::displayFromBack() {
     while (current != nullptr) {
         std::cout << "[ " << current->data << " ]";
         current = current->prev;
+    }
+    if (size == 0) {
+        std::cout << "List is empty!";
     }
     std::cout << std::endl;
 }
@@ -67,14 +81,27 @@ void ListBidirectional::pushOnIndex(int index, int data) {
     NodeBidirectional *node = new NodeBidirectional;
     node->data = data;
 
-    NodeBidirectional *current = head;
-    for (int i = 0; i < index - 1; i++) {
-        current = current->next;
-        if (current == nullptr) {
-            pushEnd(data);
-            return;
+    NodeBidirectional *current;
+    if (index > (size / 2)) {
+        current = tail;
+        for (unsigned i = size - 1; i > index; i--) {
+            current = current->prev;
+            if (current == nullptr) {
+                pushFront(data);
+                return;
+            }
+        }
+    } else {
+        current = head;
+        for (int i = 0; i < index - 1; i++) {
+            current = current->next;
+            if (current == nullptr) {
+                pushEnd(data);
+                return;
+            }
         }
     }
+
     NodeBidirectional *next = current->next;
     next->prev = node;
     node->next = current->next;
@@ -86,9 +113,8 @@ void ListBidirectional::pushOnIndex(int index, int data) {
 }
 
 int ListBidirectional::popFront() {
-    // do przemyslenia
     if (head == nullptr) return NULL;
-    //
+
     size--;
     int value = head->data;
 
@@ -108,9 +134,8 @@ int ListBidirectional::popFront() {
 }
 
 int ListBidirectional::popEnd() {
-    // do przemyslenia
     if (head == nullptr) return NULL;
-    //
+
     size--;
     int value = tail->data;
 
@@ -135,12 +160,24 @@ int ListBidirectional::popOnIndex(int index) {
         return popFront();
     }
 
-    // UWAGA MOZNA DODAC WARIANT, JESLI INDEX BEDZIE WIEKSZY OD SIZE/2 TO ZACZNIJ OD TAILA => TO SAMO addOnIndex
-    NodeBidirectional *current = head;
-    for (int i = 0; i < index; i++) {
-        current = current->next;
-        if (current == nullptr) {
-            return popEnd();
+    // TO SAMO addOnIndex
+    // TODO: lista - do sprawdzenia
+    NodeBidirectional *current;
+    if (index > (size / 2)) {
+        current = tail;
+        for (unsigned i = size - 1; i > index; i--) {
+            current = current->prev;
+            if (current == nullptr) {
+                return popFront();
+            }
+        }
+    } else {
+        current = head;
+        for (int i = 0; i < index; i++) {
+            current = current->next;
+            if (current == nullptr) {
+                return popEnd();
+            }
         }
     }
 
@@ -194,6 +231,8 @@ void ListBidirectional::removeAll() {
         delete temp;
         size--;
     }
+    head = nullptr;
+    tail = nullptr;
 }
 
 ListBidirectional::NodeBidirectional *ListBidirectional::getByIndex(int index) {
@@ -218,7 +257,20 @@ ListBidirectional::NodeBidirectional *ListBidirectional::getByValue(int data) {
     return nullptr;
 }
 
-unsigned ListBidirectional::getSize() {
+unsigned ListBidirectional::getIndexOf(int data) {
+    unsigned index = 0;
+    NodeBidirectional *current = head;
+    while (current != nullptr) {
+        if (current->data == data) {
+            break;
+        }
+        current = current->next;
+        index++;
+    }
+    return index;
+}
+
+unsigned ListBidirectional::getSize() const {
     return size;
 }
 

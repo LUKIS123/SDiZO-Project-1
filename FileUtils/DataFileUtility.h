@@ -16,7 +16,7 @@ public:
 
     void test(const std::string &FileName);
 
-    std::list<int> readData(const std::string &FileName);
+    std::list<int> *readData(const std::string &FileName);
 
     bool saveData(std::list<int> &outputList, const std::string &FileName);
 };

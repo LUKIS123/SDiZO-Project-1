@@ -5,14 +5,17 @@
 #ifndef SDIZO_PROJECT_1_DYNAMICARRAY_H
 #define SDIZO_PROJECT_1_DYNAMICARRAY_H
 
+#include "list"
+#include "iostream"
 
 class DynamicArray {
     int *pointer = nullptr;
     unsigned size = 0;
 
 public:
+    DynamicArray();
 
-    DynamicArray(int size);
+    DynamicArray(std::list<int> intList);
 
     ~DynamicArray();
 
@@ -32,9 +35,15 @@ public:
 
     int popOnIndex(int index);
 
+    int *getByIndex(int index);
+
+    int *getByValue(int data);
+
+    unsigned getIndexOf(int data);
+
     void removeAll();
 
-    unsigned int getSize();
+    unsigned int getSize() const;
 
     void setOnIndex(int index, int data);
 };
