@@ -7,7 +7,8 @@
 #include "Testing/Tests.h"
 #include "RandomDataGenerator/RandomNumberGenerator.h"
 #include "FileUtils/DataFileUtility.h"
-#include "View/AppController.h"
+#include "Flow/AppController.h"
+#include "Time/Timer.h"
 
 void testList() {
     ListBidirectional list = *new ListBidirectional();
@@ -108,6 +109,17 @@ void testArray() {
 
 void testHeap() {
     BinaryHeap heap = *new BinaryHeap(30000);
+
+//    DataFileUtility r = *new DataFileUtility;
+//    std::string s = "../Resources/test.txt";
+//    std::cout << "\n==========>>>\n" << std::endl;
+//    std::list<int> *l = r.readData(s);
+//    std::list<int> list_test = *l;
+//    std::cout << list_test.size() << std::endl;
+//    heap.loadFileDataAndHeapify(list_test);
+//    heap.display();
+//    return;
+
 //    heap.pushElement(11);
 //    heap.pushElement(22);
 //    heap.display();
@@ -138,6 +150,12 @@ void testHeap() {
 
     heap.push(11);
     heap.push(22);
+    heap.push(33);
+    heap.push(34);
+    heap.push(35);
+    heap.push(36);
+    heap.display();
+    heap.pop(34);
     heap.display();
     std::cout << "==========>>>\n" << std::endl;
     heap.push(33);
@@ -191,28 +209,27 @@ void testBST() {
 
 int main() {
     std::cout << "Hello, World!" << std::endl;
-    std::cout << std::string(10, ' ');
-    std::cout << "lol" << std::endl;
 
 //    testList();
 //    testArray();
 
 // TODO kopiec do przemyslenia...
-    // + pomiar czasu!!!!!!!!!!!! do zrobienia
-
-    testHeap();
+//    testHeap();
 
 
 //    testBST();
 
 
 //======================================================================================================================
-    //    TEST t = *new TEST;
-    //    t.prnt();
-    //RandomNumberGenerator generator = *new RandomNumberGenerator();
-    //generator.setTests(100);
-    //generator.generateWithSeed(44);
-    //generator.generateNonDeterministic();
+//        TEST t = *new TEST;
+//        t.prnt();
+
+//    RandomNumberGenerator generator = *new RandomNumberGenerator();
+//    auto list_test1 = generator.generateWithSeed(123, 1000000);
+//    auto ltest1_front = list_test1->begin();
+//    std::advance(ltest1_front, 4);
+//    std::cout << *ltest1_front << '\n';
+//    std::cout << list_test1->size();
 
 //    DataFileUtility r = *new DataFileUtility;
 //    std::string s = "../Resources/test.txt";
@@ -233,10 +250,20 @@ int main() {
 //    r.saveData(list_test, testS3);
 //======================================================================================================================
 
-    // TODO do przemyslenia czy jako parametr, moze najpierw wstepnie czytac z pliku i wgrywac tutaj na samym poczatku...
+//    long long int time_start_test = Timer::read_QPC();
+//    Sleep(1);
+//    long long int time_end_test = Timer::read_QPC();
+//    Timer::getSeconds(time_start_test, time_end_test);
+//    Timer::getMilliSeconds(time_start_test, time_end_test);
+//    Timer::getMicroSeconds(time_start_test, time_end_test);
 
-//    AppController controller = *new AppController(DynamicArray(), ListBidirectional());
-//    controller.index();
+
+    // TODO: do przemyslenia czy jako parametr, moze najpierw wstepnie czytac z pliku i wgrywac tutaj na samym poczatku...
+
+    AppController controller = AppController();
+    controller.index();
+
+    // TODO: opcje do testowania mozna dodac do kontrolera a nie wewnatrz samych klas struktur
 
     return 0;
 }

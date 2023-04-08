@@ -6,47 +6,34 @@
 #include "iostream"
 #include "random"
 
-void RandomNumberGenerator::generateWithSeed(int seed) const {
-    int val, min, max;
+std::list<int> *RandomNumberGenerator::generateWithSeed(int seed, unsigned long testNumbers) {
+    int val;
     std::uniform_int_distribution<> dist(1, 1000000); // distribute results between
     std::mt19937 gen(seed);
-    min = INT_MAX;
-    max = 0;
-    // 1 and 1000000 inclusive
-    for (int i = 0; i < TESTS; i++) {
+    for (int i = 0; i < testNumbers; i++) {
         val = dist(gen);                                // pass the generator to the distribution
-        if (val < min)
-            min = val;
-        if (val > max)
-            max = val;
+        randomNumberList.push_back(val);
     }
-    std::cout << "min = " << min << " max = " << max << std::endl;
-    system("PAUSE");
+    return &randomNumberList;
 }
 
-void RandomNumberGenerator::generateNonDeterministic() const {
-    int val, min, max;
+std::list<int> *RandomNumberGenerator::generateNonDeterministic(unsigned long testNumbers) {
+    int val;
     std::random_device rd;                                  // non-deterministic generator
     std::mt19937 gen(rd());                             // random engine seeded with rd()
     std::uniform_int_distribution<> dist(1, 1000000); // distribute results between
     // 1 and 1000000 inclusive
-    min = INT_MAX;
-    max = 0;
-    for (int i = 0; i < TESTS; i++) {
+    for (int i = 0; i < testNumbers; i++) {
         val = dist(gen);                                // pass the generator to the distribution
-        if (val < min)
-            min = val;
-        if (val > max)
-            max = val;
+        randomNumberList.push_back(val);
     }
-    std::cout << "min = " << min << " max = " << max << std::endl;
-    system("PAUSE");
+    return &randomNumberList;
 }
 
-void RandomNumberGenerator::setTests(unsigned int howMany) {
-    TESTS = howMany;
+int RandomNumberGenerator::generateRandomInteger() {
+    std::random_device dev;
+    std::mt19937 rng(dev());
+    std::uniform_int_distribution<std::mt19937::result_type> dist(-1000, 1000);
+    return dist(rng);
 }
 
-unsigned int RandomNumberGenerator::getTests() const {
-    return TESTS;
-}

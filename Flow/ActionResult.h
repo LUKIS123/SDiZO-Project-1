@@ -10,12 +10,27 @@ class ActionResult {
 public:
     enum result {
         END = 0,
-        MENU = 6,
+        MENU = 10,
         LOAD_DATA_FILE = 1,
         DYNAMIC_ARRAY = 2,
         LIST_BIDIRECTIONAL = 3,
         BINARY_HEAP = 4,
-        BST_TREE = 5
+        BST_TREE = 5,
+        GENERATE_RANDOM_DATA = 6,
+        SAVE_RANDOM_DATA = 7,
+        AUTOMATIC_TEST = 8,
+        MANUAL_TESTS = 9
+    };
+
+    enum automaticTestResult {
+        END_TEST = 0,
+        MENU_TEST = 6,
+        GENERATE_DATA_TEST = 1,
+        DYNAMIC_ARRAY_TEST = 2,
+        LIST_BIDIRECTIONAL_TEST = 3,
+        BINARY_HEAP_TEST = 4,
+        BST_TREE_TEST = 5,
+        CHANGE_TEST_SERIES_NUMBER = 7
     };
 
     enum arrayResult {
@@ -52,6 +67,20 @@ public:
         FIND_BY_VAL_LIST = 11,
         REMOVE_ALL_LIST = 12,
         GET_SIZE_LIST = 13
+    };
+
+    enum heapResult {
+        END_HEAP = 0,
+        MENU_HEAP = 10,
+        LOAD_HEAP = 1,
+        DISPLAY_HEAP = 2,
+        PUSH_HEAP = 3,
+        POP_ROOT_HEAP = 4,
+        POP_ELEMENT_HEAP = 5,
+        FIND_BY_INDEX_HEAP = 6,
+        FIND_BY_VAL_HEAP = 7,
+        REMOVE_ALL_HEAP = 8,
+        GET_SIZE_HEAP = 9
     };
 
     ActionResult();

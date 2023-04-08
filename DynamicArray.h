@@ -7,8 +7,9 @@
 
 #include "list"
 #include "iostream"
+#include "Testing/Tests.h"
 
-class DynamicArray {
+class DynamicArray : public Tests {
     int *pointer = nullptr;
     unsigned size = 0;
 

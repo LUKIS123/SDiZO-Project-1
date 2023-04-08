@@ -9,21 +9,27 @@
 #include "ConsoleView.h"
 #include "ActionResult.h"
 #include "../FileUtils/DataFileUtility.h"
+#include "../RandomDataGenerator/RandomNumberGenerator.h"
 #include "../DynamicArray.h"
 #include "../ListBidirectional.h"
+#include "../BinaryHeap.h"
+#include "../Testing/AutomaticTests.h"
 
 class AppController {
 private:
     // Utils
+    AutomaticTests automaticTests;
+    RandomNumberGenerator numberGenerator;
     DataFileUtility fileUtility;
     std::list<int> dataList;
 
     // Data Structures
     DynamicArray dynamicArray;
     ListBidirectional listBidirectional;
+    BinaryHeap heap;
 
 public:
-    explicit AppController(const DynamicArray &dynamicArray, const ListBidirectional &listBidirectional);
+    explicit AppController();
 
     virtual ~AppController();
 
@@ -86,6 +92,34 @@ public:
     ActionResult::listResult removeAllList();
 
     ActionResult::listResult displaySizeList();
+
+    void heapIndex();
+
+    ActionResult::heapResult loadHeapWithFileData();
+
+    ActionResult::heapResult displayHeap();
+
+    void initHeap();
+
+    ActionResult::heapResult pushHeap();
+
+    ActionResult::heapResult popRootHeap();
+
+    ActionResult::heapResult popElementHeap();
+
+    ActionResult::heapResult findByIndexHeap();
+
+    ActionResult::heapResult findIndexOfHeap();
+
+    ActionResult::heapResult removeAllHeap();
+
+    ActionResult::heapResult displaySizeHeap();
+
+    void generateRandomData();
+
+    void saveRandomDataToFIle();
+
+    void startAutomaticTests();
 };
 
 

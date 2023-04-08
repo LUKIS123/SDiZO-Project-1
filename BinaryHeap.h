@@ -5,7 +5,10 @@
 #ifndef SDIZO_PROJECT_1_BINARYHEAP_H
 #define SDIZO_PROJECT_1_BINARYHEAP_H
 
-class BinaryHeap {
+#include "list"
+#include "Testing/Tests.h"
+
+class BinaryHeap : public Tests {
 private:
     unsigned size = 0;
     int sizeInUse = 0;
@@ -18,19 +21,19 @@ private:
 public:
     explicit BinaryHeap(unsigned size);
 
+    BinaryHeap();
+
     virtual ~BinaryHeap();
 
     void display();
 
     void pushElement(int data);
 
+    void popElement(int data);
+
     void push(int data);
 
-    void pushRandomElements(int howMany);
-
-    void popRoot();
-
-    void popElement(int data);
+    int popRoot();
 
     void removeAll();
 
@@ -43,6 +46,14 @@ public:
     void heapify(int index);
 
     void pop(int data);
+
+    void heapifyMoveDownFloyd(int first, int last);
+
+    void loadFileDataAndHeapify(const std::list<int> &dataList);
+
+    void loadFileData(const std::list<int> &dataList);
+
+    void startHeapifyMoveDownFloyd();
 };
 
 #endif //SDIZO_PROJECT_1_BINARYHEAP_H

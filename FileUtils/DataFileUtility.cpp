@@ -99,7 +99,7 @@ bool DataFileUtility::saveData(list<int> &outputList, const string &FileName) {
     if (file.is_open()) {
         file << size << endl;
         if (file.fail()) {
-            cout << "File error - READ SIZE" << endl;
+            cout << "File error - SAVE SIZE" << endl;
             return false;
         } else {
             auto l_front = outputList.begin();
@@ -108,6 +108,60 @@ bool DataFileUtility::saveData(list<int> &outputList, const string &FileName) {
                 advance(l_front, 1);
             }
             file.close();
+        }
+    } else {
+        cout << "File error - OPEN" << endl;
+        return false;
+    }
+    return true;
+}
+
+bool
+DataFileUtility::saveResultsMicroseconds(const string &FileName, list<double> &results, const std::string &headline) {
+    ofstream file;
+    file.open(FileName, ios_base::app);
+    int size = (int) results.size();
+    if (file.is_open()) {
+        file << headline << endl;
+        if (file.fail()) {
+            cout << "File error - SAVE HEADLINE" << endl;
+            return false;
+        } else {
+            auto l_front = results.begin();
+            for (int i = 0; i < size; i++) {
+                file << *l_front << ",";
+                advance(l_front, 1);
+            }
+            file.close();
+        }
+    } else {
+        cout << "File error - OPEN" << endl;
+        return false;
+    }
+    return true;
+}
+
+bool DataFileUtility::saveResults2DMicroseconds(const string &FileName, list<std::list<double>> &results,
+                                                const string &headline) {
+    ofstream file;
+    file.open(FileName, ios::out);
+    int size = (int) results.size();
+    if (file.is_open()) {
+        file << headline << endl;
+        if (file.fail()) {
+            cout << "File error - SAVE HEADLINE" << endl;
+            return false;
+        } else {
+
+            for (auto l_front = results.begin(); l_front != results.end();
+                 ++l_front) {
+                for (auto inner_front = l_front->begin(); inner_front != l_front->end(); ++inner_front) {
+                    file << *inner_front << ",";
+                }
+                file << endl;
+            }
+            file.close();
+
         }
     } else {
         cout << "File error - OPEN" << endl;

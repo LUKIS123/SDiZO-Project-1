@@ -17,9 +17,11 @@ public:
 
     static ActionResult::arrayResult arrayMenu();
 
+    static ActionResult::automaticTestResult testMenu();
+
     static ActionResult::listResult listMenu();
 
-    static ActionResult::result heapMenu();
+    static ActionResult::heapResult heapMenu();
 };
 
 #endif //SDIZO_PROJECT_1_CONSOLEVIEW_H

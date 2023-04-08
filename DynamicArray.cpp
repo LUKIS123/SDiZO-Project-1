@@ -22,7 +22,9 @@ DynamicArray::DynamicArray(std::list<int> intList) {
 }
 
 DynamicArray::~DynamicArray() {
-    delete pointer;
+    if (pointer != NULL) {
+        delete pointer;
+    }
 }
 
 void DynamicArray::display() {

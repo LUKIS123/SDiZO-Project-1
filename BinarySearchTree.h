@@ -5,7 +5,9 @@
 #ifndef SDIZO_PROJECT_1_BINARYSEARCHTREE_H
 #define SDIZO_PROJECT_1_BINARYSEARCHTREE_H
 
-class BinarySearchTree {
+#include "Testing/Tests.h"
+
+class BinarySearchTree : public Tests {
 public:
     struct BSTNode {
         int key = 0;

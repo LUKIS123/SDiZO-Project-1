@@ -5,22 +5,21 @@
 #ifndef SDIZO_PROJECT_1_RANDOMNUMBERGENERATOR_H
 #define SDIZO_PROJECT_1_RANDOMNUMBERGENERATOR_H
 
+#include "list"
+
 class RandomNumberGenerator {
 private:
-    unsigned TESTS = 10000000;
+    std::list<int> randomNumberList;
 public:
     RandomNumberGenerator() = default;
 
     ~RandomNumberGenerator() = default;
 
-    void setTests(unsigned howMany);
+    std::list<int> *generateWithSeed(int seed, unsigned long testNumbers);
 
-    void generateWithSeed(int seed) const;
+    std::list<int> *generateNonDeterministic(unsigned long testNumbers);
 
-    void generateNonDeterministic() const;
-
-    [[nodiscard]] unsigned int getTests() const;
+    int generateRandomInteger();
 };
-
 
 #endif //SDIZO_PROJECT_1_RANDOMNUMBERGENERATOR_H

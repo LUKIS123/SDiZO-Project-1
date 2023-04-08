@@ -4,10 +4,13 @@
 
 #include "BinaryHeap.h"
 #include "iostream"
+#include "list"
+
+BinaryHeap::BinaryHeap() = default;
 
 BinaryHeap::BinaryHeap(unsigned int size) {
     BinaryHeap::size = size;
-    BinaryHeap::heapArray = new int[size];
+    heapArray = new int[size];
 }
 
 BinaryHeap::~BinaryHeap() {
@@ -95,7 +98,7 @@ void BinaryHeap::fixFromBottom(int index) {
 
 void BinaryHeap::pushElement(int data) {
     if (sizeInUse + 1 > size) {
-        std::cout << "Unable to pushElement data, heap is full!" << std::endl;
+        std::cout << "Unable to push data, heap is full!" << std::endl;
         return;
     }
     heapArray[sizeInUse] = data;
@@ -117,10 +120,9 @@ void BinaryHeap::popElement(int data) {
     fixFromBottom(index);
 }
 
-// Do budowania kopca, dodawania elementow
 void BinaryHeap::push(int data) {
     if (sizeInUse + 1 > size) {
-        std::cout << "Unable to pushElement data, heap is full!" << std::endl;
+        std::cout << "Unable to push data, heap is full!" << std::endl;
         return;
     }
     heapArray[sizeInUse] = data;
@@ -138,17 +140,20 @@ void BinaryHeap::push(int data) {
     }
 }
 
-void BinaryHeap::popRoot() {
+int BinaryHeap::popRoot() {
     if (sizeInUse == 0) {
         std::cout << "Heap is empty!" << std::endl;
-        return;
+        return NULL;
     }
+    int popped = heapArray[0];
     sizeInUse--;
+
     // Zamiana wartosci korzenia z lisciem
     heapArray[0] = heapArray[sizeInUse];
+
     // Naprawianie w dol
     if (sizeInUse == 0) {
-        return;
+        return popped;
     }
     int leftDescendant = 1;
     int lastDescendant = heapArray[sizeInUse];
@@ -165,6 +170,7 @@ void BinaryHeap::popRoot() {
         leftDescendant = 2 * leftDescendant + 1;
     }
     heapArray[currentPosition] = lastDescendant;
+    return popped;
 }
 
 void BinaryHeap::removeAll() {
@@ -185,33 +191,36 @@ int BinaryHeap::findIndexOf(int data) {
 }
 
 int BinaryHeap::findByIndex(int index) {
+    if (index >= sizeInUse || index < 0) {
+        std::cout << "No element on index given!" << std::endl;
+    }
     return heapArray[index];
-}
-
-// TODO: do testow czy cos
-void BinaryHeap::pushRandomElements(int howMany) {
 }
 
 // TODO: do sprawdzenia heapify
 void BinaryHeap::heapify(int index) {
-    int largest = index;
-    int l = 2 * index + 1;
-    int r = 2 * index + 2;
+    try {
+        int largest = index;
+        int l = 2 * index + 1;
+        int r = 2 * index + 2;
 
-    // If left child is larger than root
-    if (l < sizeInUse && heapArray[l] > heapArray[largest]) {
-        largest = l;
-    }
+        // Jesli lewy potomek wiekszy
+        if (l < sizeInUse && heapArray[l] > heapArray[largest]) {
+            largest = l;
+        }
 
-    // If right child is larger than largest so far
-    if (r < sizeInUse && heapArray[r] > heapArray[largest])
-        largest = r;
+        // jesli prawy potomek wiekszy
+        if (r < sizeInUse && heapArray[r] > heapArray[largest])
+            largest = r;
 
-    // If largest is not root
-    if (largest != index) {
-        std::swap(heapArray[index], heapArray[largest]);
-        // Recursively heapify the affected sub-tree
-        heapify(largest);
+        // Nastepnie, jesli ktorys potomek wiekszy do rodzica
+        if (largest != index && largest <= sizeInUse) {
+            std::swap(heapArray[index], heapArray[largest]);
+            // Wywolanie rekurencyjne
+            heapify(largest);
+        }
+    } catch (const std::exception &e) {
+        return;
     }
 }
 
@@ -224,4 +233,66 @@ void BinaryHeap::pop(int data) {
     sizeInUse--;
     heapArray[index] = heapArray[sizeInUse];
     heapify(index);
+}
+
+void BinaryHeap::heapifyMoveDownFloyd(int first, int last) {
+    int largest = 2 * first + 1;
+    while (largest <= last) {
+        if (largest + 1 >= sizeInUse) {
+            break;
+        }
+        if (largest < last && heapArray[largest] < heapArray[largest + 1]) {
+            largest++;
+        }
+        if (heapArray[first] < heapArray[largest]) {
+            std::swap(heapArray[first], heapArray[largest]);
+            first = largest;
+            largest = 2 * first + 1;
+        } else {
+            largest = last + 1;
+        }
+    }
+}
+
+void BinaryHeap::loadFileDataAndHeapify(const std::list<int> &dataList) {
+//    delete[] heapArray;
+//    heapArray = new int[dataList.size() + sizeBuffer];
+
+    if (size < dataList.size()) {
+        std::cout << "Unable to load data, heap array is too small!" << std::endl;
+        return;
+    }
+
+    if (heapArray != nullptr && size >= dataList.size()) {
+        int k = 0;
+        for (int const &i: dataList) {
+            sizeInUse++;
+            heapArray[k++] = i;
+        }
+    }
+
+    for (int i = ((sizeInUse - 1) - 1) / 2; i >= 0; i--) {
+        heapifyMoveDownFloyd(i, sizeInUse - 1);
+    }
+}
+
+void BinaryHeap::loadFileData(const std::list<int> &dataList) {
+    if (size < dataList.size()) {
+        std::cout << "Unable to load data, heap array is too small!" << std::endl;
+        return;
+    }
+
+    if (heapArray != nullptr && size >= dataList.size()) {
+        int k = 0;
+        for (int const &i: dataList) {
+            sizeInUse++;
+            heapArray[k++] = i;
+        }
+    }
+}
+
+void BinaryHeap::startHeapifyMoveDownFloyd() {
+    for (int i = ((sizeInUse - 1) - 1) / 2; i >= 0; i--) {
+        heapifyMoveDownFloyd(i, sizeInUse - 1);
+    }
 }

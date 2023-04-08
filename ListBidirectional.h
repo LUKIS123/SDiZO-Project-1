@@ -3,8 +3,9 @@
 
 #include "iostream"
 #include "list"
+#include "Testing/Tests.h"
 
-class ListBidirectional {
+class ListBidirectional : public Tests {
 public:
     struct NodeBidirectional {
         int data = 0;

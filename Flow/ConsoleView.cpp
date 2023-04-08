@@ -17,7 +17,11 @@ ActionResult::result ConsoleView::menu() {
     std::cout << "2 => Dynamic Array" << std::endl;
     std::cout << "3 => List" << std::endl;
     std::cout << "4 => Heap" << std::endl;
-    std::cout << "5 => " << std::endl;
+    std::cout << "5 => BST Tree" << std::endl;
+    std::cout << "6 => Generate random data buffer" << std::endl;
+    std::cout << "7 => Save random data to file" << std::endl;
+    std::cout << "8 => Automatic Tests" << std::endl;
+    std::cout << "9 => Deploy Manual Tests" << std::endl;
     std::cout << "0 => Exit" << std::endl << std::endl;
 
     std::cout << "Choice: ";
@@ -33,10 +37,56 @@ ActionResult::result ConsoleView::menu() {
             return ActionResult::result::LIST_BIDIRECTIONAL;
         case 4:
             return ActionResult::result::BINARY_HEAP;
+        case 5:
+            return ActionResult::result::BST_TREE;
+        case 6:
+            return ActionResult::result::GENERATE_RANDOM_DATA;
+        case 7:
+            return ActionResult::result::SAVE_RANDOM_DATA;
+        case 8:
+            return ActionResult::result::AUTOMATIC_TEST;
+        case 9:
+            return ActionResult::MANUAL_TESTS;
         case 0:
             return ActionResult::result::END;
         default:
             return ActionResult::result::MENU;
+    }
+}
+
+ActionResult::automaticTestResult ConsoleView::testMenu() {
+    system("CLS");
+    std::cout << "AUTOMATIC TESTS: Automatically test series of operations..." << std::endl;
+    std::cout << "Choose from given options..." << std::endl;
+    std::cout << "1 => Generate Random Data" << std::endl;
+    std::cout << "2 => Array Tests" << std::endl;
+    std::cout << "3 => List Tests" << std::endl;
+    std::cout << "4 => Heap Tests" << std::endl;
+    std::cout << "5 => BST Tests" << std::endl;
+    std::cout << "6 => Change number od tests" << std::endl;
+    std::cout << "0 => Exit" << std::endl << std::endl;
+
+    std::cout << "Choice: ";
+    int next;
+    std::cin >> next;
+
+    switch (next) {
+        case 1:
+            return ActionResult::automaticTestResult::GENERATE_DATA_TEST;
+        case 2:
+            return ActionResult::automaticTestResult::DYNAMIC_ARRAY_TEST;
+        case 3:
+            return ActionResult::automaticTestResult::LIST_BIDIRECTIONAL_TEST;
+        case 4:
+            return ActionResult::automaticTestResult::BINARY_HEAP_TEST;
+        case 5:
+            return ActionResult::automaticTestResult::BST_TREE_TEST;
+        case 6:
+            return ActionResult::automaticTestResult::CHANGE_TEST_SERIES_NUMBER;
+        case 0:
+            return ActionResult::automaticTestResult::END_TEST;
+        default:
+            return ActionResult::automaticTestResult::MENU_TEST;
     }
 }
 
@@ -149,6 +199,50 @@ ActionResult::listResult ConsoleView::listMenu() {
             return ActionResult::listResult::END_LIST;
         default:
             return ActionResult::listResult::MENU_LIST;
+    }
+}
+
+ActionResult::heapResult ConsoleView::heapMenu() {
+    system("CLS");
+    std::cout << "Binary Heap: Choose from given options..." << std::endl;
+    std::cout << "1 => Load Heap with test file data" << std::endl;
+    std::cout << "2 => Display Heap" << std::endl;
+    std::cout << "3 => Push Element" << std::endl;
+    std::cout << "4 => Pop Root" << std::endl;
+    std::cout << "5 => Pop Element" << std::endl;
+    std::cout << "6 => Find By Index" << std::endl;
+    std::cout << "7 => Find Index Of Element" << std::endl;
+    std::cout << "8 => Remove All" << std::endl;
+    std::cout << "9 => Check Size" << std::endl;
+    std::cout << "0 => Exit" << std::endl;
+
+    std::cout << "Choice: ";
+    int next;
+    std::cin >> next;
+
+    switch (next) {
+        case 1:
+            return ActionResult::heapResult::LOAD_HEAP;
+        case 2:
+            return ActionResult::heapResult::DISPLAY_HEAP;
+        case 3:
+            return ActionResult::heapResult::PUSH_HEAP;
+        case 4:
+            return ActionResult::heapResult::POP_ROOT_HEAP;
+        case 5:
+            return ActionResult::heapResult::POP_ELEMENT_HEAP;
+        case 6:
+            return ActionResult::heapResult::FIND_BY_INDEX_HEAP;
+        case 7:
+            return ActionResult::heapResult::FIND_BY_VAL_HEAP;
+        case 8:
+            return ActionResult::heapResult::REMOVE_ALL_HEAP;
+        case 9:
+            return ActionResult::heapResult::GET_SIZE_HEAP;
+        case 0:
+            return ActionResult::heapResult::END_HEAP;
+        default:
+            return ActionResult::heapResult::MENU_HEAP;
     }
 }
 
