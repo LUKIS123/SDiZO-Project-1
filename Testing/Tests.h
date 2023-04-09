@@ -46,7 +46,6 @@ public:
 
     int size = 0;
     bool tests = false;
-    int quantity = 100;
 
     Tests();
 
@@ -79,8 +78,6 @@ public:
     void setHeadline(std::string headLine);
 
     void saveResults(const std::string &fileName);
-
-    void startTests();
 
     void endTests();
 };

@@ -70,7 +70,7 @@ void Tests::addPushFront(double result) {
 }
 
 void Tests::saveResults(const std::string &fileName) {
-    fileUtility->saveResultsHeadline(fileName, headLine);
+    DataFileUtility::saveResultsHeadline(fileName, headLine);
     auto pushFFront = pushFront.begin();
     auto pushEFront = pushEnd.begin();
     auto pushIFront = pushEnd.begin();
@@ -206,13 +206,10 @@ void Tests::saveResults(const std::string &fileName) {
             resultList.push_back(0);
         }
 
-        // TODO: Uwaga zamienic kolejnosc w headline w kopcu
-        fileUtility->saveTimerResults(fileName, resultList);
+        // Saving data...
+        DataFileUtility::saveTimerResults(fileName, resultList);
     }
-}
-
-void Tests::startTests() {
-
+    endTests();
 }
 
 void Tests::endTests() {

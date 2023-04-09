@@ -10,12 +10,9 @@
 #include "iomanip"
 
 class Timer {
-private:
-    typedef std::numeric_limits<double> dbl;
 public:
     long long int timerStart = 0;
     long long int timerStop = 0;
-    double timeElapsed = 0;
     long long int frequencyPerf = 0;
 
     static long long int read_QPC();
@@ -25,6 +22,8 @@ public:
     static double getMilliSeconds(long long int start, long long int end);
 
     static double getMicroSeconds(long long int start, long long int end);
+
+    static double getMicroSecondsAndPrint(long long int start, long long int end);
 
     void startTimer();
 

@@ -255,11 +255,10 @@ int main() {
 //    long long int time_end_test = Timer::read_QPC();
 //    Timer::getSeconds(time_start_test, time_end_test);
 //    Timer::getMilliSeconds(time_start_test, time_end_test);
-//    Timer::getMicroSeconds(time_start_test, time_end_test);
-
+//    Timer::getMicroSecondsAndPrint(time_start_test, time_end_test);
 
     // TODO: do przemyslenia czy jako parametr, moze najpierw wstepnie czytac z pliku i wgrywac tutaj na samym poczatku...
-
+    system("pause");
     AppController controller = AppController();
     controller.index();
 

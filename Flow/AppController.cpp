@@ -122,8 +122,12 @@ void AppController::startAutomaticTests() {
 }
 
 void AppController::setManualTestsStart() {
-    manualTests = true;
-    std::cout << "Manual Tests Set!" << std::endl;
+    if (manualTests) {
+        manualTests = false;
+    } else {
+        manualTests = true;
+    }
+    std::cout << "Manual Tests set to: " << manualTests << std::endl;
     system("PAUSE");
 }
 
@@ -255,7 +259,7 @@ ActionResult::arrayResult AppController::pushFrontArray() {
     dynamicArray->pushFront(value);
     if (manualTests) {
         long long int end = timer.read_QPC();
-        dynamicArray->addPushFront(timer.getMicroSeconds(start, end));
+        dynamicArray->addPushFront(timer.getMicroSecondsAndPrint(start, end));
     }
     system("PAUSE");
     return ActionResult::MENU_ARR;
@@ -272,7 +276,7 @@ ActionResult::arrayResult AppController::pushBackArray() {
     dynamicArray->pushEnd(value);
     if (manualTests) {
         long long int end = timer.read_QPC();
-        dynamicArray->addPushEnd(timer.getMicroSeconds(start, end));
+        dynamicArray->addPushEnd(timer.getMicroSecondsAndPrint(start, end));
     }
     system("PAUSE");
     return ActionResult::MENU_ARR;
@@ -291,7 +295,7 @@ ActionResult::arrayResult AppController::pushOnIndexArray() {
     dynamicArray->pushOnIndex(index, value);
     if (manualTests) {
         long long int end = timer.read_QPC();
-        dynamicArray->addPushIndex(timer.getMicroSeconds(start, end));
+        dynamicArray->addPushIndex(timer.getMicroSecondsAndPrint(start, end));
     }
     system("PAUSE");
     return ActionResult::MENU_ARR;
@@ -305,7 +309,7 @@ ActionResult::arrayResult AppController::popFrontArray() {
     int value = dynamicArray->popFront();
     if (manualTests) {
         long long int end = timer.read_QPC();
-        dynamicArray->addPopFront(timer.getMicroSeconds(start, end));
+        dynamicArray->addPopFront(timer.getMicroSecondsAndPrint(start, end));
     }
     std::cout << "Popped value = " << value << std::endl;
     system("PAUSE");
@@ -320,7 +324,7 @@ ActionResult::arrayResult AppController::popBackArray() {
     int value = dynamicArray->popEnd();
     if (manualTests) {
         long long int end = timer.read_QPC();
-        dynamicArray->addPopEnd(timer.getMicroSeconds(start, end));
+        dynamicArray->addPopEnd(timer.getMicroSecondsAndPrint(start, end));
     }
 
     std::cout << "Popped value = " << value << std::endl;
@@ -339,7 +343,7 @@ ActionResult::arrayResult AppController::popOnIndexArray() {
     int value = dynamicArray->popOnIndex(index);
     if (manualTests) {
         long long int end = timer.read_QPC();
-        dynamicArray->addPopIndex(timer.getMicroSeconds(start, end));
+        dynamicArray->addPopIndex(timer.getMicroSecondsAndPrint(start, end));
     }
 
     std::cout << "Popped value = " << value << std::endl;
@@ -360,7 +364,7 @@ ActionResult::arrayResult AppController::setOnIndexArray() {
     dynamicArray->setOnIndex(index, value);
     if (manualTests) {
         long long int end = timer.read_QPC();
-        timer.getMicroSeconds(start, end);
+        timer.getMicroSecondsAndPrint(start, end);
     }
     system("PAUSE");
     return ActionResult::MENU_ARR;
@@ -380,6 +384,7 @@ ActionResult::arrayResult AppController::removeAllArray() {
     dynamicArray->removeAll();
     if (manualTests) {
         long long int end = timer.read_QPC();
+        timer.getMicroSecondsAndPrint(start, end);
     }
     std::cout << "All data has been removed!" << std::endl;
     system("PAUSE");
@@ -397,7 +402,7 @@ ActionResult::arrayResult AppController::findByIndexArray() {
     int value = *dynamicArray->getByIndex(index);
     if (manualTests) {
         long long int end = timer.read_QPC();
-        dynamicArray->addFindByIndex(timer.getMicroSeconds(start, end));
+        dynamicArray->addFindByIndex(timer.getMicroSecondsAndPrint(start, end));
     }
     std::cout << "Element on Index = " << value << std::endl;
     system("PAUSE");
@@ -415,7 +420,7 @@ ActionResult::arrayResult AppController::findIndexOfArray() {
     int indexValue = dynamicArray->getIndexOf(value);
     if (manualTests) {
         long long int end = timer.read_QPC();
-        dynamicArray->addFindIndexOf(timer.getMicroSeconds(start, end));
+        dynamicArray->addFindIndexOf(timer.getMicroSecondsAndPrint(start, end));
     }
     std::cout << "Index of Element = " << indexValue << std::endl;
     system("PAUSE");
@@ -494,6 +499,13 @@ void AppController::listIndex() {
                 break;
         }
     }
+    if (manualTests) {
+        listBidirectional->setHeadline(
+                "push_front,push_end,push_on_index,find_element,find_index_of,pop_front,pop_end,pop_on_index");
+        std::cout << "Saving test results..." << std::endl;
+        listBidirectional->saveResults("../Resources/list_tests_manual.csv");
+        system("PAUSE");
+    }
     listBidirectional->removeAll();
 }
 
@@ -527,7 +539,15 @@ ActionResult::listResult AppController::pushFrontList() {
     int value;
     std::cout << "Input: " << std::endl;
     std::cin >> value;
+    long long int start;
+    if (manualTests) {
+        start = timer.read_QPC();
+    }
     listBidirectional->pushFront(value);
+    if (manualTests) {
+        long long int end = timer.read_QPC();
+        listBidirectional->addPushFront(timer.getMicroSecondsAndPrint(start, end));
+    }
     system("PAUSE");
     return ActionResult::MENU_LIST;
 }
@@ -536,7 +556,16 @@ ActionResult::listResult AppController::pushBackList() {
     int value;
     std::cout << "Input: " << std::endl;
     std::cin >> value;
+    long long int start;
+    if (manualTests) {
+        start = timer.read_QPC();
+    }
     listBidirectional->pushEnd(value);
+    if (manualTests) {
+        long long int end = timer.read_QPC();
+        listBidirectional->addPushEnd(timer.getMicroSecondsAndPrint(start, end));
+    }
+
     system("PAUSE");
     return ActionResult::MENU_LIST;
 }
@@ -547,20 +576,47 @@ ActionResult::listResult AppController::pushOnIndexList() {
     std::cin >> index;
     std::cout << "Input: " << std::endl;
     std::cin >> value;
+
+    long long int start;
+    if (manualTests) {
+        start = timer.read_QPC();
+    }
     listBidirectional->pushOnIndex(index, value);
+    if (manualTests) {
+        long long int end = timer.read_QPC();
+        listBidirectional->addPushIndex(timer.getMicroSecondsAndPrint(start, end));
+    }
+
     system("PAUSE");
     return ActionResult::MENU_LIST;
 }
 
 ActionResult::listResult AppController::popFrontList() {
+    long long int start;
+    if (manualTests) {
+        start = timer.read_QPC();
+    }
     int value = listBidirectional->popFront();
+    if (manualTests) {
+        long long int end = timer.read_QPC();
+        listBidirectional->addPopFront(timer.getMicroSecondsAndPrint(start, end));
+    }
+
     std::cout << "Popped value = " << value << std::endl;
     system("PAUSE");
     return ActionResult::MENU_LIST;
 }
 
 ActionResult::listResult AppController::popBackList() {
+    long long int start;
+    if (manualTests) {
+        start = timer.read_QPC();
+    }
     int value = listBidirectional->popEnd();
+    if (manualTests) {
+        long long int end = timer.read_QPC();
+        listBidirectional->addPopEnd(timer.getMicroSecondsAndPrint(start, end));
+    }
     std::cout << "Popped value = " << value << std::endl;
     system("PAUSE");
     return ActionResult::MENU_LIST;
@@ -570,7 +626,15 @@ ActionResult::listResult AppController::popOnIndexList() {
     int index;
     std::cout << "Index: " << std::endl;
     std::cin >> index;
+    long long int start;
+    if (manualTests) {
+        start = timer.read_QPC();
+    }
     int value = listBidirectional->popOnIndex(index);
+    if (manualTests) {
+        long long int end = timer.read_QPC();
+        listBidirectional->addPopIndex(timer.getMicroSecondsAndPrint(start, end));
+    }
     std::cout << "Popped value = " << value << std::endl;
     system("PAUSE");
     return ActionResult::MENU_LIST;
@@ -580,7 +644,16 @@ ActionResult::listResult AppController::findByIndexList() {
     int index;
     std::cout << "Index: " << std::endl;
     std::cin >> index;
-    std::cout << "Element on Index = " << listBidirectional->getByIndex(index)->data << std::endl;
+    long long int start;
+    if (manualTests) {
+        start = timer.read_QPC();
+    }
+    int indexData = listBidirectional->getByIndex(index)->data;
+    if (manualTests) {
+        long long int end = timer.read_QPC();
+        listBidirectional->addFindByIndex(timer.getMicroSecondsAndPrint(start, end));
+    }
+    std::cout << "Element on Index = " << indexData << std::endl;
     system("PAUSE");
     return ActionResult::MENU_LIST;
 }
@@ -589,13 +662,30 @@ ActionResult::listResult AppController::findIndexOfList() {
     int value;
     std::cout << "Value: " << std::endl;
     std::cin >> value;
-    std::cout << "Index of Element = " << listBidirectional->getIndexOf(value) << std::endl;
+    long long int start;
+    if (manualTests) {
+        start = timer.read_QPC();
+    }
+    unsigned int foundIndex = listBidirectional->getIndexOf(value);
+    if (manualTests) {
+        long long int end = timer.read_QPC();
+        listBidirectional->addFindIndexOf(timer.getMicroSecondsAndPrint(start, end));
+    }
+    std::cout << "Index of Element = " << foundIndex << std::endl;
     system("PAUSE");
     return ActionResult::MENU_LIST;
 }
 
 ActionResult::listResult AppController::removeAllList() {
+    long long int start;
+    if (manualTests) {
+        start = timer.read_QPC();
+    }
     listBidirectional->removeAll();
+    if (manualTests) {
+        long long int end = timer.read_QPC();
+        timer.getMicroSecondsAndPrint(start, end);
+    }
     std::cout << "All data has been removed!" << std::endl;
     system("PAUSE");
     return ActionResult::MENU_LIST;
@@ -675,8 +765,15 @@ void AppController::heapIndex() {
                 break;
         }
     }
+    if (manualTests) {
+        heap->setHeadline(
+                "push_front,push_end,push_on_index,find_element,find_index_of,pop_front,pop_end,pop_on_index,heapify_floyd,push_heap,pop_root_heap,pop_key_heap");
+        std::cout << "Saving test results..." << std::endl;
+        heap->saveResults("../Resources/heap_tests_manual.csv");
+        system("PAUSE");
+    }
     delete heap;
-    heap = nullptr;
+    heap = new BinaryHeap();
 }
 
 void AppController::initHeap() {
@@ -720,7 +817,17 @@ ActionResult::heapResult AppController::loadHeapWithFileData() {
         loadFileToBufferList();
     }
 
-    heap->loadFileDataAndHeapify(dataBufferList);
+    if (manualTests) {
+        heap->loadFileData(dataBufferList);
+        long long int start;
+        start = timer.read_QPC();
+        heap->startHeapifyMoveDownFloyd();
+        long long int end = timer.read_QPC();
+        heap->addHeapifyFloyd(timer.getMicroSecondsAndPrint(start, end));
+    } else {
+        heap->loadFileDataAndHeapify(dataBufferList);
+    }
+
     if (heap->getSize() != 0) {
         std::cout << "Success!" << std::endl;
     }
@@ -738,13 +845,36 @@ ActionResult::heapResult AppController::pushHeap() {
     int value;
     std::cout << "Input: " << std::endl;
     std::cin >> value;
+
+    long long int start;
+    if (manualTests) {
+        start = timer.read_QPC();
+    }
+
     heap->push(value);
+
+    if (manualTests) {
+        long long int end = timer.read_QPC();
+        heap->addPushHeap(timer.getMicroSecondsAndPrint(start, end));
+    }
+
     system("PAUSE");
     return ActionResult::MENU_HEAP;
 }
 
 ActionResult::heapResult AppController::popRootHeap() {
+    long long int start;
+    if (manualTests) {
+        start = timer.read_QPC();
+    }
+
     int value = heap->popRoot();
+
+    if (manualTests) {
+        long long int end = timer.read_QPC();
+        heap->addPopRootHeap(timer.getMicroSecondsAndPrint(start, end));
+    }
+
     std::cout << "Popped value = " << value << std::endl;
     system("PAUSE");
     return ActionResult::MENU_HEAP;
@@ -754,7 +884,19 @@ ActionResult::heapResult AppController::popElementHeap() {
     int value;
     std::cout << "Key value: ";
     std::cin >> value;
+
+    long long int start;
+    if (manualTests) {
+        start = timer.read_QPC();
+    }
+
     heap->pop(value);
+
+    if (manualTests) {
+        long long int end = timer.read_QPC();
+        heap->addPopKeyHeap(timer.getMicroSecondsAndPrint(start, end));
+    }
+
     std::cout << "Done..." << std::endl;
     system("PAUSE");
     return ActionResult::MENU_HEAP;
@@ -764,7 +906,20 @@ ActionResult::heapResult AppController::findByIndexHeap() {
     int index;
     std::cout << "Index: " << std::endl;
     std::cin >> index;
-    std::cout << "Element on Index = " << heap->findByIndex(index) << std::endl;
+
+    long long int start;
+    if (manualTests) {
+        start = timer.read_QPC();
+    }
+
+    int found = heap->findByIndex(index);
+
+    if (manualTests) {
+        long long int end = timer.read_QPC();
+        heap->addFindByIndex(timer.getMicroSecondsAndPrint(start, end));
+    }
+
+    std::cout << "Element on Index = " << found << std::endl;
     system("PAUSE");
     return ActionResult::MENU_HEAP;
 }
@@ -773,9 +928,24 @@ ActionResult::heapResult AppController::findIndexOfHeap() {
     int value;
     std::cout << "Value: " << std::endl;
     std::cin >> value;
+
+    long long int start;
+    if (manualTests) {
+        start = timer.read_QPC();
+    }
+
     int indexOf = heap->findIndexOf(value);
+
+    long long int end;
+    if (manualTests) {
+        end = timer.read_QPC();
+    }
+
     if (indexOf != -1) {
         std::cout << "Index of Element = " << heap->findIndexOf(value) << std::endl;
+        if (manualTests) {
+            heap->addFindIndexOf(timer.getMicroSecondsAndPrint(start, end));
+        }
     } else {
         std::cout << "Element doesn't exist!" << heap->findIndexOf(value) << std::endl;
     }
@@ -784,7 +954,18 @@ ActionResult::heapResult AppController::findIndexOfHeap() {
 }
 
 ActionResult::heapResult AppController::removeAllHeap() {
+    long long int start;
+    if (manualTests) {
+        start = timer.read_QPC();
+    }
+
     heap->removeAll();
+
+    if (manualTests) {
+        long long int end = timer.read_QPC();
+        timer.getMicroSecondsAndPrint(start, end);
+    }
+
     std::cout << "All data has been removed!" << std::endl;
     system("PAUSE");
     return ActionResult::MENU_HEAP;
