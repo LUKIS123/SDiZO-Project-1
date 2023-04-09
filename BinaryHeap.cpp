@@ -120,11 +120,19 @@ void BinaryHeap::popElement(int data) {
     fixFromBottom(index);
 }
 
+// TODO: nowa realokacja - do sprawdzenia
 void BinaryHeap::push(int data) {
-    if (sizeInUse + 1 > size) {
+    if (sizeInUse + 1 == size) {
         std::cout << "Unable to push data, heap is full!" << std::endl;
-        return;
+        std::cout << "Allocating new array..." << std::endl;
+        int *newPointer = new int[size + 1];
+        for (int i = 0; i < size + 1; i++) {
+            newPointer[i] = heapArray[i];
+        }
+        delete heapArray;
+        heapArray = newPointer;
     }
+
     heapArray[sizeInUse] = data;
     sizeInUse++;
     // Naprawianie kopca w gore
@@ -255,9 +263,6 @@ void BinaryHeap::heapifyMoveDownFloyd(int first, int last) {
 }
 
 void BinaryHeap::loadFileDataAndHeapify(const std::list<int> &dataList) {
-//    delete[] heapArray;
-//    heapArray = new int[dataList.size() + sizeBuffer];
-
     if (size < dataList.size()) {
         std::cout << "Unable to load data, heap array is too small!" << std::endl;
         return;

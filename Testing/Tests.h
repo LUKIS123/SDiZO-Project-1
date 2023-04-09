@@ -5,37 +5,84 @@
 #ifndef SDIZO_PROJECT_1_TESTS_H
 #define SDIZO_PROJECT_1_TESTS_H
 
-class Tests {
-    //Zmienne
-    const static int number = 1000;
-    double loading[number];
-    double saving[number];
-    double deletech[number];
-    double deletelast[number];
-    double deletefirst[number];
-    double deleteall[number];
-    double addch[number];
-    double addfirst[number];
-    double addlast[number];
-    double finder[number];
+#include "iostream"
+#include "list"
+#include "../Time/Timer.h"
+#include "../FileUtils/DataFileUtility.h"
 
-    int ldnumber = 0;
-    int svnumber = 0;
-    int dchnumber = 0;
-    int dlnumber = 0;
-    int dfnumber = 0;
-    int danumber = 0;
-    int achnumber = 0;
-    int afnumber = 0;
-    int alnumber = 0;
-    int fnumber = 0;
+class Tests {
+private:
+    DataFileUtility *fileUtility;
+protected:
+    std::list<double> pushFront;
+    std::list<double> pushEnd;
+    std::list<double> pushIndex;
+    std::list<double> findByIndex;
+    std::list<double> findIndexOf;
+    std::list<double> popFront;
+    std::list<double> popEnd;
+    std::list<double> popIndex;
+    std::list<double> heapifyFloyd;
+    std::list<double> pushHeap;
+    std::list<double> popRootHeap;
+    std::list<double> popKeyHeap;
+
+    unsigned pushFrontNum = 0;
+    unsigned pushEndNum = 0;
+    unsigned pushIndexNum = 0;
+    unsigned findByIndexNum = 0;
+    unsigned findIndexOfNum = 0;
+    unsigned popFrontNum = 0;
+    unsigned popEndNum = 0;
+    unsigned popIndexNum = 0;
+    unsigned heapifyFloydNum = 0;
+    unsigned pushHeapNum = 0;
+    unsigned popRootHeapNum = 0;
+    unsigned popKeyHeapNum = 0;
+public:
+    bool manualTest = false;
+    int testCount = 100;
+    std::string headLine = "push_front, push_end, push_on_index, find_element, find_index_of, pop_front, pop_end, pop_on_index";
 
     int size = 0;
     bool tests = false;
-    bool automatic = false;
-    int quantity = 1000;
+    int quantity = 100;
 
+    Tests();
+
+    virtual ~Tests();
+
+    void addPushFront(double result);
+
+    void addPushEnd(double result);
+
+    void addPushIndex(double result);
+
+    void addFindByIndex(double result);
+
+    void addFindIndexOf(double result);
+
+    void addPopFront(double result);
+
+    void addPopEnd(double result);
+
+    void addPopIndex(double result);
+
+    void addHeapifyFloyd(double result);
+
+    void addPushHeap(double result);
+
+    void addPopRootHeap(double result);
+
+    void addPopKeyHeap(double result);
+
+    void setHeadline(std::string headLine);
+
+    void saveResults(const std::string &fileName);
+
+    void startTests();
+
+    void endTests();
 };
-
 
 #endif //SDIZO_PROJECT_1_TESTS_H

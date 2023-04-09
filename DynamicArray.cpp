@@ -100,22 +100,6 @@ void DynamicArray::pushOnIndex(int index, int data) {
     pointer = newPointer;
 }
 
-// nie wiem czy to jest potrzebne
-void DynamicArray::pushRandomData(int length) {
-    size = length;
-    int *newPointer = new int[length];
-
-    std::random_device dev;
-    std::mt19937 rng(dev());
-    std::uniform_int_distribution<std::mt19937::result_type> dist(-100, 100);
-
-    for (int i = 0; i < length; i++) {
-        newPointer[i] = dist(rng);
-    }
-    delete pointer;
-    pointer = newPointer;
-}
-
 int DynamicArray::popFront() {
     if (size == 0) {
         std::cout << "Array is empty!" << std::endl;

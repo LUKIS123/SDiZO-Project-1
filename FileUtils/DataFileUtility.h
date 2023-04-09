@@ -21,10 +21,12 @@ public:
     static bool saveData(std::list<int> &outputList, const std::string &FileName);
 
     static bool
-    saveResultsMicroseconds(const std::string &FileName, std::list<double> &results, const std::string &headline);
+    saveTimerResults(const std::string &FileName, std::list<double> &results);
 
-    static bool saveResults2DMicroseconds(const std::string &FileName, std::list<std::list<double>> &results,
-                                          const std::string &headline);
+    static bool saveResultsHeadline(const std::string &FileName, const std::string &headline);
+
+    static bool saveTimerResults2D(const std::string &FileName, std::list<std::list<double>> &results,
+                                   const std::string &headline);
 };
 
 #endif //SDIZO_PROJECT_1_DATAFILEUTILITY_H

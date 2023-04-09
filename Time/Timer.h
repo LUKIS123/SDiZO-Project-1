@@ -10,6 +10,8 @@
 #include "iomanip"
 
 class Timer {
+private:
+    typedef std::numeric_limits<double> dbl;
 public:
     long long int timerStart = 0;
     long long int timerStop = 0;
@@ -31,6 +33,8 @@ public:
     void stopTimer();
 
     double getMicroSecondsElapsed();
+
+    double getNanoSecondsElapsed();
 };
 
 #endif //SDIZO_PROJECT_1_TIMER_H

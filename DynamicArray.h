@@ -28,8 +28,6 @@ public:
 
     void pushOnIndex(int index, int data);
 
-    void pushRandomData(int length);
-
     int popFront();
 
     int popEnd();

@@ -10,6 +10,7 @@ ListBidirectional::~ListBidirectional() {
 }
 
 void ListBidirectional::loadFileData(std::list<int> &dataList) {
+    removeAll();
     auto l_front = dataList.begin();
     for (int i = 0; i < dataList.size(); i++) {
         pushEnd(*l_front);
@@ -159,9 +160,8 @@ int ListBidirectional::popOnIndex(int index) {
     if (index == 0) {
         return popFront();
     }
-
-    // TO SAMO addOnIndex
     // TODO: lista - do sprawdzenia
+    // TO SAMO addOnIndex
     NodeBidirectional *current;
     if (index > (size / 2)) {
         current = tail;

@@ -8,20 +8,23 @@
 #include "ActionResult.h"
 #include "ConsoleView.h"
 
-// TODO: Kontrolery osobne dla kazdej struktury moze
-
 AppController::AppController() {
-    dynamicArray = DynamicArray();
-    listBidirectional = ListBidirectional();
-    heap = BinaryHeap();
+    dynamicArray = new DynamicArray();
+    listBidirectional = new ListBidirectional();
+    heap = new BinaryHeap();
+    bst = new BinarySearchTree();
 
     fileUtility = DataFileUtility();
+    timer = Timer();
     numberGenerator = RandomNumberGenerator();
-    automaticTests = AutomaticTests(numberGenerator, fileUtility);
+    automaticTests = new AutomaticTests(numberGenerator, fileUtility);
 }
 
 AppController::~AppController() {
-    // TODO: zamienic na pointery i delete
+    delete dynamicArray;
+    delete listBidirectional;
+    delete heap;
+    delete automaticTests;
 }
 
 void AppController::index() {
@@ -61,8 +64,8 @@ void AppController::index() {
                 status = ActionResult::result::MENU;
                 break;
             case ActionResult::MANUAL_TESTS:
-                break;
-            case ActionResult::END:
+                setManualTestsStart();
+                status = ActionResult::result::MENU;
                 break;
         }
     }
@@ -91,13 +94,13 @@ void AppController::generateRandomData() {
         int seed;
         std::cout << "Set seed: ";
         std::cin >> seed;
-        dataList = *numberGenerator.generateWithSeed(seed, howMuch);
+        dataBufferList = *numberGenerator.generateWithSeed(seed, howMuch);
 
     } else if (option == 2) {
-        dataList = *numberGenerator.generateNonDeterministic(howMuch);
+        dataBufferList = *numberGenerator.generateNonDeterministic(howMuch);
     }
 
-    if (!dataList.empty()) {
+    if (!dataBufferList.empty()) {
         std::cout << "Success!" << std::endl;
         system("PAUSE");
     }
@@ -107,12 +110,20 @@ void AppController::saveRandomDataToFIle() {
     std::string fileName;
     std::cout << "File will be saved in ./Resources folder..." << std::endl << "Set file name: " << std::endl;
     std::cin >> fileName;
-    DataFileUtility::saveData(dataList, "../Resources/" + fileName);
+    DataFileUtility::saveData(dataBufferList, "../Resources/" + fileName);
 }
 
 void AppController::startAutomaticTests() {
-    automaticTests.init();
+    automaticTests->init();
     std::cout << "Exiting..." << std::endl;
+    delete automaticTests;
+    automaticTests = new AutomaticTests(numberGenerator, fileUtility);
+    system("PAUSE");
+}
+
+void AppController::setManualTestsStart() {
+    manualTests = true;
+    std::cout << "Manual Tests Set!" << std::endl;
     system("PAUSE");
 }
 
@@ -123,8 +134,8 @@ ActionResult::result AppController::loadFileToBufferList() {
     std::string directory = "../Resources/";
     std::string fileDirectory = directory + fileName;
 
-    dataList = *fileUtility.readData(fileDirectory);
-    if (!dataList.empty()) {
+    dataBufferList = *fileUtility.readData(fileDirectory);
+    if (!dataBufferList.empty()) {
         std::cout << "Test file data saved in buffer!" << std::endl;
     }
     system("PAUSE");
@@ -132,6 +143,30 @@ ActionResult::result AppController::loadFileToBufferList() {
 }
 
 void AppController::arrayIndex() {
+    if (manualTests) {
+        std::cout << "Manual Tests Set!" << std::endl;
+        std::cout << "Do you want to fill structure with random data?" << std::endl;
+        std::cout << "Yes == 1, No == Any key" << std::endl;
+        std::cout << "Choice: ";
+        char choice;
+        std::cin >> choice;
+        if (choice == '1') {
+            generateRandomData();
+            if (!dataBufferList.empty()) {
+                dynamicArray = new DynamicArray(dataBufferList);
+                if (dynamicArray->getSize() != 0) {
+                    std::cout << "Success!" << std::endl;
+                    system("PAUSE");
+                }
+            }
+        }
+        std::cout << "Set test series count (table size)" << std::endl;
+        std::cout << "Count: ";
+        int count;
+        std::cin >> count;
+        dynamicArray->testCount = count;
+        system("PAUSE");
+    }
     ActionResult::arrayResult status = ActionResult::arrayResult::MENU_ARR;
     while (status != ActionResult::arrayResult::END_ARR) {
         switch (status) {
@@ -179,17 +214,24 @@ void AppController::arrayIndex() {
                 break;
         }
     }
+    if (manualTests) {
+        dynamicArray->setHeadline(
+                "push_front,push_end,push_on_index,find_element,find_index_of,pop_front,pop_end,pop_on_index");
+        std::cout << "Saving test results..." << std::endl;
+        dynamicArray->saveResults("../Resources/array_tests_manual.csv");
+        system("PAUSE");
+    }
+    delete dynamicArray;
+    dynamicArray = new DynamicArray();
 }
 
 ActionResult::arrayResult AppController::loadArrayWithFileData() {
-    if (dataList.empty()) {
+    if (dataBufferList.empty()) {
         std::cout << "Buffer is empty! Test file must be read first!" << std::endl;
         loadFileToBufferList();
     }
-
-    // TODO: do poprawy na pointer, zwykly konstruktor nie dziala -> memory leak
-    dynamicArray = *new DynamicArray(dataList);
-    if (dynamicArray.getSize() != 0) {
+    dynamicArray = new DynamicArray(dataBufferList);
+    if (dynamicArray->getSize() != 0) {
         std::cout << "Success!" << std::endl;
     }
     system("PAUSE");
@@ -197,7 +239,7 @@ ActionResult::arrayResult AppController::loadArrayWithFileData() {
 }
 
 ActionResult::arrayResult AppController::displayArray() {
-    dynamicArray.display();
+    dynamicArray->display();
     system("PAUSE");
     return ActionResult::MENU_ARR;
 }
@@ -206,7 +248,15 @@ ActionResult::arrayResult AppController::pushFrontArray() {
     int value;
     std::cout << "Input: " << std::endl;
     std::cin >> value;
-    dynamicArray.pushFront(value);
+    long long int start;
+    if (manualTests) {
+        start = timer.read_QPC();
+    }
+    dynamicArray->pushFront(value);
+    if (manualTests) {
+        long long int end = timer.read_QPC();
+        dynamicArray->addPushFront(timer.getMicroSeconds(start, end));
+    }
     system("PAUSE");
     return ActionResult::MENU_ARR;
 }
@@ -215,7 +265,15 @@ ActionResult::arrayResult AppController::pushBackArray() {
     int value;
     std::cout << "Input: " << std::endl;
     std::cin >> value;
-    dynamicArray.pushEnd(value);
+    long long int start;
+    if (manualTests) {
+        start = timer.read_QPC();
+    }
+    dynamicArray->pushEnd(value);
+    if (manualTests) {
+        long long int end = timer.read_QPC();
+        dynamicArray->addPushEnd(timer.getMicroSeconds(start, end));
+    }
     system("PAUSE");
     return ActionResult::MENU_ARR;
 }
@@ -226,20 +284,45 @@ ActionResult::arrayResult AppController::pushOnIndexArray() {
     std::cin >> index;
     std::cout << "Value: " << std::endl;
     std::cin >> value;
-    dynamicArray.pushOnIndex(index, value);
+    long long int start;
+    if (manualTests) {
+        start = timer.read_QPC();
+    }
+    dynamicArray->pushOnIndex(index, value);
+    if (manualTests) {
+        long long int end = timer.read_QPC();
+        dynamicArray->addPushIndex(timer.getMicroSeconds(start, end));
+    }
     system("PAUSE");
     return ActionResult::MENU_ARR;
 }
 
 ActionResult::arrayResult AppController::popFrontArray() {
-    int value = dynamicArray.popFront();
+    long long int start;
+    if (manualTests) {
+        start = timer.read_QPC();
+    }
+    int value = dynamicArray->popFront();
+    if (manualTests) {
+        long long int end = timer.read_QPC();
+        dynamicArray->addPopFront(timer.getMicroSeconds(start, end));
+    }
     std::cout << "Popped value = " << value << std::endl;
     system("PAUSE");
     return ActionResult::MENU_ARR;
 }
 
 ActionResult::arrayResult AppController::popBackArray() {
-    int value = dynamicArray.popEnd();
+    long long int start;
+    if (manualTests) {
+        start = timer.read_QPC();
+    }
+    int value = dynamicArray->popEnd();
+    if (manualTests) {
+        long long int end = timer.read_QPC();
+        dynamicArray->addPopEnd(timer.getMicroSeconds(start, end));
+    }
+
     std::cout << "Popped value = " << value << std::endl;
     system("PAUSE");
     return ActionResult::MENU_ARR;
@@ -249,7 +332,16 @@ ActionResult::arrayResult AppController::popOnIndexArray() {
     int index;
     std::cout << "Index: " << std::endl;
     std::cin >> index;
-    int value = dynamicArray.popOnIndex(index);
+    long long int start;
+    if (manualTests) {
+        start = timer.read_QPC();
+    }
+    int value = dynamicArray->popOnIndex(index);
+    if (manualTests) {
+        long long int end = timer.read_QPC();
+        dynamicArray->addPopIndex(timer.getMicroSeconds(start, end));
+    }
+
     std::cout << "Popped value = " << value << std::endl;
     system("PAUSE");
     return ActionResult::MENU_ARR;
@@ -261,19 +353,34 @@ ActionResult::arrayResult AppController::setOnIndexArray() {
     std::cin >> index;
     std::cout << "Value: " << std::endl;
     std::cin >> value;
-    dynamicArray.setOnIndex(index, value);
+    long long int start;
+    if (manualTests) {
+        start = timer.read_QPC();
+    }
+    dynamicArray->setOnIndex(index, value);
+    if (manualTests) {
+        long long int end = timer.read_QPC();
+        timer.getMicroSeconds(start, end);
+    }
     system("PAUSE");
     return ActionResult::MENU_ARR;
 }
 
 ActionResult::arrayResult AppController::displaySizeArray() {
-    std::cout << "Array size = " << dynamicArray.getSize() << std::endl;
+    std::cout << "Array size = " << dynamicArray->getSize() << std::endl;
     system("PAUSE");
     return ActionResult::MENU_ARR;
 }
 
 ActionResult::arrayResult AppController::removeAllArray() {
-    dynamicArray.removeAll();
+    long long int start;
+    if (manualTests) {
+        start = timer.read_QPC();
+    }
+    dynamicArray->removeAll();
+    if (manualTests) {
+        long long int end = timer.read_QPC();
+    }
     std::cout << "All data has been removed!" << std::endl;
     system("PAUSE");
     return ActionResult::MENU_ARR;
@@ -283,22 +390,63 @@ ActionResult::arrayResult AppController::findByIndexArray() {
     int index;
     std::cout << "Index: " << std::endl;
     std::cin >> index;
-    std::cout << "Element on Index = " << dynamicArray.getByIndex(index) << std::endl;
+    long long int start;
+    if (manualTests) {
+        start = timer.read_QPC();
+    }
+    int value = *dynamicArray->getByIndex(index);
+    if (manualTests) {
+        long long int end = timer.read_QPC();
+        dynamicArray->addFindByIndex(timer.getMicroSeconds(start, end));
+    }
+    std::cout << "Element on Index = " << value << std::endl;
     system("PAUSE");
     return ActionResult::MENU_ARR;
 }
-
 
 ActionResult::arrayResult AppController::findIndexOfArray() {
     int value;
     std::cout << "Value: " << std::endl;
     std::cin >> value;
-    std::cout << "Index of Element = " << dynamicArray.getIndexOf(value) << std::endl;
+    long long int start;
+    if (manualTests) {
+        start = timer.read_QPC();
+    }
+    int indexValue = dynamicArray->getIndexOf(value);
+    if (manualTests) {
+        long long int end = timer.read_QPC();
+        dynamicArray->addFindIndexOf(timer.getMicroSeconds(start, end));
+    }
+    std::cout << "Index of Element = " << indexValue << std::endl;
     system("PAUSE");
     return ActionResult::MENU_ARR;
 }
 
 void AppController::listIndex() {
+    if (manualTests) {
+        std::cout << "Manual Tests Set!" << std::endl;
+        std::cout << "Do you want to fill structure with random data?" << std::endl;
+        std::cout << "Yes == 1, No == Any key" << std::endl;
+        std::cout << "Choice: ";
+        char choice;
+        std::cin >> choice;
+        if (choice == '1') {
+            generateRandomData();
+            if (!dataBufferList.empty()) {
+                listBidirectional->loadFileData(dataBufferList);
+                if (listBidirectional->getSize() != 0) {
+                    std::cout << "Success!" << std::endl;
+                    system("PAUSE");
+                }
+            }
+        }
+        std::cout << "Set test series count (table size)" << std::endl;
+        std::cout << "Count: ";
+        int count;
+        std::cin >> count;
+        listBidirectional->testCount = count;
+        system("PAUSE");
+    }
     ActionResult::listResult status = ActionResult::listResult::MENU_LIST;
     while (status != ActionResult::listResult::END_LIST) {
         switch (status) {
@@ -346,16 +494,17 @@ void AppController::listIndex() {
                 break;
         }
     }
+    listBidirectional->removeAll();
 }
 
 ActionResult::listResult AppController::loadListWithFileData() {
-    if (dataList.empty()) {
+    if (dataBufferList.empty()) {
         std::cout << "Buffer is empty! Test file must be read first!" << std::endl;
         loadFileToBufferList();
     }
 
-    listBidirectional.loadFileData(dataList);
-    if (listBidirectional.getSize() != 0) {
+    listBidirectional->loadFileData(dataBufferList);
+    if (listBidirectional->getSize() != 0) {
         std::cout << "Success!" << std::endl;
     }
     system("PAUSE");
@@ -363,13 +512,13 @@ ActionResult::listResult AppController::loadListWithFileData() {
 }
 
 ActionResult::listResult AppController::displayListFromFront() {
-    listBidirectional.displayFromFront();
+    listBidirectional->displayFromFront();
     system("PAUSE");
     return ActionResult::MENU_LIST;
 }
 
 ActionResult::listResult AppController::displayListFromBack() {
-    listBidirectional.displayFromBack();
+    listBidirectional->displayFromBack();
     system("PAUSE");
     return ActionResult::MENU_LIST;
 }
@@ -378,7 +527,7 @@ ActionResult::listResult AppController::pushFrontList() {
     int value;
     std::cout << "Input: " << std::endl;
     std::cin >> value;
-    listBidirectional.pushFront(value);
+    listBidirectional->pushFront(value);
     system("PAUSE");
     return ActionResult::MENU_LIST;
 }
@@ -387,7 +536,7 @@ ActionResult::listResult AppController::pushBackList() {
     int value;
     std::cout << "Input: " << std::endl;
     std::cin >> value;
-    listBidirectional.pushEnd(value);
+    listBidirectional->pushEnd(value);
     system("PAUSE");
     return ActionResult::MENU_LIST;
 }
@@ -398,20 +547,20 @@ ActionResult::listResult AppController::pushOnIndexList() {
     std::cin >> index;
     std::cout << "Input: " << std::endl;
     std::cin >> value;
-    listBidirectional.pushOnIndex(index, value);
+    listBidirectional->pushOnIndex(index, value);
     system("PAUSE");
     return ActionResult::MENU_LIST;
 }
 
 ActionResult::listResult AppController::popFrontList() {
-    int value = listBidirectional.popFront();
+    int value = listBidirectional->popFront();
     std::cout << "Popped value = " << value << std::endl;
     system("PAUSE");
     return ActionResult::MENU_LIST;
 }
 
 ActionResult::listResult AppController::popBackList() {
-    int value = listBidirectional.popEnd();
+    int value = listBidirectional->popEnd();
     std::cout << "Popped value = " << value << std::endl;
     system("PAUSE");
     return ActionResult::MENU_LIST;
@@ -421,7 +570,7 @@ ActionResult::listResult AppController::popOnIndexList() {
     int index;
     std::cout << "Index: " << std::endl;
     std::cin >> index;
-    int value = listBidirectional.popOnIndex(index);
+    int value = listBidirectional->popOnIndex(index);
     std::cout << "Popped value = " << value << std::endl;
     system("PAUSE");
     return ActionResult::MENU_LIST;
@@ -431,7 +580,7 @@ ActionResult::listResult AppController::findByIndexList() {
     int index;
     std::cout << "Index: " << std::endl;
     std::cin >> index;
-    std::cout << "Element on Index = " << listBidirectional.getByIndex(index)->data << std::endl;
+    std::cout << "Element on Index = " << listBidirectional->getByIndex(index)->data << std::endl;
     system("PAUSE");
     return ActionResult::MENU_LIST;
 }
@@ -440,26 +589,57 @@ ActionResult::listResult AppController::findIndexOfList() {
     int value;
     std::cout << "Value: " << std::endl;
     std::cin >> value;
-    std::cout << "Index of Element = " << listBidirectional.getIndexOf(value) << std::endl;
+    std::cout << "Index of Element = " << listBidirectional->getIndexOf(value) << std::endl;
     system("PAUSE");
     return ActionResult::MENU_LIST;
 }
 
 ActionResult::listResult AppController::removeAllList() {
-    listBidirectional.removeAll();
+    listBidirectional->removeAll();
     std::cout << "All data has been removed!" << std::endl;
     system("PAUSE");
     return ActionResult::MENU_LIST;
 }
 
 ActionResult::listResult AppController::displaySizeList() {
-    std::cout << "List size = " << listBidirectional.getSize() << std::endl;
+    std::cout << "List size = " << listBidirectional->getSize() << std::endl;
     system("PAUSE");
     return ActionResult::MENU_LIST;
 }
 
 void AppController::heapIndex() {
-    initHeap();
+    if (manualTests) {
+        std::cout << "Manual Tests Set!" << std::endl;
+        std::cout << "Do you want to fill structure with random data?" << std::endl;
+        std::cout << "Yes == 1, No == Any key" << std::endl;
+        std::cout << "Choice: ";
+        char choice;
+        std::cin >> choice;
+        if (choice == '1') {
+            generateRandomData();
+            if (!dataBufferList.empty()) {
+                int sizeH;
+                std::cout << "How much buffer size (extra size)?" << std::endl;
+                std::cout << "Input: ";
+                std::cin >> sizeH;
+                delete heap;
+                heap = new BinaryHeap(dataBufferList.size() + sizeH);
+                heap->loadFileDataAndHeapify(dataBufferList);
+                if (heap->getSize() != 0) {
+                    std::cout << "Success!" << std::endl;
+                    system("PAUSE");
+                }
+            }
+        }
+        std::cout << "Set test series count (table size)" << std::endl;
+        std::cout << "Count: ";
+        int count;
+        std::cin >> count;
+        heap->testCount = count;
+        system("PAUSE");
+    } else {
+        initHeap();
+    }
     ActionResult::heapResult status = ActionResult::heapResult::MENU_HEAP;
     while (status != ActionResult::heapResult::END_HEAP) {
         switch (status) {
@@ -495,6 +675,8 @@ void AppController::heapIndex() {
                 break;
         }
     }
+    delete heap;
+    heap = nullptr;
 }
 
 void AppController::initHeap() {
@@ -512,20 +694,20 @@ void AppController::initHeap() {
             std::cout << "How much buffer size (extra size)?" << std::endl;
             std::cout << "Input: ";
             std::cin >> sizeH;
-            heap.~BinaryHeap();
-            if (dataList.empty()) {
+            delete heap;
+            if (dataBufferList.empty()) {
                 std::cout << "Buffer is empty! Test file must be read first!" << std::endl;
                 loadFileToBufferList();
             }
-            heap = BinaryHeap(dataList.size() + sizeH);
-            heap.loadFileDataAndHeapify(dataList);
+            heap = new BinaryHeap(dataBufferList.size() + sizeH);
+            heap->loadFileDataAndHeapify(dataBufferList);
             break;
         default:
             std::cout << "Please set Heap size..." << std::endl;
             std::cout << "Input: ";
             std::cin >> sizeH;
-            heap.~BinaryHeap();
-            heap = *new BinaryHeap(sizeH);
+            delete heap;
+            heap = new BinaryHeap(sizeH);
             std::cout << "Done..." << std::endl;
             system("PAUSE");
             break;
@@ -533,13 +715,13 @@ void AppController::initHeap() {
 }
 
 ActionResult::heapResult AppController::loadHeapWithFileData() {
-    if (dataList.empty()) {
+    if (dataBufferList.empty()) {
         std::cout << "Buffer is empty! Test file must be read first!" << std::endl;
         loadFileToBufferList();
     }
 
-    heap.loadFileDataAndHeapify(dataList);
-    if (heap.getSize() != 0) {
+    heap->loadFileDataAndHeapify(dataBufferList);
+    if (heap->getSize() != 0) {
         std::cout << "Success!" << std::endl;
     }
     system("PAUSE");
@@ -547,7 +729,7 @@ ActionResult::heapResult AppController::loadHeapWithFileData() {
 }
 
 ActionResult::heapResult AppController::displayHeap() {
-    heap.display();
+    heap->display();
     system("PAUSE");
     return ActionResult::MENU_HEAP;
 }
@@ -556,13 +738,13 @@ ActionResult::heapResult AppController::pushHeap() {
     int value;
     std::cout << "Input: " << std::endl;
     std::cin >> value;
-    heap.push(value);
+    heap->push(value);
     system("PAUSE");
     return ActionResult::MENU_HEAP;
 }
 
 ActionResult::heapResult AppController::popRootHeap() {
-    int value = heap.popRoot();
+    int value = heap->popRoot();
     std::cout << "Popped value = " << value << std::endl;
     system("PAUSE");
     return ActionResult::MENU_HEAP;
@@ -572,7 +754,7 @@ ActionResult::heapResult AppController::popElementHeap() {
     int value;
     std::cout << "Key value: ";
     std::cin >> value;
-    heap.pop(value);
+    heap->pop(value);
     std::cout << "Done..." << std::endl;
     system("PAUSE");
     return ActionResult::MENU_HEAP;
@@ -582,7 +764,7 @@ ActionResult::heapResult AppController::findByIndexHeap() {
     int index;
     std::cout << "Index: " << std::endl;
     std::cin >> index;
-    std::cout << "Element on Index = " << heap.findByIndex(index) << std::endl;
+    std::cout << "Element on Index = " << heap->findByIndex(index) << std::endl;
     system("PAUSE");
     return ActionResult::MENU_HEAP;
 }
@@ -591,25 +773,25 @@ ActionResult::heapResult AppController::findIndexOfHeap() {
     int value;
     std::cout << "Value: " << std::endl;
     std::cin >> value;
-    int indexOf = heap.findIndexOf(value);
+    int indexOf = heap->findIndexOf(value);
     if (indexOf != -1) {
-        std::cout << "Index of Element = " << heap.findIndexOf(value) << std::endl;
+        std::cout << "Index of Element = " << heap->findIndexOf(value) << std::endl;
     } else {
-        std::cout << "Element doesn't exist!" << heap.findIndexOf(value) << std::endl;
+        std::cout << "Element doesn't exist!" << heap->findIndexOf(value) << std::endl;
     }
     system("PAUSE");
     return ActionResult::MENU_HEAP;
 }
 
 ActionResult::heapResult AppController::removeAllHeap() {
-    heap.removeAll();
+    heap->removeAll();
     std::cout << "All data has been removed!" << std::endl;
     system("PAUSE");
     return ActionResult::MENU_HEAP;
 }
 
 ActionResult::heapResult AppController::displaySizeHeap() {
-    std::cout << "Heap size = " << heap.getSize() << std::endl;
+    std::cout << "Heap size = " << heap->getSize() << std::endl;
     system("PAUSE");
     return ActionResult::MENU_HEAP;
 }

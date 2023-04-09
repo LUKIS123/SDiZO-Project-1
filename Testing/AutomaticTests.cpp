@@ -9,6 +9,7 @@ AutomaticTests::~AutomaticTests() {
     delete array;
     delete list;
     delete heap;
+    dataList.clear();
 }
 
 AutomaticTests::AutomaticTests() = default;
@@ -166,7 +167,8 @@ void AutomaticTests::deployArrayTests() {
         results.push_back(iterationResults);
     }
     // Saving results to .csv
-    DataFileUtility::saveResults2DMicroseconds(fileName, results, headLine);
+    DataFileUtility::saveTimerResults2D(fileName, results, headLine);
+    delete array;
     std::cout << "Done!" << std::endl;
     system("PAUSE");
 }
@@ -231,7 +233,8 @@ void AutomaticTests::deployListTests() {
         results.push_back(iterationResults);
     }
     // Saving results to .csv
-    DataFileUtility::saveResults2DMicroseconds(fileName, results, headLine);
+    DataFileUtility::saveTimerResults2D(fileName, results, headLine);
+    delete list;
     std::cout << "Done!" << std::endl;
     system("PAUSE");
 }
@@ -287,7 +290,8 @@ void AutomaticTests::deployHeapTests() {
         results.push_back(iterationResults);
     }
     // Saving results to .csv
-    DataFileUtility::saveResults2DMicroseconds(fileName, results, headLine);
+    DataFileUtility::saveTimerResults2D(fileName, results, headLine);
+    delete heap;
     std::cout << "Done!" << std::endl;
     system("PAUSE");
 }

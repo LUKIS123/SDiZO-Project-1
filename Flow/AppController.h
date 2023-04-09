@@ -13,20 +13,25 @@
 #include "../DynamicArray.h"
 #include "../ListBidirectional.h"
 #include "../BinaryHeap.h"
+#include "../BinarySearchTree.h"
 #include "../Testing/AutomaticTests.h"
+#include "../Time/Timer.h"
 
 class AppController {
 private:
+    bool manualTests = false;
     // Utils
-    AutomaticTests automaticTests;
+    AutomaticTests *automaticTests;
     RandomNumberGenerator numberGenerator;
+    Timer timer;
     DataFileUtility fileUtility;
-    std::list<int> dataList;
+    std::list<int> dataBufferList;
 
     // Data Structures
-    DynamicArray dynamicArray;
-    ListBidirectional listBidirectional;
-    BinaryHeap heap;
+    DynamicArray *dynamicArray;
+    ListBidirectional *listBidirectional;
+    BinaryHeap *heap;
+    BinarySearchTree *bst;
 
 public:
     explicit AppController();
@@ -120,7 +125,8 @@ public:
     void saveRandomDataToFIle();
 
     void startAutomaticTests();
-};
 
+    void setManualTestsStart();
+};
 
 #endif //SDIZO_PROJECT_1_APPCONTROLLER_H

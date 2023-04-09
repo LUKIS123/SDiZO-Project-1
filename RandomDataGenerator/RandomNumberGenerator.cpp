@@ -33,7 +33,7 @@ std::list<int> *RandomNumberGenerator::generateNonDeterministic(unsigned long te
 int RandomNumberGenerator::generateRandomInteger() {
     std::random_device dev;
     std::mt19937 rng(dev());
-    std::uniform_int_distribution<std::mt19937::result_type> dist(-1000, 1000);
+    std::uniform_int_distribution<std::mt19937::result_type> dist(1, 1000000);
     return dist(rng);
 }
 

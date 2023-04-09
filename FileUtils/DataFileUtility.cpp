@@ -116,15 +116,30 @@ bool DataFileUtility::saveData(list<int> &outputList, const string &FileName) {
     return true;
 }
 
-bool
-DataFileUtility::saveResultsMicroseconds(const string &FileName, list<double> &results, const std::string &headline) {
+bool DataFileUtility::saveResultsHeadline(const string &FileName, const string &headline) {
     ofstream file;
     file.open(FileName, ios_base::app);
-    int size = (int) results.size();
     if (file.is_open()) {
         file << headline << endl;
         if (file.fail()) {
             cout << "File error - SAVE HEADLINE" << endl;
+            return false;
+        }
+    } else {
+        cout << "File error - OPEN" << endl;
+        return false;
+    }
+    return true;
+}
+
+bool
+DataFileUtility::saveTimerResults(const string &FileName, list<double> &results) {
+    ofstream file;
+    file.open(FileName, ios_base::app);
+    int size = (int) results.size();
+    if (file.is_open()) {
+        if (file.fail()) {
+            cout << "File error" << endl;
             return false;
         } else {
             auto l_front = results.begin();
@@ -132,6 +147,7 @@ DataFileUtility::saveResultsMicroseconds(const string &FileName, list<double> &r
                 file << *l_front << ",";
                 advance(l_front, 1);
             }
+            file << endl;
             file.close();
         }
     } else {
@@ -141,11 +157,10 @@ DataFileUtility::saveResultsMicroseconds(const string &FileName, list<double> &r
     return true;
 }
 
-bool DataFileUtility::saveResults2DMicroseconds(const string &FileName, list<std::list<double>> &results,
-                                                const string &headline) {
+bool DataFileUtility::saveTimerResults2D(const string &FileName, list<std::list<double>> &results,
+                                         const string &headline) {
     ofstream file;
     file.open(FileName, ios::out);
-    int size = (int) results.size();
     if (file.is_open()) {
         file << headline << endl;
         if (file.fail()) {
