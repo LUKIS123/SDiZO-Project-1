@@ -782,12 +782,12 @@ void AppController::initHeap() {
     std::cout << "Yes == 1, No == Any Key" << std::endl;
 
     std::cout << "Choice: ";
-    int next;
+    char next;
     std::cin >> next;
 
     int sizeH;
     switch (next) {
-        case 1:
+        case '1':
             std::cout << "How much buffer size (extra size)?" << std::endl;
             std::cout << "Input: ";
             std::cin >> sizeH;
