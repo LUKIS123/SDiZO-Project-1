@@ -93,7 +93,7 @@ void Tests::saveResults(const std::string &fileName) {
                 advance(pushFFront, 1);
             }
         } else {
-            resultList.push_back(0);
+            resultList.push_back(-1);
         }
 
         if (pushEndNum != 0) {
@@ -103,7 +103,7 @@ void Tests::saveResults(const std::string &fileName) {
                 advance(pushEFront, 1);
             }
         } else {
-            resultList.push_back(0);
+            resultList.push_back(-1);
         }
 
         if (pushIndexNum != 0) {
@@ -113,7 +113,7 @@ void Tests::saveResults(const std::string &fileName) {
                 advance(pushIFront, 1);
             }
         } else {
-            resultList.push_back(0);
+            resultList.push_back(-1);
         }
 
         if (findByIndexNum != 0) {
@@ -123,7 +123,7 @@ void Tests::saveResults(const std::string &fileName) {
                 advance(findByIFront, 1);
             }
         } else {
-            resultList.push_back(0);
+            resultList.push_back(-1);
         }
 
         if (findIndexOfNum != 0) {
@@ -133,7 +133,7 @@ void Tests::saveResults(const std::string &fileName) {
                 advance(findIOfFront, 1);
             }
         } else {
-            resultList.push_back(0);
+            resultList.push_back(-1);
         }
 
         if (popFrontNum != 0) {
@@ -143,7 +143,7 @@ void Tests::saveResults(const std::string &fileName) {
                 advance(popFFront, 1);
             }
         } else {
-            resultList.push_back(0);
+            resultList.push_back(-1);
         }
 
         if (popEndNum != 0) {
@@ -153,7 +153,7 @@ void Tests::saveResults(const std::string &fileName) {
                 advance(popEFront, 1);
             }
         } else {
-            resultList.push_back(0);
+            resultList.push_back(-1);
         }
 
         if (popIndexNum != 0) {
@@ -163,7 +163,7 @@ void Tests::saveResults(const std::string &fileName) {
                 advance(popIFront, 1);
             }
         } else {
-            resultList.push_back(0);
+            resultList.push_back(-1);
         }
 
         if (heapifyFloydNum != 0) {
@@ -173,7 +173,7 @@ void Tests::saveResults(const std::string &fileName) {
                 advance(heapFFront, 1);
             }
         } else {
-            resultList.push_back(0);
+            resultList.push_back(-1);
         }
 
         if (pushHeapNum != 0) {
@@ -183,7 +183,7 @@ void Tests::saveResults(const std::string &fileName) {
                 advance(pushHFront, 1);
             }
         } else {
-            resultList.push_back(0);
+            resultList.push_back(-1);
         }
 
         if (popRootHeapNum != 0) {
@@ -193,7 +193,7 @@ void Tests::saveResults(const std::string &fileName) {
                 advance(popRFront, 1);
             }
         } else {
-            resultList.push_back(0);
+            resultList.push_back(-1);
         }
 
         if (popKeyHeapNum != 0) {
@@ -203,7 +203,7 @@ void Tests::saveResults(const std::string &fileName) {
                 advance(popKFront, 1);
             }
         } else {
-            resultList.push_back(0);
+            resultList.push_back(-1);
         }
 
         // Saving data...
@@ -227,8 +227,6 @@ void Tests::endTests() {
     popKeyHeap.clear();
 }
 
-Tests::Tests() {
-    fileUtility = new DataFileUtility();
-}
+Tests::Tests() = default;
 
 Tests::~Tests() = default;

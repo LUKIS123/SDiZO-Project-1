@@ -18,26 +18,37 @@ public:
 
     explicit BinarySearchTree() = default;
 
-    virtual ~BinarySearchTree();
+    ~BinarySearchTree() override;
 
-    // dodawanie, usuwanie i wyszukiwanie elementów
     void display();
+
+    void display2D();
+
+    void displayBothVariants();
 
     void push(int data);
 
-    void pop(int data);
+    int pop(int data);
 
-    BSTNode *search(int data);
+    BSTNode *findByValue(int data);
 
-    void getSize();
+    unsigned int getSize();
+
+    BSTNode *getRoot();
+
+    void removeTreeDownFromNode(BSTNode *current);
+
+    void removeAll();
 
 private:
-    int size = 0;
+    unsigned size = 0;
     BSTNode *root = nullptr;
-
-    BSTNode *find_delete(int val, BSTNode *searched);
+    double *balancing;
+    int bNumber = 0;
 
     void printKeyRecursive(BSTNode *node);
+
+    void display2DUtil(BSTNode *node, int space);
 
     BSTNode *findSuccessor(BSTNode *node);
 

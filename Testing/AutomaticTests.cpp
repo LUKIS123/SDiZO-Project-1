@@ -6,10 +6,8 @@
 #include <utility>
 
 AutomaticTests::~AutomaticTests() {
-    delete array;
-    delete list;
-    delete heap;
     dataList.clear();
+    results.clear();
 }
 
 AutomaticTests::AutomaticTests() = default;

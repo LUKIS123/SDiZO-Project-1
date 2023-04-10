@@ -136,14 +136,16 @@ void BinaryHeap::push(int data) {
     heapArray[sizeInUse] = data;
     sizeInUse++;
     // Naprawianie kopca w gore
-    if (sizeInUse > 1) {
+    if (sizeInUse >= 1) {
         int index = sizeInUse - 1;
         int parentPosition = (index - 1) / 2;
+
         while (index > 0 && heapArray[parentPosition] < data) {
             heapArray[index] = heapArray[parentPosition];
             index = parentPosition;
             parentPosition = (index - 1) / 2;
         }
+
         heapArray[index] = data;
     }
 }

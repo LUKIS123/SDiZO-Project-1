@@ -17,7 +17,7 @@ public:
 
     void loadFileData(std::list<int> &dataList);
 
-    ~ListBidirectional();
+    ~ListBidirectional() override;
 
     void displayFromFront();
 

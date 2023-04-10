@@ -11,9 +11,8 @@
 #include "../FileUtils/DataFileUtility.h"
 
 class Tests {
-private:
-    DataFileUtility *fileUtility;
 protected:
+    std::string headLine = "push_front, push_end, push_on_index, find_element, find_index_of, pop_front, pop_end, pop_on_index";
     std::list<double> pushFront;
     std::list<double> pushEnd;
     std::list<double> pushIndex;
@@ -40,10 +39,7 @@ protected:
     unsigned popRootHeapNum = 0;
     unsigned popKeyHeapNum = 0;
 public:
-    bool manualTest = false;
     int testCount = 100;
-    std::string headLine = "push_front, push_end, push_on_index, find_element, find_index_of, pop_front, pop_end, pop_on_index";
-
     int size = 0;
     bool tests = false;
 

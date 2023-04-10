@@ -195,7 +195,8 @@ void testHeap() {
 }
 
 void testBST() {
-    BinarySearchTree bst = *new BinarySearchTree();
+    // 4.0 dodawanie, usuwanie i wyszukiwanie elementów, nie jest wymagane równoważenie drzewa
+    BinarySearchTree bst = BinarySearchTree();
     bst.push(10);
     bst.push(1);
     bst.push(19);
@@ -204,6 +205,15 @@ void testBST() {
     bst.push(6);
     bst.push(55);
     bst.push(32);
+    bst.display();
+    std::cout << "\n==============================" << std::endl;
+    bst.display2D();
+    std::cout << "==============================" << std::endl;
+    bst.display();
+    std::cout << "\n==============================" << std::endl;
+    std::cout << "\n==============================" << std::endl;
+    bst.pop(6);
+    std::cout << bst.findByValue(32)->key << std::endl;
     bst.display();
 }
 
@@ -218,7 +228,8 @@ int main() {
 
 
 //    testBST();
-
+//
+//    system("pause");
 
 //======================================================================================================================
 //        TEST t = *new TEST;
@@ -257,12 +268,8 @@ int main() {
 //    Timer::getMilliSeconds(time_start_test, time_end_test);
 //    Timer::getMicroSecondsAndPrint(time_start_test, time_end_test);
 
-    // TODO: do przemyslenia czy jako parametr, moze najpierw wstepnie czytac z pliku i wgrywac tutaj na samym poczatku...
-    system("pause");
     AppController controller = AppController();
     controller.index();
-
-    // TODO: opcje do testowania mozna dodac do kontrolera a nie wewnatrz samych klas struktur
 
     return 0;
 }
