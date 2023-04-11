@@ -22,6 +22,8 @@ public:
     static ActionResult::listResult listMenu();
 
     static ActionResult::heapResult heapMenu();
+
+    static ActionResult::bstResult bstMenu();
 };
 
 #endif //SDIZO_PROJECT_1_CONSOLEVIEW_H

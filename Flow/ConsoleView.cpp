@@ -207,7 +207,7 @@ ActionResult::heapResult ConsoleView::heapMenu() {
     std::cout << "Binary Heap: Choose from given options..." << std::endl;
     std::cout << "1 => Load Heap with test file data" << std::endl;
     std::cout << "2 => Display Heap" << std::endl;
-    std::cout << "3 => Push Element" << std::endl;
+    std::cout << "3 => Push" << std::endl;
     std::cout << "4 => Pop Root" << std::endl;
     std::cout << "5 => Pop Element" << std::endl;
     std::cout << "6 => Find By Index" << std::endl;
@@ -243,6 +243,53 @@ ActionResult::heapResult ConsoleView::heapMenu() {
             return ActionResult::heapResult::END_HEAP;
         default:
             return ActionResult::heapResult::MENU_HEAP;
+    }
+}
+
+ActionResult::bstResult ConsoleView::bstMenu() {
+    system("CLS");
+    std::cout << "BST: Choose from given options..." << std::endl;
+    std::cout << "1 => Load BST with test file data" << std::endl;
+    std::cout << "2 => Display BST" << std::endl;
+    std::cout << "3 => Push" << std::endl;
+    std::cout << "4 => Pop Node" << std::endl;
+    std::cout << "5 => Find Node by Value" << std::endl;
+    std::cout << "6 => ..." << std::endl;
+    std::cout << "7 => ..." << std::endl;
+    std::cout << "8 => ..." << std::endl;
+    std::cout << "9 => Remove All" << std::endl;
+    std::cout << "10 => Check Size" << std::endl;
+    std::cout << "0 => Exit" << std::endl;
+
+    std::cout << "Choice: ";
+    int next;
+    std::cin >> next;
+
+    switch (next) {
+        case 1:
+            return ActionResult::bstResult::LOAD_BST;
+        case 2:
+            return ActionResult::bstResult::DISPLAY_BST;
+        case 3:
+            return ActionResult::bstResult::PUSH_BST;
+        case 4:
+            return ActionResult::bstResult::POP_NODE;
+        case 5:
+            return ActionResult::bstResult::FIND_VAL_BST;
+        case 6:
+            return ActionResult::bstResult::DSW_BST;
+        case 7:
+            return ActionResult::bstResult::ROTATE_RIGHT_BST;
+        case 8:
+            return ActionResult::bstResult::ROTATE_LEFT_BST;
+        case 9:
+            return ActionResult::bstResult::REMOVE_ALL_BST;
+        case 10:
+            return ActionResult::bstResult::GET_SIZE_BST;
+        case 0:
+            return ActionResult::bstResult::END_BST;
+        default:
+            return ActionResult::bstResult::MENU_BST;
     }
 }
 

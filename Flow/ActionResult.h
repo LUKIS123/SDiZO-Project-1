@@ -83,6 +83,21 @@ public:
         GET_SIZE_HEAP = 9
     };
 
+    enum bstResult {
+        END_BST = 0,
+        MENU_BST = 11,
+        LOAD_BST = 1,
+        DISPLAY_BST = 2,
+        PUSH_BST = 3,
+        POP_NODE = 4,
+        FIND_VAL_BST = 5,
+        DSW_BST = 6,
+        ROTATE_RIGHT_BST = 7,
+        ROTATE_LEFT_BST = 8,
+        REMOVE_ALL_BST = 9,
+        GET_SIZE_BST = 10
+    };
+
     ActionResult();
 
     virtual ~ActionResult();

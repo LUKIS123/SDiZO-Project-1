@@ -271,6 +271,9 @@ int main() {
     AppController controller = AppController();
     controller.index();
 
+    // TODO: zabezpiczyc program, ConsoleView todac try/catch
+    //  dodac zabezpieczenie w funckjach struktur np ujemny indeks zeby nie przeszedl
+
     return 0;
 }
 

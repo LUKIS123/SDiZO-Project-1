@@ -120,7 +120,6 @@ void BinaryHeap::popElement(int data) {
     fixFromBottom(index);
 }
 
-// TODO: nowa realokacja - do sprawdzenia
 void BinaryHeap::push(int data) {
     if (sizeInUse + 1 > size) {
         std::cout << "Unable to push data, heap is full!" << std::endl;

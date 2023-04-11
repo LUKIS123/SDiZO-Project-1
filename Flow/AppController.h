@@ -38,6 +38,15 @@ public:
 
     virtual ~AppController();
 
+    // tests
+    void generateRandomData();
+
+    void saveRandomDataToFIle();
+
+    void startAutomaticTests();
+
+    void setManualTestsStart();
+
     void index();
 
     ActionResult::result loadFileToBufferList();
@@ -120,13 +129,21 @@ public:
 
     ActionResult::heapResult displaySizeHeap();
 
-    void generateRandomData();
+    void bstIndex();
 
-    void saveRandomDataToFIle();
+    ActionResult::bstResult loadBSTWithFileData();
 
-    void startAutomaticTests();
+    ActionResult::bstResult displayBST();
 
-    void setManualTestsStart();
+    ActionResult::bstResult pushBST();
+
+    ActionResult::bstResult popBST();
+
+    ActionResult::bstResult findNodeBST();
+
+    ActionResult::bstResult removeAllBST();
+
+    ActionResult::bstResult displaySizeBST();
 };
 
 #endif //SDIZO_PROJECT_1_APPCONTROLLER_H

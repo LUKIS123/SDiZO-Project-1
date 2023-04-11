@@ -50,6 +50,8 @@ void AppController::index() {
                 status = ActionResult::result::MENU;
                 break;
             case ActionResult::BST_TREE:
+                bstIndex();
+                status = ActionResult::result::MENU;
                 break;
             case ActionResult::GENERATE_RANDOM_DATA:
                 generateRandomData();
@@ -67,10 +69,11 @@ void AppController::index() {
                 setManualTestsStart();
                 status = ActionResult::result::MENU;
                 break;
+            case ActionResult::END:
+                break;
         }
     }
     std::cout << "Exiting..." << std::endl;
-    exit(0);
 }
 
 void AppController::generateRandomData() {
@@ -215,6 +218,8 @@ void AppController::arrayIndex() {
                 break;
             case ActionResult::FIND_BY_VAL_ARR:
                 status = findIndexOfArray();
+                break;
+            case ActionResult::END_ARR:
                 break;
         }
     }
@@ -497,6 +502,8 @@ void AppController::listIndex() {
             case ActionResult::GET_SIZE_LIST:
                 status = displaySizeList();
                 break;
+            case ActionResult::END_LIST:
+                break;
         }
     }
     if (manualTests) {
@@ -763,6 +770,8 @@ void AppController::heapIndex() {
             case ActionResult::GET_SIZE_HEAP:
                 status = displaySizeHeap();
                 break;
+            case ActionResult::END_HEAP:
+                break;
         }
     }
     if (manualTests) {
@@ -975,4 +984,177 @@ ActionResult::heapResult AppController::displaySizeHeap() {
     std::cout << "Heap size = " << heap->getSize() << std::endl;
     system("PAUSE");
     return ActionResult::MENU_HEAP;
+}
+
+void AppController::bstIndex() {
+    if (manualTests) {
+        std::cout << "Manual Tests Set!" << std::endl;
+        std::cout << "Do you want to fill structure with random data?" << std::endl;
+        std::cout << "Yes == 1, No == Any key" << std::endl;
+        std::cout << "Choice: ";
+        char choice;
+        std::cin >> choice;
+        if (choice == '1') {
+            generateRandomData();
+            if (!dataBufferList.empty()) {
+                bst->loadFileData(dataBufferList);
+                if (bst->getSize() != 0) {
+                    std::cout << "Success!" << std::endl;
+                    system("PAUSE");
+                }
+            }
+        }
+        std::cout << "Set test series count (table size)" << std::endl;
+        std::cout << "Count: ";
+        int count;
+        std::cin >> count;
+        bst->testCount = count;
+        system("PAUSE");
+    }
+    ActionResult::bstResult status = ActionResult::bstResult::MENU_BST;
+    while (status != ActionResult::bstResult::END_BST) {
+        switch (status) {
+            case ActionResult::END_BST:
+                break;
+            case ActionResult::MENU_BST:
+                status = ConsoleView::bstMenu();
+                break;
+            case ActionResult::LOAD_BST:
+                status = loadBSTWithFileData();
+                break;
+            case ActionResult::DISPLAY_BST:
+                status = displayBST();
+                break;
+            case ActionResult::PUSH_BST:
+                status = pushBST();
+                break;
+            case ActionResult::POP_NODE:
+                status = popBST();
+                break;
+            case ActionResult::FIND_VAL_BST:
+                status = findNodeBST();
+                break;
+            case ActionResult::DSW_BST:
+                break;
+            case ActionResult::ROTATE_RIGHT_BST:
+                break;
+            case ActionResult::ROTATE_LEFT_BST:
+                break;
+            case ActionResult::REMOVE_ALL_BST:
+                status = removeAllBST();
+                break;
+            case ActionResult::GET_SIZE_BST:
+                status = displaySizeBST();
+                break;
+        }
+    }
+    if (manualTests) {
+        bst->setHeadline(
+                "push_node,pop_node,find_element,dsw_algo,rotate_right,rotate_left");
+        std::cout << "Saving test results..." << std::endl;
+        bst->saveResults("../Resources/bst_tests_manual.csv");
+        system("PAUSE");
+    }
+    bst->removeAll();
+    // TODO: DSW, rotacje dla bst
+    // TODO: Do zrobienia testy manualne oraz automatyczne BST
+}
+
+ActionResult::bstResult AppController::loadBSTWithFileData() {
+    if (dataBufferList.empty()) {
+        std::cout << "Buffer is empty! Test file must be read first!" << std::endl;
+        loadFileToBufferList();
+    }
+    bst->loadFileData(dataBufferList);
+    if (bst->getSize() != 0) {
+        std::cout << "Success!" << std::endl;
+    }
+    system("PAUSE");
+    return ActionResult::MENU_BST;
+}
+
+ActionResult::bstResult AppController::displayBST() {
+    bst->displayBothVariants();
+    system("PAUSE");
+    return ActionResult::MENU_BST;
+}
+
+ActionResult::bstResult AppController::pushBST() {
+    int value;
+    std::cout << "Input: " << std::endl;
+    std::cin >> value;
+
+    long long int start;
+    if (manualTests) {
+        start = timer.read_QPC();
+    }
+    bst->push(value);
+    long long int end;
+    if (manualTests) {
+        end = timer.read_QPC();
+        // add push bst
+    }
+    system("PAUSE");
+    return ActionResult::MENU_BST;
+}
+
+ActionResult::bstResult AppController::popBST() {
+    int value;
+    std::cout << "Key value: ";
+    std::cin >> value;
+    long long int start;
+    if (manualTests) {
+        start = timer.read_QPC();
+    }
+    bst->pop(value);
+    long long int end;
+    if (manualTests) {
+        end = timer.read_QPC();
+        // add push bst
+    }
+    system("PAUSE");
+    return ActionResult::MENU_BST;
+}
+
+ActionResult::bstResult AppController::findNodeBST() {
+    int value;
+    std::cout << "Key value: ";
+    std::cin >> value;
+    long long int start;
+    if (manualTests) {
+        start = timer.read_QPC();
+    }
+    BinarySearchTree::BSTNode *found = bst->findByValue(value);
+    long long int end;
+    if (manualTests) {
+        end = timer.read_QPC();
+        // add push bst
+    }
+    if (found == nullptr) {
+        std::cout << "Node does not exist!" << std::endl;
+    }
+    std::cout << "Found Node of Value = " << found << std::endl;
+    system("PAUSE");
+    return ActionResult::MENU_BST;
+}
+
+ActionResult::bstResult AppController::removeAllBST() {
+    long long int start;
+    if (manualTests) {
+        start = timer.read_QPC();
+    }
+    bst->removeAll();
+    if (manualTests) {
+        long long int end = timer.read_QPC();
+        timer.getMicroSecondsAndPrint(start, end);
+    }
+    std::cout << "All data has been removed!" << std::endl;
+    system("PAUSE");
+    return ActionResult::MENU_BST;
+}
+
+ActionResult::bstResult AppController::displaySizeBST() {
+    std::cout << "BST size = " << bst->getSize() << std::endl;
+    system("PAUSE");
+    return ActionResult::MENU_BST;
 }

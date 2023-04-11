@@ -20,6 +20,8 @@ public:
 
     ~BinarySearchTree() override;
 
+    void loadFileData(std::list<int> &dataList);
+
     void display();
 
     void display2D();

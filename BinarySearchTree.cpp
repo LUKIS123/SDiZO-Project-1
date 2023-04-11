@@ -11,6 +11,15 @@ BinarySearchTree::~BinarySearchTree() {
     removeAll();
 }
 
+void BinarySearchTree::loadFileData(std::list<int> &dataList) {
+    removeAll();
+    auto l_front = dataList.begin();
+    for (int i = 0; i < dataList.size(); i++) {
+        push(*l_front);
+        std::advance(l_front, 1);
+    }
+}
+
 BinarySearchTree::BSTNode *BinarySearchTree::getRoot() {
     return root;
 }
@@ -74,37 +83,7 @@ void BinarySearchTree::display2DUtil(BSTNode *node, int space) {
 }
 
 void BinarySearchTree::push(int data) {
-//    BSTNode *newNode = new BSTNode;
-//    newNode->left = nullptr;
-//    newNode->right = nullptr;
-//    newNode->key = data;
-//
-//    BSTNode *parent = nullptr;
-//    BSTNode *tmp = root;
-//
-//    while (tmp != nullptr) {
-//        parent = tmp;
-//        if (newNode->key < tmp->key) {
-//            tmp = tmp->left;
-//        } else {
-//            tmp = tmp->right;
-//        }
-//    }
-//
-//    newNode->parent = parent;
-//    if (parent == nullptr) {
-//        root = newNode;
-//        return;
-//    }
-//
-//    if (newNode->key < parent->key) {
-//        parent->left = newNode;
-//    } else {
-//        parent->right = newNode;
-//    }
-//
     size++;
-
     BSTNode *newNode = new BSTNode;
     newNode->left = nullptr;
     newNode->right = nullptr;
@@ -271,6 +250,9 @@ void BinarySearchTree::removeTreeDownFromNode(BSTNode *current) {
 }
 
 void BinarySearchTree::removeAll() {
+    if (root == nullptr) {
+        return;
+    }
     removeTreeDownFromNode(root);
     root = nullptr;
 }
