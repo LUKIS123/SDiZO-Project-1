@@ -3,6 +3,7 @@
 //
 
 #include "iostream"
+#include "limits"
 #include "ConsoleView.h"
 #include "ActionResult.h"
 
@@ -13,20 +14,27 @@ ConsoleView::~ConsoleView() = default;
 ActionResult::result ConsoleView::menu() {
     system("CLS");
     std::cout << "Menu: Choose from given options..." << std::endl;
-    std::cout << "1 => Load test data file" << std::endl;
+    std::cout << "1 => Load test file data to buffer" << std::endl;
     std::cout << "2 => Dynamic Array" << std::endl;
     std::cout << "3 => List" << std::endl;
     std::cout << "4 => Heap" << std::endl;
     std::cout << "5 => BST Tree" << std::endl;
-    std::cout << "6 => Generate random data buffer" << std::endl;
+    std::cout << "6 => Generate random data and load buffer" << std::endl;
     std::cout << "7 => Save random data to file" << std::endl;
     std::cout << "8 => Automatic Tests" << std::endl;
     std::cout << "9 => Deploy Manual Tests" << std::endl;
+    std::cout << "10 => Show Buffer info..." << std::endl;
     std::cout << "0 => Exit" << std::endl << std::endl;
 
     std::cout << "Choice: ";
-    int next;
+    int next = 0;
     std::cin >> next;
+    while (std::cin.fail()) {
+        std::cin.clear();
+        std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+        std::cout << "Bad entry... Enter a NUMBER: ";
+        std::cin >> next;
+    }
 
     switch (next) {
         case 1:
@@ -47,6 +55,8 @@ ActionResult::result ConsoleView::menu() {
             return ActionResult::result::AUTOMATIC_TEST;
         case 9:
             return ActionResult::MANUAL_TESTS;
+        case 10:
+            return ActionResult::BUFFER_INFO;
         case 0:
             return ActionResult::result::END;
         default:
@@ -69,6 +79,12 @@ ActionResult::automaticTestResult ConsoleView::testMenu() {
     std::cout << "Choice: ";
     int next;
     std::cin >> next;
+    while (std::cin.fail()) {
+        std::cin.clear();
+        std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+        std::cout << "Bad entry... Enter a NUMBER: ";
+        std::cin >> next;
+    }
 
     switch (next) {
         case 1:
@@ -93,7 +109,7 @@ ActionResult::automaticTestResult ConsoleView::testMenu() {
 ActionResult::arrayResult ConsoleView::arrayMenu() {
     system("CLS");
     std::cout << "Dynamic Array: Choose from given options..." << std::endl;
-    std::cout << "1 => Load Array with test file data" << std::endl;
+    std::cout << "1 => Load Array with buffered data" << std::endl;
     std::cout << "2 => Display" << std::endl;
     std::cout << "3 => Push Front" << std::endl;
     std::cout << "4 => Push End" << std::endl;
@@ -111,6 +127,12 @@ ActionResult::arrayResult ConsoleView::arrayMenu() {
     std::cout << "Choice: ";
     int next;
     std::cin >> next;
+    while (std::cin.fail()) {
+        std::cin.clear();
+        std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+        std::cout << "Bad entry... Enter a NUMBER: ";
+        std::cin >> next;
+    }
 
     switch (next) {
         case 1:
@@ -149,7 +171,7 @@ ActionResult::arrayResult ConsoleView::arrayMenu() {
 ActionResult::listResult ConsoleView::listMenu() {
     system("CLS");
     std::cout << "Two-Way List: Choose from given options..." << std::endl;
-    std::cout << "1 => Load List with test file data" << std::endl;
+    std::cout << "1 => Load List with test buffered data" << std::endl;
     std::cout << "2 => Display from Front" << std::endl;
     std::cout << "3 => Display from Back" << std::endl;
     std::cout << "4 => Push Front" << std::endl;
@@ -167,6 +189,12 @@ ActionResult::listResult ConsoleView::listMenu() {
     std::cout << "Choice: ";
     int next;
     std::cin >> next;
+    while (std::cin.fail()) {
+        std::cin.clear();
+        std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+        std::cout << "Bad entry... Enter a NUMBER: ";
+        std::cin >> next;
+    }
 
     switch (next) {
         case 1:
@@ -205,7 +233,7 @@ ActionResult::listResult ConsoleView::listMenu() {
 ActionResult::heapResult ConsoleView::heapMenu() {
     system("CLS");
     std::cout << "Binary Heap: Choose from given options..." << std::endl;
-    std::cout << "1 => Load Heap with test file data" << std::endl;
+    std::cout << "1 => Load Heap with buffered data" << std::endl;
     std::cout << "2 => Display Heap" << std::endl;
     std::cout << "3 => Push" << std::endl;
     std::cout << "4 => Pop Root" << std::endl;
@@ -219,6 +247,12 @@ ActionResult::heapResult ConsoleView::heapMenu() {
     std::cout << "Choice: ";
     int next;
     std::cin >> next;
+    while (std::cin.fail()) {
+        std::cin.clear();
+        std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+        std::cout << "Bad entry... Enter a NUMBER: ";
+        std::cin >> next;
+    }
 
     switch (next) {
         case 1:
@@ -249,14 +283,14 @@ ActionResult::heapResult ConsoleView::heapMenu() {
 ActionResult::bstResult ConsoleView::bstMenu() {
     system("CLS");
     std::cout << "BST: Choose from given options..." << std::endl;
-    std::cout << "1 => Load BST with test file data" << std::endl;
+    std::cout << "1 => Load BST with buffered data" << std::endl;
     std::cout << "2 => Display BST" << std::endl;
     std::cout << "3 => Push" << std::endl;
     std::cout << "4 => Pop Node" << std::endl;
     std::cout << "5 => Find Node by Value" << std::endl;
-    std::cout << "6 => ..." << std::endl;
-    std::cout << "7 => ..." << std::endl;
-    std::cout << "8 => ..." << std::endl;
+    std::cout << "6 => DSW" << std::endl;
+    std::cout << "7 => Rotate Right on Node" << std::endl;
+    std::cout << "8 => Rotate Left on Node" << std::endl;
     std::cout << "9 => Remove All" << std::endl;
     std::cout << "10 => Check Size" << std::endl;
     std::cout << "0 => Exit" << std::endl;
@@ -264,6 +298,12 @@ ActionResult::bstResult ConsoleView::bstMenu() {
     std::cout << "Choice: ";
     int next;
     std::cin >> next;
+    while (std::cin.fail()) {
+        std::cin.clear();
+        std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+        std::cout << "Bad entry... Enter a NUMBER: ";
+        std::cin >> next;
+    }
 
     switch (next) {
         case 1:

@@ -9,11 +9,11 @@
 
 class BinarySearchTree : public Tests {
 public:
-    struct BSTNode {
+    struct BNode {
         int key = 0;
-        BSTNode *left = nullptr;
-        BSTNode *right = nullptr;
-        BSTNode *parent = nullptr;
+        BNode *left = nullptr;
+        BNode *right = nullptr;
+        BNode *parent = nullptr;
     };
 
     explicit BinarySearchTree() = default;
@@ -32,23 +32,29 @@ public:
 
     int pop(int data);
 
-    BSTNode *findByValue(int data);
+    BNode *findByValue(int data);
 
     unsigned int getSize();
 
-    BSTNode *getRoot();
+    BNode *getRoot();
 
-    void removeTreeDownFromNode(BSTNode *current);
+    void removeTreeDownFromNode(BNode *current);
 
     void removeAll();
 
+    BNode *findSuccessor(BNode *node);
+
+    BNode *searchMin(BNode *node);
+
+    BNode *searchMax(BNode *node);
+
     void rotateRight(int data);
 
-    void rotateRight(BSTNode *node);
+    void rotateRight(BNode *node);
 
     void rotateLeft(int data);
 
-    void rotateLeft(BSTNode *node);
+    void rotateLeft(BNode *node);
 
     void balanceTreeDSW();
 
@@ -58,20 +64,11 @@ public:
 
 private:
     unsigned size = 0;
-    BSTNode *root = nullptr;
-    double *balancing;
-    int bNumber = 0;
+    BNode *root = nullptr;
 
-    void printKeyRecursive(BSTNode *node);
+    void printKeyUtil(BinarySearchTree::BNode *node);
 
-    void display2DUtil(BSTNode *node, int space);
-
-    BSTNode *findSuccessor(BSTNode *node);
-
-    BSTNode *searchMin(BSTNode *node);
-
-    BSTNode *searchMax(BSTNode *node);
+    void display2DUtil(BNode *node, int space);
 };
-
 
 #endif //SDIZO_PROJECT_1_BINARYSEARCHTREE_H

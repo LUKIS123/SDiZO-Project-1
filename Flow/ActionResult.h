@@ -5,7 +5,6 @@
 #ifndef SDIZO_PROJECT_1_ACTIONRESULT_H
 #define SDIZO_PROJECT_1_ACTIONRESULT_H
 
-
 class ActionResult {
 public:
     enum result {
@@ -19,7 +18,8 @@ public:
         GENERATE_RANDOM_DATA = 6,
         SAVE_RANDOM_DATA = 7,
         AUTOMATIC_TEST = 8,
-        MANUAL_TESTS = 9
+        MANUAL_TESTS = 9,
+        BUFFER_INFO = 11
     };
 
     enum automaticTestResult {
@@ -102,6 +102,5 @@ public:
 
     virtual ~ActionResult();
 };
-
 
 #endif //SDIZO_PROJECT_1_ACTIONRESULT_H

@@ -20,10 +20,10 @@
 class AppController {
 private:
     bool manualTests = false;
+    bool bufferSourceInfo = false;
     // Utils
     AutomaticTests *automaticTests;
     RandomNumberGenerator numberGenerator;
-    Timer timer;
     DataFileUtility fileUtility;
     std::list<int> dataBufferList;
 
@@ -46,6 +46,8 @@ public:
     void startAutomaticTests();
 
     void setManualTestsStart();
+
+    void showBufferInfo();
 
     void index();
 
@@ -144,6 +146,12 @@ public:
     ActionResult::bstResult removeAllBST();
 
     ActionResult::bstResult displaySizeBST();
+
+    ActionResult::bstResult balanceUsingDSWBST();
+
+    ActionResult::bstResult rotateRightBST();
+
+    ActionResult::bstResult rotateLeftBST();
 };
 
 #endif //SDIZO_PROJECT_1_APPCONTROLLER_H

@@ -3,6 +3,7 @@
 //
 
 #include "AutomaticTests.h"
+#include "limits"
 #include <utility>
 
 AutomaticTests::~AutomaticTests() {
@@ -23,7 +24,6 @@ void AutomaticTests::init() {
     if (dataList.empty()) {
         return;
     }
-
     menu();
 }
 
@@ -46,6 +46,12 @@ void AutomaticTests::generateRandomData() {
     std::cout << "Choice: ";
     int option;
     std::cin >> option;
+    while (std::cin.fail()) {
+        std::cin.clear();
+        std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+        std::cout << "Bad entry... Enter a NUMBER: ";
+        std::cin >> option;
+    }
 
     if (option == 1 || option == 2) {
         std::cout << "Set random buffer size: ";
@@ -96,6 +102,7 @@ void AutomaticTests::menu() {
                 status = ActionResult::MENU_TEST;
                 break;
             case ActionResult::BST_TREE_TEST:
+                deployBSTTests();
                 status = ActionResult::MENU_TEST;
                 break;
             case ActionResult::CHANGE_TEST_SERIES_NUMBER:
@@ -120,7 +127,6 @@ void AutomaticTests::deployArrayTests() {
         array->pushFront(value);
         timer.stopTimer();
         iterationResults.push_back(timer.getMicroSecondsElapsed());
-
 
         value = numberGenerator.generateRandomInteger();
         timer.startTimer();
@@ -290,6 +296,63 @@ void AutomaticTests::deployHeapTests() {
     // Saving results to .csv
     DataFileUtility::saveTimerResults2D(fileName, results, headLine);
     delete heap;
+    std::cout << "Done!" << std::endl;
+    system("PAUSE");
+}
+
+void AutomaticTests::deployBSTTests() {
+    results = {};
+    std::string fileName = "../Resources/bst_tests.csv";
+    std::string headLine = "push_node,pop_node,find_element,dsw_algo,rotate_right,rotate_left";
+    bst = new BinarySearchTree();
+    bst->loadFileData(dataList);
+
+    int middleNode1;
+    auto l_front = dataList.begin();
+    int middle = (int) dataList.size() / 2;
+    std::advance(l_front, middle);
+    middleNode1 = *l_front;
+
+    bst->automaticTests = true;
+    for (int i = 0; i < testNumber; ++i) {
+        std::list<double> iterationResults = {};
+
+        int value1 = numberGenerator.generateRandomInteger();
+        timer.startTimer();
+        bst->push(value1);
+        timer.stopTimer();
+        iterationResults.push_back(timer.getMicroSecondsElapsed());
+
+        timer.startTimer();
+        bst->pop(value1);
+        timer.stopTimer();
+        iterationResults.push_back(timer.getMicroSecondsElapsed());
+
+        timer.startTimer();
+        BinarySearchTree::BNode *nodeBst = bst->findByValue(middleNode1);
+        timer.stopTimer();
+        iterationResults.push_back(timer.getMicroSecondsElapsed());
+
+        timer.startTimer();
+        bst->balanceTreeDSW();
+        timer.stopTimer();
+        iterationResults.push_back(timer.getMicroSecondsElapsed());
+
+        timer.startTimer();
+        bst->rotateRight(nodeBst);
+        timer.stopTimer();
+        iterationResults.push_back(timer.getMicroSecondsElapsed());
+
+        timer.startTimer();
+        bst->rotateLeft(nodeBst);
+        timer.stopTimer();
+        iterationResults.push_back(timer.getMicroSecondsElapsed());
+
+        // Saving results to main list
+        results.push_back(iterationResults);
+    }
+    DataFileUtility::saveTimerResults2D(fileName, results, headLine);
+    delete bst;
     std::cout << "Done!" << std::endl;
     system("PAUSE");
 }

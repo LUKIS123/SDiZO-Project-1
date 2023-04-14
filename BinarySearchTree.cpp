@@ -4,7 +4,7 @@
 
 #include "BinarySearchTree.h"
 #include "iostream"
-#include "cmath"
+#include "bits/stdc++.h"
 
 #define COUNT 10
 
@@ -21,7 +21,7 @@ void BinarySearchTree::loadFileData(std::list<int> &dataList) {
     }
 }
 
-BinarySearchTree::BSTNode *BinarySearchTree::getRoot() {
+BinarySearchTree::BNode *BinarySearchTree::getRoot() {
     return root;
 }
 
@@ -40,24 +40,24 @@ void BinarySearchTree::display() {
     else {
         std::cout << root->key << "(";
         if (root->left != nullptr) {
-            printKeyRecursive(root->left);
+            printKeyUtil(root->left);
         } else std::cout << "*";
         std::cout << ",";
         if (root->right != nullptr) {
-            printKeyRecursive(root->right);
+            printKeyUtil(root->right);
         } else std::cout << "*";
         std::cout << ")";
     }
 }
 
-void BinarySearchTree::printKeyRecursive(BinarySearchTree::BSTNode *node) {
+void BinarySearchTree::printKeyUtil(BinarySearchTree::BNode *node) {
     std::cout << node->key << "(";
     if (node->left != nullptr) {
-        printKeyRecursive(node->left);
+        printKeyUtil(node->left);
     } else std::cout << "*";
     std::cout << (",");
     if (node->right != nullptr) {
-        printKeyRecursive(node->right);
+        printKeyUtil(node->right);
     } else std::cout << "*";
     std::cout << ")";
 }
@@ -66,7 +66,7 @@ void BinarySearchTree::display2D() {
     display2DUtil(root, 0);
 }
 
-void BinarySearchTree::display2DUtil(BSTNode *node, int space) {
+void BinarySearchTree::display2DUtil(BNode *node, int space) {
     if (node == nullptr) {
         return;
     }
@@ -85,12 +85,12 @@ void BinarySearchTree::display2DUtil(BSTNode *node, int space) {
 
 void BinarySearchTree::push(int data) {
     size++;
-    BSTNode *newNode = new BSTNode;
+    BNode *newNode = new BNode;
     newNode->left = nullptr;
     newNode->right = nullptr;
     newNode->key = data;
 
-    BSTNode *tmp = root;
+    BNode *tmp = root;
 
     if (tmp == nullptr) {
         root = newNode;
@@ -124,12 +124,12 @@ void BinarySearchTree::push(int data) {
 }
 
 int BinarySearchTree::pop(int data) {
-    BSTNode *foundToDelete = findByValue(data);
+    BNode *foundToDelete = findByValue(data);
     if (foundToDelete == nullptr) {
         return NULL;
     }
 
-    BSTNode *Y, *X;
+    BNode *Y, *X;
     // Jesli wezel jest lisciem lub ma tylko jednego potomka, Y wskazuje na wezel
     // W przeciwnym wypadku Y wskazuje na nastepnik wezla
     if (foundToDelete->left == nullptr || foundToDelete->right == nullptr) {
@@ -169,8 +169,8 @@ int BinarySearchTree::pop(int data) {
     return popped;
 }
 
-BinarySearchTree::BSTNode *BinarySearchTree::findByValue(int data) {
-    BSTNode *current = root;
+BinarySearchTree::BNode *BinarySearchTree::findByValue(int data) {
+    BNode *current = root;
     while (current != nullptr && current->key != data) {
         if (data < current->key) {
             current = current->left;
@@ -189,7 +189,7 @@ BinarySearchTree::BSTNode *BinarySearchTree::findByValue(int data) {
     return nullptr;
 }
 
-BinarySearchTree::BSTNode *BinarySearchTree::findSuccessor(BinarySearchTree::BSTNode *node) {
+BinarySearchTree::BNode *BinarySearchTree::findSuccessor(BinarySearchTree::BNode *node) {
     if (node == nullptr) {
         return node;
     }
@@ -200,7 +200,7 @@ BinarySearchTree::BSTNode *BinarySearchTree::findSuccessor(BinarySearchTree::BST
     }
 
     // Jezeli wezel nie posiada prawego potomka, nastepnikiem jest pierwszy rodzic, dla ktorego wezel lezy w lewym poddrzewie
-    BSTNode *upper;
+    BNode *upper;
     upper = node->parent;
 
     // Dopoki node jest prawym potomkiem wykonuj petle, jesli nim nie jest oznacza to ze doszlismy do szczytu lewego poddrzewa
@@ -212,36 +212,36 @@ BinarySearchTree::BSTNode *BinarySearchTree::findSuccessor(BinarySearchTree::BST
     return upper;
 }
 
-BinarySearchTree::BSTNode *BinarySearchTree::searchMin(BinarySearchTree::BSTNode *node) {
+BinarySearchTree::BNode *BinarySearchTree::searchMin(BinarySearchTree::BNode *node) {
     if (node == nullptr) {
         return nullptr;
     }
-    BSTNode *minNode = node;
+    BNode *minNode = node;
     while (minNode->left != nullptr) {
         minNode = minNode->left;
     }
     return minNode;
 }
 
-BinarySearchTree::BSTNode *BinarySearchTree::searchMax(BinarySearchTree::BSTNode *node) {
+BinarySearchTree::BNode *BinarySearchTree::searchMax(BinarySearchTree::BNode *node) {
     if (node == nullptr) {
         return nullptr;
     }
-    BSTNode *maxNode = node;
+    BNode *maxNode = node;
     while (maxNode->right != nullptr) {
         maxNode = maxNode->right;
     }
     return maxNode;
 }
 
-void BinarySearchTree::removeTreeDownFromNode(BSTNode *current) {
-    BSTNode *temp = current;
+void BinarySearchTree::removeTreeDownFromNode(BNode *current) {
+    BNode *temp = current;
 
-    BSTNode *left = current->left;
+    BNode *left = current->left;
     if (left != nullptr) {
         removeTreeDownFromNode(left);
     }
-    BSTNode *right = current->right;
+    BNode *right = current->right;
     if (right != nullptr) {
         removeTreeDownFromNode(right);
     }
@@ -259,76 +259,31 @@ void BinarySearchTree::removeAll() {
 }
 
 void BinarySearchTree::rotateRight(int data) {
-    BSTNode *nodeA = findByValue(data);
-    if (nodeA == nullptr) {
-        std::cout << "Node does not exist!" << std::endl;
-        return;
-    }
-    BSTNode *parentA = nodeA->parent;
-    BSTNode *pivot = nodeA->left;
-
-    if (pivot == nullptr) {
-        std::cout << "Node does not have a left child!" << std::endl;
-    }
-    nodeA->left = pivot->right;
-    if (nodeA->left != nullptr) {
-        nodeA->left->parent = nodeA;
-    }
-    pivot->right = nodeA;       // prawym synem pivota saje sie A
-    pivot->parent = parentA;    // ojcem pivota staje sie ojciec A
-    nodeA->parent = pivot;      // ojcem A staje sie pivot
-    if (parentA == nullptr) {
-        root = pivot;           // jesli A byl poprzednio korzeniem
-        return;
-    }
-    if (parentA->left == nodeA) {   // w przeciwnym wypadku, nalezy uaktualnic ojca A
-        parentA->left = pivot;
-    } else {
-        parentA->right = pivot;
-    }
+    BNode *nodeA = findByValue(data);
+    rotateRight(nodeA);
 }
 
 void BinarySearchTree::rotateLeft(int data) {
-    BSTNode *nodeA = findByValue(data);
-    if (nodeA == nullptr) {
-        std::cout << "Node does not exist!" << std::endl;
-        return;
-    }
-    BSTNode *parentA = nodeA->parent;
-    BSTNode *pivot = nodeA->right;
-
-    if (pivot == nullptr) {
-        std::cout << "Node does not have a right child!" << std::endl;
-    }
-    nodeA->right = pivot->left;
-    if (nodeA->right != nullptr) {
-        nodeA->right->parent = nodeA;
-    }
-    pivot->left = nodeA;
-    pivot->parent = parentA;
-    nodeA->parent = pivot;
-    if (parentA == nullptr) {
-        root = pivot;
-        return;
-    }
-    if (parentA->left == nodeA) {
-        parentA->left = pivot;
-    } else {
-        parentA->right = pivot;
-    }
+    BNode *nodeA = findByValue(data);
+    rotateLeft(nodeA);
 }
 
-void BinarySearchTree::rotateRight(BinarySearchTree::BSTNode *node) {
-    BSTNode *nodeA = node;
+void BinarySearchTree::rotateRight(BinarySearchTree::BNode *node) {
+    BNode *nodeA = node;
     if (nodeA == nullptr) {
-        std::cout << "Node does not exist!" << std::endl;
+        if (!automaticTests) {
+            std::cout << "Node does not exist!" << std::endl;
+        }
         return;
     }
-    BSTNode *parentA = nodeA->parent;
-    BSTNode *pivot = nodeA->left;
+    BNode *parentA = nodeA->parent;
+    BNode *pivot = nodeA->left;
 
     if (pivot == nullptr) {
-        std::cout << "Node does not have a left child!" << std::endl;
+        if (!automaticTests) {
+            std::cout << "Node does not have a left child!" << std::endl;
+        }
+        return;
     }
     nodeA->left = pivot->right;
     if (nodeA->left != nullptr) {
@@ -348,17 +303,22 @@ void BinarySearchTree::rotateRight(BinarySearchTree::BSTNode *node) {
     }
 }
 
-void BinarySearchTree::rotateLeft(BinarySearchTree::BSTNode *node) {
-    BSTNode *nodeA = node;
+void BinarySearchTree::rotateLeft(BinarySearchTree::BNode *node) {
+    BNode *nodeA = node;
     if (nodeA == nullptr) {
-        std::cout << "Node does not exist!" << std::endl;
+        if (!automaticTests) {
+            std::cout << "Node does not exist!" << std::endl;
+        }
         return;
     }
-    BSTNode *parentA = nodeA->parent;
-    BSTNode *pivot = nodeA->right;
+    BNode *parentA = nodeA->parent;
+    BNode *pivot = nodeA->right;
 
     if (pivot == nullptr) {
-        std::cout << "Node does not have a right child!" << std::endl;
+        if (!automaticTests) {
+            std::cout << "Node does not have a right child!" << std::endl;
+        }
+        return;
     }
     nodeA->right = pivot->left;
     if (nodeA->right != nullptr) {
@@ -379,11 +339,15 @@ void BinarySearchTree::rotateLeft(BinarySearchTree::BSTNode *node) {
 }
 
 void BinarySearchTree::balanceTreeDSW() {
-
+    // Pierwszy etap DSW
+    createLinearTree();
+    // Drugi etap DSW
+    createBalancedTRee();
 }
 
 void BinarySearchTree::createLinearTree() {
-    BSTNode *tmp = root;
+    BNode *tmp = root;
+    // prostowanie drzewa rotacjami w lewo
     while (tmp != nullptr) {
         if (tmp->left != nullptr) {
             rotateRight(tmp);
@@ -395,10 +359,23 @@ void BinarySearchTree::createLinearTree() {
 }
 
 void BinarySearchTree::createBalancedTRee() {
-    unsigned int m = pow(2, floor(log2(size + 1)) - 1);
-    BSTNode *tmp = root;
+    auto m = (unsigned) pow(2, floor(log2(size + 1))) - 1;
+    BNode *tmp = root;
+    // wykonanie n (liczba elementow) - m rotacji w lewo od korzenia co drugi wierzcholek
     for (int i = 0; i < size - m; i++) {
         rotateLeft(tmp);
         tmp = tmp->parent->right;
+    }
+    // w dalszej czesci wykonanie m rotacji w lewo, startujac od korzenia co drugi wierzcholek
+    while (m > 1) {
+        tmp = root;
+        m = (unsigned) floor(m / 2);
+        // wykonaj m rotacji w lewo startujac od korzenia co drugi wierzcholek
+        for (int i = 0; i < m; i++) {
+            rotateLeft(tmp);
+            if (tmp != nullptr) {
+                tmp = tmp->parent->right;
+            }
+        }
     }
 }

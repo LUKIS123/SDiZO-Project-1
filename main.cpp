@@ -211,10 +211,20 @@ void testBST() {
     std::cout << "==============================" << std::endl;
     bst.display();
     std::cout << "\n==============================" << std::endl;
-    std::cout << "\n==============================" << std::endl;
+    std::cout << "==============================" << std::endl;
     bst.pop(6);
     std::cout << bst.findByValue(32)->key << std::endl;
     bst.display();
+    std::cout << "\n==============================" << std::endl;
+    std::cout << "==============================" << std::endl;
+    bst.rotateRight(10);
+    bst.displayBothVariants();
+    std::cout << "\n==============================" << std::endl;
+    bst.rotateLeft(19);
+    bst.displayBothVariants();
+    std::cout << "\n==============================" << std::endl;
+    bst.balanceTreeDSW();
+    bst.displayBothVariants();
 }
 
 int main() {
@@ -271,7 +281,7 @@ int main() {
     AppController controller = AppController();
     controller.index();
 
-    // TODO: zabezpiczyc program, ConsoleView todac try/catch
+    // TODO: zabezpiczyc program w kontrolerze przed wpisaniem zlych wartosci np ujemny indeks tab
     //  dodac zabezpieczenie w funckjach struktur np ujemny indeks zeby nie przeszedl
 
     return 0;

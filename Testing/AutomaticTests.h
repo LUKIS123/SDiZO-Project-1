@@ -14,6 +14,7 @@
 #include "../DynamicArray.h"
 #include "../ListBidirectional.h"
 #include "../BinaryHeap.h"
+#include "../BinarySearchTree.h"
 
 class AutomaticTests {
 private:
@@ -21,6 +22,7 @@ private:
     DynamicArray *array = nullptr;
     ListBidirectional *list = nullptr;
     BinaryHeap *heap = nullptr;
+    BinarySearchTree *bst = nullptr;
 public:
     RandomNumberGenerator numberGenerator;
     DataFileUtility fileUtility;
@@ -49,6 +51,8 @@ public:
     void deployListTests();
 
     void deployHeapTests();
+
+    void deployBSTTests();
 };
 
 

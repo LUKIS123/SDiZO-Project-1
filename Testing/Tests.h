@@ -22,9 +22,13 @@ protected:
     std::list<double> popEnd;
     std::list<double> popIndex;
     std::list<double> heapifyFloyd;
-    std::list<double> pushHeap;
+    std::list<double> pushHeapOrBST;
     std::list<double> popRootHeap;
-    std::list<double> popKeyHeap;
+    std::list<double> popKeyHeapOrBST;
+    std::list<double> findNodeBST;
+    std::list<double> DSWAlgoBST;
+    std::list<double> rotateRightBST;
+    std::list<double> rotateLeftBST;
 
     unsigned pushFrontNum = 0;
     unsigned pushEndNum = 0;
@@ -35,13 +39,18 @@ protected:
     unsigned popEndNum = 0;
     unsigned popIndexNum = 0;
     unsigned heapifyFloydNum = 0;
-    unsigned pushHeapNum = 0;
+    unsigned pushHeapOrBSTNum = 0;
     unsigned popRootHeapNum = 0;
-    unsigned popKeyHeapNum = 0;
+    unsigned popKeyHeapOrBSTNum = 0;
+    unsigned findNodeBSTNum = 0;
+    unsigned DSWAlgoBSTNum = 0;
+    unsigned rotateRightBSTNum = 0;
+    unsigned rotateLeftBSTNum = 0;
 public:
     int testCount = 100;
     int size = 0;
     bool tests = false;
+    bool automaticTests = false;
 
     Tests();
 
@@ -65,11 +74,19 @@ public:
 
     void addHeapifyFloyd(double result);
 
-    void addPushHeap(double result);
+    void addPushNode(double result);
 
     void addPopRootHeap(double result);
 
-    void addPopKeyHeap(double result);
+    void addPopNodeWithKey(double result);
+
+    void addFindNodeBST(double result);
+
+    void addDSWAlgoBST(double result);
+
+    void addRotateRightBST(double result);
+
+    void addRotateLeftBST(double result);
 
     void setHeadline(std::string headLine);
 

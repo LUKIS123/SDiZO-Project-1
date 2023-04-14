@@ -9,9 +9,9 @@ void Tests::setHeadline(std::string newHeadLine) {
     Tests::headLine = std::move(newHeadLine);
 }
 
-void Tests::addPopKeyHeap(double result) {
-    popKeyHeap.push_back(result);
-    popKeyHeapNum++;
+void Tests::addPopNodeWithKey(double result) {
+    popKeyHeapOrBST.push_back(result);
+    popKeyHeapOrBSTNum++;
 }
 
 void Tests::addPopRootHeap(double result) {
@@ -19,9 +19,9 @@ void Tests::addPopRootHeap(double result) {
     popRootHeapNum++;
 }
 
-void Tests::addPushHeap(double result) {
-    pushHeap.push_back(result);
-    pushHeapNum++;
+void Tests::addPushNode(double result) {
+    pushHeapOrBST.push_back(result);
+    pushHeapOrBSTNum++;
 }
 
 void Tests::addHeapifyFloyd(double result) {
@@ -69,6 +69,26 @@ void Tests::addPushFront(double result) {
     pushFrontNum++;
 }
 
+void Tests::addRotateLeftBST(double result) {
+    rotateLeftBST.push_back(result);
+    rotateLeftBSTNum++;
+}
+
+void Tests::addRotateRightBST(double result) {
+    rotateRightBST.push_back(result);
+    rotateRightBSTNum++;
+}
+
+void Tests::addDSWAlgoBST(double result) {
+    DSWAlgoBST.push_back(result);
+    DSWAlgoBSTNum++;
+}
+
+void Tests::addFindNodeBST(double result) {
+    findNodeBST.push_back(result);
+    findNodeBSTNum++;
+}
+
 void Tests::saveResults(const std::string &fileName) {
     DataFileUtility::saveResultsHeadline(fileName, headLine);
     auto pushFFront = pushFront.begin();
@@ -80,9 +100,13 @@ void Tests::saveResults(const std::string &fileName) {
     auto popEFront = popEnd.begin();
     auto popIFront = popIndex.begin();
     auto heapFFront = heapifyFloyd.begin();
-    auto pushHFront = pushHeap.begin();
+    auto pushHFront = pushHeapOrBST.begin();
     auto popRFront = popRootHeap.begin();
-    auto popKFront = popKeyHeap.begin();
+    auto popKFront = popKeyHeapOrBST.begin();
+    auto findBSTFront = findNodeBST.begin();
+    auto dswAlgoFront = DSWAlgoBST.begin();
+    auto rotRightFront = rotateRightBST.begin();
+    auto rotLeftFront = rotateLeftBST.begin();
     for (int i = 0; i < testCount; i++) {
         std::list<double> resultList = {};
 
@@ -176,10 +200,10 @@ void Tests::saveResults(const std::string &fileName) {
             resultList.push_back(-1);
         }
 
-        if (pushHeapNum != 0) {
+        if (pushHeapOrBSTNum != 0) {
             resultList.push_back(*pushHFront);
-            pushHeapNum--;
-            if (pushHeapNum != 0) {
+            pushHeapOrBSTNum--;
+            if (pushHeapOrBSTNum != 0) {
                 advance(pushHFront, 1);
             }
         } else {
@@ -196,16 +220,55 @@ void Tests::saveResults(const std::string &fileName) {
             resultList.push_back(-1);
         }
 
-        if (popKeyHeapNum != 0) {
+        if (popKeyHeapOrBSTNum != 0) {
             resultList.push_back(*popKFront);
-            popKeyHeapNum--;
-            if (popKeyHeapNum != 0) {
+            popKeyHeapOrBSTNum--;
+            if (popKeyHeapOrBSTNum != 0) {
                 advance(popKFront, 1);
             }
         } else {
             resultList.push_back(-1);
         }
 
+        if (findNodeBSTNum != 0) {
+            resultList.push_back(*findBSTFront);
+            findNodeBSTNum--;
+            if (findNodeBSTNum != 0) {
+                advance(findBSTFront, 1);
+            }
+        } else {
+            resultList.push_back(-1);
+        }
+
+        if (DSWAlgoBSTNum != 0) {
+            resultList.push_back(*dswAlgoFront);
+            DSWAlgoBSTNum--;
+            if (DSWAlgoBSTNum != 0) {
+                advance(dswAlgoFront, 1);
+            }
+        } else {
+            resultList.push_back(-1);
+        }
+
+        if (rotateRightBSTNum != 0) {
+            resultList.push_back(*rotRightFront);
+            rotateRightBSTNum--;
+            if (rotateRightBSTNum != 0) {
+                advance(rotRightFront, 1);
+            }
+        } else {
+            resultList.push_back(-1);
+        }
+
+        if (rotateLeftBSTNum != 0) {
+            resultList.push_back(*rotLeftFront);
+            rotateLeftBSTNum--;
+            if (rotateLeftBSTNum != 0) {
+                advance(rotLeftFront, 1);
+            }
+        } else {
+            resultList.push_back(-1);
+        }
         // Saving data...
         DataFileUtility::saveTimerResults(fileName, resultList);
     }
@@ -222,9 +285,9 @@ void Tests::endTests() {
     popEnd.clear();
     popIndex.clear();
     heapifyFloyd.clear();
-    pushHeap.clear();
+    pushHeapOrBST.clear();
     popRootHeap.clear();
-    popKeyHeap.clear();
+    popKeyHeapOrBST.clear();
 }
 
 Tests::Tests() = default;
