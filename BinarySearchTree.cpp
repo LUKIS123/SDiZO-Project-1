@@ -4,6 +4,7 @@
 
 #include "BinarySearchTree.h"
 #include "iostream"
+#include "cmath"
 
 #define COUNT 10
 
@@ -255,4 +256,149 @@ void BinarySearchTree::removeAll() {
     }
     removeTreeDownFromNode(root);
     root = nullptr;
+}
+
+void BinarySearchTree::rotateRight(int data) {
+    BSTNode *nodeA = findByValue(data);
+    if (nodeA == nullptr) {
+        std::cout << "Node does not exist!" << std::endl;
+        return;
+    }
+    BSTNode *parentA = nodeA->parent;
+    BSTNode *pivot = nodeA->left;
+
+    if (pivot == nullptr) {
+        std::cout << "Node does not have a left child!" << std::endl;
+    }
+    nodeA->left = pivot->right;
+    if (nodeA->left != nullptr) {
+        nodeA->left->parent = nodeA;
+    }
+    pivot->right = nodeA;       // prawym synem pivota saje sie A
+    pivot->parent = parentA;    // ojcem pivota staje sie ojciec A
+    nodeA->parent = pivot;      // ojcem A staje sie pivot
+    if (parentA == nullptr) {
+        root = pivot;           // jesli A byl poprzednio korzeniem
+        return;
+    }
+    if (parentA->left == nodeA) {   // w przeciwnym wypadku, nalezy uaktualnic ojca A
+        parentA->left = pivot;
+    } else {
+        parentA->right = pivot;
+    }
+}
+
+void BinarySearchTree::rotateLeft(int data) {
+    BSTNode *nodeA = findByValue(data);
+    if (nodeA == nullptr) {
+        std::cout << "Node does not exist!" << std::endl;
+        return;
+    }
+    BSTNode *parentA = nodeA->parent;
+    BSTNode *pivot = nodeA->right;
+
+    if (pivot == nullptr) {
+        std::cout << "Node does not have a right child!" << std::endl;
+    }
+    nodeA->right = pivot->left;
+    if (nodeA->right != nullptr) {
+        nodeA->right->parent = nodeA;
+    }
+    pivot->left = nodeA;
+    pivot->parent = parentA;
+    nodeA->parent = pivot;
+    if (parentA == nullptr) {
+        root = pivot;
+        return;
+    }
+    if (parentA->left == nodeA) {
+        parentA->left = pivot;
+    } else {
+        parentA->right = pivot;
+    }
+}
+
+void BinarySearchTree::rotateRight(BinarySearchTree::BSTNode *node) {
+    BSTNode *nodeA = node;
+    if (nodeA == nullptr) {
+        std::cout << "Node does not exist!" << std::endl;
+        return;
+    }
+    BSTNode *parentA = nodeA->parent;
+    BSTNode *pivot = nodeA->left;
+
+    if (pivot == nullptr) {
+        std::cout << "Node does not have a left child!" << std::endl;
+    }
+    nodeA->left = pivot->right;
+    if (nodeA->left != nullptr) {
+        nodeA->left->parent = nodeA;
+    }
+    pivot->right = nodeA;       // prawym synem pivota saje sie A
+    pivot->parent = parentA;    // ojcem pivota staje sie ojciec A
+    nodeA->parent = pivot;      // ojcem A staje sie pivot
+    if (parentA == nullptr) {
+        root = pivot;           // jesli A byl poprzednio korzeniem
+        return;
+    }
+    if (parentA->left == nodeA) {   // w przeciwnym wypadku, nalezy uaktualnic ojca A
+        parentA->left = pivot;
+    } else {
+        parentA->right = pivot;
+    }
+}
+
+void BinarySearchTree::rotateLeft(BinarySearchTree::BSTNode *node) {
+    BSTNode *nodeA = node;
+    if (nodeA == nullptr) {
+        std::cout << "Node does not exist!" << std::endl;
+        return;
+    }
+    BSTNode *parentA = nodeA->parent;
+    BSTNode *pivot = nodeA->right;
+
+    if (pivot == nullptr) {
+        std::cout << "Node does not have a right child!" << std::endl;
+    }
+    nodeA->right = pivot->left;
+    if (nodeA->right != nullptr) {
+        nodeA->right->parent = nodeA;
+    }
+    pivot->left = nodeA;
+    pivot->parent = parentA;
+    nodeA->parent = pivot;
+    if (parentA == nullptr) {
+        root = pivot;
+        return;
+    }
+    if (parentA->left == nodeA) {
+        parentA->left = pivot;
+    } else {
+        parentA->right = pivot;
+    }
+}
+
+void BinarySearchTree::balanceTreeDSW() {
+
+}
+
+void BinarySearchTree::createLinearTree() {
+    BSTNode *tmp = root;
+    while (tmp != nullptr) {
+        if (tmp->left != nullptr) {
+            rotateRight(tmp);
+            tmp = tmp->parent;
+        } else {
+            tmp = tmp->right;
+        }
+    }
+}
+
+void BinarySearchTree::createBalancedTRee() {
+    unsigned int m = pow(2, floor(log2(size + 1)) - 1);
+    BSTNode *tmp = root;
+    for (int i = 0; i < size - m; i++) {
+        rotateLeft(tmp);
+        tmp = tmp->parent->right;
+    }
 }

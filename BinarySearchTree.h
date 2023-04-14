@@ -42,6 +42,20 @@ public:
 
     void removeAll();
 
+    void rotateRight(int data);
+
+    void rotateRight(BSTNode *node);
+
+    void rotateLeft(int data);
+
+    void rotateLeft(BSTNode *node);
+
+    void balanceTreeDSW();
+
+    void createLinearTree();
+
+    void createBalancedTRee();
+
 private:
     unsigned size = 0;
     BSTNode *root = nullptr;
