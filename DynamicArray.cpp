@@ -12,7 +12,8 @@ DynamicArray::DynamicArray(std::list<int> intList) {
     if (intList.size() == 0) {
         return;
     }
-    pointer = new int[intList.size()];
+    allocatedSize = intList.size() + intList.size() / 8;
+    pointer = new int[allocatedSize];
     auto l_front = intList.begin();
     for (int i = 0; i < intList.size(); i++) {
         pointer[i] = *l_front;
@@ -39,65 +40,84 @@ void DynamicArray::display() {
 
 void DynamicArray::pushFront(int data) {
     size++;
-    int *newPointer = new int[size];
+    allocatedSize = size + size / 8;
+    int *newPointer = new int[allocatedSize];
+    newPointer[0] = data;
     if (size > 1) {
         for (int i = 0; i < (size - 1); i++) {
             newPointer[i + 1] = pointer[i];
         }
     }
-    newPointer[0] = data;
     delete pointer;
     pointer = newPointer;
 }
 
 void DynamicArray::pushEnd(int data) {
     size++;
-    int *newPointer = new int[size];
+    if (size >= allocatedSize) {
+        allocatedSize = size + size / 8;
+        int *newPointer = new int[allocatedSize];
 
-    if (size == 1) {
-        newPointer[0] = data;
-        delete pointer;
-        pointer = newPointer;
-        return;
-    }
+        if (size == 1) {
+            newPointer[0] = data;
+            delete pointer;
+            pointer = newPointer;
+            return;
+        }
 
-    int counter = 0;
-    if (size > 1) {
+        int counter = 0;
         for (; counter < size - 1; counter++) {
             newPointer[counter] = pointer[counter];
         }
+        newPointer[counter] = data;
+        delete pointer;
+        pointer = newPointer;
+    } else {
+        pointer[size - 1] = data;
     }
-
-    newPointer[counter] = data;
-    delete pointer;
-    pointer = newPointer;
 }
 
 void DynamicArray::pushOnIndex(int index, int data) {
-    size++;
-    int *newPointer = new int[size];
-
-    if (size == 1) {
-        newPointer[0] = data;
-        delete pointer;
-        pointer = newPointer;
-        return;
-    }
     if (index >= size) {
         pushEnd(data);
     }
+    if (index < 0) {
+        std::cout << "Invalid index!" << std::endl;
+        return;
+    }
 
-    int counter = 0;
-    for (int i = 0; i < size; i++) {
-        if (counter == index) {
-            newPointer[counter] = data;
+    size++;
+    if (size >= allocatedSize) {
+        allocatedSize = size + size / 8;
+        int *newPointer = new int[allocatedSize];
+
+        if (size == 1) {
+            newPointer[0] = data;
+            delete pointer;
+            pointer = newPointer;
+            return;
+        }
+
+        int counter = 0;
+        for (int i = 0; i < size; i++) {
+            if (counter == index) {
+                newPointer[counter] = data;
+                counter++;
+            }
+            newPointer[counter] = pointer[i];
             counter++;
         }
-        newPointer[counter] = pointer[i];
-        counter++;
+        delete pointer;
+        pointer = newPointer;
+    } else {
+        int tmp = pointer[index];
+        pointer[index] = data;
+        for (int i = index + 1; i < size; i++) {
+            int tmp2 = pointer[i];
+            pointer[i] = tmp;
+            tmp = tmp2;
+        }
     }
-    delete pointer;
-    pointer = newPointer;
 }
 
 int DynamicArray::popFront() {
@@ -114,8 +134,9 @@ int DynamicArray::popFront() {
         return popped;
     }
 
-    int *newPointer = new int[size];
-    for (int i = 0; i <= size; i++) {
+    allocatedSize = size + size / 8;
+    int *newPointer = new int[allocatedSize];
+    for (int i = 0; i < size; i++) {
         newPointer[i] = pointer[i + 1];
     }
     int popped = pointer[0];
@@ -138,13 +159,8 @@ int DynamicArray::popEnd() {
         return popped;
     }
 
-    int *newPointer = new int[size];
-    for (int i = 0; i < size; i++) {
-        newPointer[i] = pointer[i];
-    }
     int popped = pointer[size];
-    delete pointer;
-    pointer = newPointer;
+    reallocateSizeDown();
     return popped;
 }
 
@@ -152,6 +168,13 @@ int DynamicArray::popOnIndex(int index) {
     if (size == 0) {
         std::cout << "Array is empty!" << std::endl;
         return NULL;
+    }
+    if (index < 0) {
+        std::cout << "Invalid index!" << std::endl;
+        return NULL;
+    }
+    if (index >= size - 1) {
+        return popEnd();
     }
 
     size--;
@@ -162,22 +185,13 @@ int DynamicArray::popOnIndex(int index) {
         return popped;
     }
 
-    if (index >= size) {
-        return popEnd();
-    }
-    int *newPointer = new int[size];
-    int counter = 0;
     int popped;
-    for (int i = 0; i < size + 1; i++) {
-        if (i == index) {
-            popped = pointer[i];
-            continue;
-        }
-        newPointer[counter] = pointer[i];
-        counter++;
+    popped = pointer[index];
+    for (int i = index; i < size; i++) {
+        pointer[index] = pointer[index + 1];
     }
-    delete pointer;
-    pointer = newPointer;
+
+    reallocateSizeDown();
     return popped;
 }
 
@@ -185,6 +199,7 @@ void DynamicArray::removeAll() {
     delete pointer;
     pointer = nullptr;
     size = 0;
+    allocatedSize = 0;
 }
 
 unsigned int DynamicArray::getSize() const {
@@ -200,11 +215,12 @@ void DynamicArray::setOnIndex(int index, int data) {
         pushEnd(data);
         return;
     }
-    for (int i = 0; i < size; i++) {
-        if (i == index) {
-            pointer[i] = data;
-        }
+    if (index < 0) {
+        std::cout << "Invalid index!" << std::endl;
+        return;
     }
+
+    pointer[index] = data;
 }
 
 int *DynamicArray::getByIndex(int index) {
@@ -212,9 +228,12 @@ int *DynamicArray::getByIndex(int index) {
         std::cout << "Array is empty!" << std::endl;
         return nullptr;
     }
-
     if (index >= size) {
         return &pointer[size - 1];
+    }
+    if (index < 0) {
+        std::cout << "Invalid index!" << std::endl;
+        return nullptr;
     }
     return &pointer[index];
 }
@@ -229,21 +248,35 @@ int *DynamicArray::getByValue(int data) {
     for (int i = 0; i < size; i++) {
         if (data == pointer[i]) {
             current = &pointer[i];
+            break;
         }
     }
     return current;
 }
 
-unsigned DynamicArray::getIndexOf(int data) {
+int DynamicArray::getIndexOf(int data) {
     if (size == 0) {
         std::cout << "Array is empty!" << std::endl;
         return 0;
     }
-    unsigned currentIndex = 0;
+    int currentIndex = -1;
     for (int i = 0; i < size; i++) {
         if (data == pointer[i]) {
             currentIndex = i;
+            break;
         }
     }
     return currentIndex;
+}
+
+void DynamicArray::reallocateSizeDown() {
+    if (allocatedSize >= size + size / 5) {
+        allocatedSize = size + size / 8;
+        int *newPointer = new int[allocatedSize];
+        for (int i = 0; i < size; i++) {
+            newPointer[i] = pointer[i];
+        }
+        delete pointer;
+        pointer = newPointer;
+    }
 }

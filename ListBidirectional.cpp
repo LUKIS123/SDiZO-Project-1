@@ -74,8 +74,12 @@ void ListBidirectional::pushEnd(int data) {
 
 void ListBidirectional::pushOnIndex(int index, int data) {
     size++;
-    if (index == 0) {
+    if (index <= 0) {
         pushFront(data);
+        return;
+    }
+    if (index >= size) {
+        pushEnd(data);
         return;
     }
 
@@ -114,7 +118,10 @@ void ListBidirectional::pushOnIndex(int index, int data) {
 }
 
 int ListBidirectional::popFront() {
-    if (head == nullptr) return NULL;
+    if (head == nullptr) {
+        std::cout << "List is empty! ";
+        return NULL;
+    }
 
     size--;
     int value = head->data;
@@ -135,7 +142,10 @@ int ListBidirectional::popFront() {
 }
 
 int ListBidirectional::popEnd() {
-    if (head == nullptr) return NULL;
+    if (head == nullptr) {
+        std::cout << "List is empty! ";
+        return NULL;
+    }
 
     size--;
     int value = tail->data;
@@ -157,11 +167,17 @@ int ListBidirectional::popEnd() {
 }
 
 int ListBidirectional::popOnIndex(int index) {
-    if (index == 0) {
+    if (size == 0) {
+        std::cout << "List is empty! ";
+        return -1;
+    }
+    if (index <= 0) {
         return popFront();
     }
-    // TODO: lista - do sprawdzenia
-    // TO SAMO addOnIndex
+    if (index >= size) {
+        return popEnd();
+    }
+
     NodeBidirectional *current;
     if (index > (size / 2)) {
         current = tail;
@@ -236,6 +252,17 @@ void ListBidirectional::removeAll() {
 }
 
 ListBidirectional::NodeBidirectional *ListBidirectional::getByIndex(int index) {
+    if (size == 0) {
+        std::cout << "List is empty! ";
+        return nullptr;
+    }
+    if (index <= 0) {
+        return head;
+    }
+    if (index >= size - 1) {
+        return tail;
+    }
+
     NodeBidirectional *current = head;
     for (int i = 0; i < index; i++) {
         current = current->next;
@@ -257,8 +284,8 @@ ListBidirectional::NodeBidirectional *ListBidirectional::getByValue(int data) {
     return nullptr;
 }
 
-unsigned ListBidirectional::getIndexOf(int data) {
-    unsigned index = 0;
+int ListBidirectional::getIndexOf(int data) {
+    int index = 0;
     NodeBidirectional *current = head;
     while (current != nullptr) {
         if (current->data == data) {
@@ -266,6 +293,9 @@ unsigned ListBidirectional::getIndexOf(int data) {
         }
         current = current->next;
         index++;
+    }
+    if (current == nullptr) {
+        return -1;
     }
     return index;
 }

@@ -18,6 +18,8 @@ private:
 
     void fixFromBottom(int index);
 
+    void heapify(int index);
+
 public:
     explicit BinaryHeap(unsigned size);
 
@@ -42,9 +44,7 @@ public:
     int findIndexOf(int data);
 
     int findByIndex(int index);
-
-    void heapify(int index);
-
+    
     void pop(int data);
 
     void heapifyMoveDownFloyd(int first, int last);

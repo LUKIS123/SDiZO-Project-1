@@ -229,6 +229,7 @@ void testBST() {
 
 int main() {
     std::cout << "Hello, World!" << std::endl;
+// TODO: do poprawy -> bufor pamieci w Array oraz poprawa popOnIndex
 
 //    testList();
 //    testArray();
@@ -239,7 +240,7 @@ int main() {
 
 //    testBST();
 //
-//    system("pause");
+    system("pause");
 
 //======================================================================================================================
 //        TEST t = *new TEST;

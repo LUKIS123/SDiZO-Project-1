@@ -41,7 +41,7 @@ public:
 
     NodeBidirectional *getByValue(int data);
 
-    unsigned getIndexOf(int data);
+    int getIndexOf(int data);
 
     void removeAll();
 

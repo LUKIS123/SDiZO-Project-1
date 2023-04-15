@@ -351,6 +351,7 @@ void AutomaticTests::deployBSTTests() {
         // Saving results to main list
         results.push_back(iterationResults);
     }
+
     DataFileUtility::saveTimerResults2D(fileName, results, headLine);
     delete bst;
     std::cout << "Done!" << std::endl;

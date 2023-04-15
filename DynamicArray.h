@@ -12,6 +12,7 @@
 class DynamicArray : public Tests {
     int *pointer = nullptr;
     unsigned size = 0;
+    unsigned allocatedSize = 0;
 
 public:
     DynamicArray();
@@ -38,13 +39,16 @@ public:
 
     int *getByValue(int data);
 
-    unsigned getIndexOf(int data);
+    int getIndexOf(int data);
 
     void removeAll();
 
     unsigned int getSize() const;
 
     void setOnIndex(int index, int data);
+
+private:
+    void reallocateSizeDown();
 };
 
 #endif //SDIZO_PROJECT_1_DYNAMICARRAY_H

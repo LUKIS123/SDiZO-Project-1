@@ -124,6 +124,7 @@ void BinarySearchTree::push(int data) {
 }
 
 int BinarySearchTree::pop(int data) {
+    size--;
     BNode *foundToDelete = findByValue(data);
     if (foundToDelete == nullptr) {
         return NULL;
