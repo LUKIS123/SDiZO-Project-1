@@ -242,7 +242,7 @@ void BinaryHeap::pop(int data) {
     }
     sizeInUse--;
     heapArray[index] = heapArray[sizeInUse];
-    heapify(index);
+    heapify(0);
 }
 
 void BinaryHeap::heapifyMoveDownFloyd(int first, int last) {

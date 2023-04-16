@@ -231,6 +231,9 @@ int main() {
     std::cout << "Hello, World!" << std::endl;
 // TODO: do poprawy -> bufor pamieci w Array oraz poprawa popOnIndex
 
+// TODO: UWAGAAAAAAAAA! Ponownie przetestowac kopiec, wyszukiwanie po wartosci zle bo byl zbyt maly zakres...
+
+
 //    testList();
 //    testArray();
 
@@ -240,44 +243,8 @@ int main() {
 
 //    testBST();
 //
-    system("pause");
+//    system("pause");
 
-//======================================================================================================================
-//        TEST t = *new TEST;
-//        t.prnt();
-
-//    RandomNumberGenerator generator = *new RandomNumberGenerator();
-//    auto list_test1 = generator.generateWithSeed(123, 1000000);
-//    auto ltest1_front = list_test1->begin();
-//    std::advance(ltest1_front, 4);
-//    std::cout << *ltest1_front << '\n';
-//    std::cout << list_test1->size();
-
-//    DataFileUtility r = *new DataFileUtility;
-//    std::string s = "../Resources/test.txt";
-//    std::cout << "\n==========>>>\n" << std::endl;
-//    std::list<int> *l = r.readData(s);
-//    std::list<int> list_test = *l;
-//
-//    auto l_front = list_test.begin();
-//    for (int i = 0; i < list_test.size(); i++) {
-//        std::cout << *l_front << std::endl;
-//        std::advance(l_front, 1);
-//    }
-//
-//    std::string s2 = "../Resources/out.txt";
-//    std::string testS1 = "out.txt";
-//    std::string testS2 = "../Resources/";
-//    std::string testS3 = testS2 + testS1;
-//    r.saveData(list_test, testS3);
-//======================================================================================================================
-
-//    long long int time_start_test = Timer::read_QPC();
-//    Sleep(1);
-//    long long int time_end_test = Timer::read_QPC();
-//    Timer::getSeconds(time_start_test, time_end_test);
-//    Timer::getMilliSeconds(time_start_test, time_end_test);
-//    Timer::getMicroSecondsAndPrint(time_start_test, time_end_test);
 
     AppController controller = AppController();
     controller.index();
