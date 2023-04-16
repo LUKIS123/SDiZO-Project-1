@@ -14,10 +14,6 @@ private:
     int sizeInUse = 0;
     int *heapArray = nullptr;
 
-    void fixFromTop(int index);
-
-    void fixFromBottom(int index);
-
     void heapify(int index);
 
 public:
@@ -28,10 +24,6 @@ public:
     virtual ~BinaryHeap();
 
     void display();
-
-    void pushElement(int data);
-
-    void popElement(int data);
 
     void push(int data);
 

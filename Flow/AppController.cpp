@@ -3,6 +3,7 @@
 //
 
 #include "iostream"
+#include "limits"
 #include "AppController.h"
 #include "ActionResult.h"
 #include "ConsoleView.h"
@@ -99,10 +100,23 @@ void AppController::generateRandomData() {
     int option;
     std::cin >> option;
 
+    while (std::cin.fail()) {
+        std::cin.clear();
+        std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+        std::cout << "Bad entry... Enter a NUMBER: ";
+        std::cin >> option;
+    }
+
     int howMuch;
     if (option == 1 || option == 2) {
         std::cout << "Set random buffer size: ";
         std::cin >> howMuch;
+        while (std::cin.fail()) {
+            std::cin.clear();
+            std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+            std::cout << "Bad entry... Enter a NUMBER: ";
+            std::cin >> howMuch;
+        }
     } else {
         return;
     }
@@ -111,6 +125,12 @@ void AppController::generateRandomData() {
         int seed;
         std::cout << "Set seed: ";
         std::cin >> seed;
+        while (std::cin.fail()) {
+            std::cin.clear();
+            std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+            std::cout << "Bad entry... Enter a NUMBER: ";
+            std::cin >> seed;
+        }
         dataBufferList = *numberGenerator.generateWithSeed(seed, howMuch);
 
     } else if (option == 2) {
@@ -187,6 +207,12 @@ void AppController::arrayIndex() {
         std::cout << "Count: ";
         int count;
         std::cin >> count;
+        while (std::cin.fail()) {
+            std::cin.clear();
+            std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+            std::cout << "Bad entry... Enter a NUMBER: ";
+            std::cin >> count;
+        }
         dynamicArray->testCount = count;
         system("PAUSE");
     }
@@ -307,6 +333,11 @@ ActionResult::arrayResult AppController::pushOnIndexArray() {
     int value, index;
     std::cout << "Index: " << std::endl;
     std::cin >> index;
+    if (std::cin.fail()) {
+        std::cout << "Error" << std::endl;
+        system("PAUSE");
+        return ActionResult::MENU_ARR;
+    }
     std::cout << "Value: " << std::endl;
     std::cin >> value;
     long long int start;
@@ -357,6 +388,11 @@ ActionResult::arrayResult AppController::popOnIndexArray() {
     int index;
     std::cout << "Index: " << std::endl;
     std::cin >> index;
+    if (std::cin.fail()) {
+        std::cout << "Error" << std::endl;
+        system("PAUSE");
+        return ActionResult::MENU_ARR;
+    }
     long long int start;
     if (manualTests) {
         start = Timer::read_QPC();
@@ -376,6 +412,11 @@ ActionResult::arrayResult AppController::setOnIndexArray() {
     int value, index;
     std::cout << "Index: " << std::endl;
     std::cin >> index;
+    if (std::cin.fail()) {
+        std::cout << "Error" << std::endl;
+        system("PAUSE");
+        return ActionResult::MENU_ARR;
+    }
     std::cout << "Value: " << std::endl;
     std::cin >> value;
     long long int start;
@@ -416,6 +457,11 @@ ActionResult::arrayResult AppController::findByIndexArray() {
     int index;
     std::cout << "Index: " << std::endl;
     std::cin >> index;
+    if (std::cin.fail()) {
+        std::cout << "Error" << std::endl;
+        system("PAUSE");
+        return ActionResult::MENU_ARR;
+    }
     long long int start;
     if (manualTests) {
         start = Timer::read_QPC();
@@ -438,7 +484,7 @@ ActionResult::arrayResult AppController::findIndexOfArray() {
     if (manualTests) {
         start = Timer::read_QPC();
     }
-    unsigned int indexValue = dynamicArray->getIndexOf(value);
+    int indexValue = dynamicArray->getIndexOf(value);
     if (manualTests) {
         long long int end = Timer::read_QPC();
         dynamicArray->addFindIndexOf(Timer::getMicroSecondsAndPrint(start, end));
@@ -470,6 +516,12 @@ void AppController::listIndex() {
         std::cout << "Count: ";
         int count;
         std::cin >> count;
+        while (std::cin.fail()) {
+            std::cin.clear();
+            std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+            std::cout << "Bad entry... Enter a NUMBER: ";
+            std::cin >> count;
+        }
         listBidirectional->testCount = count;
         system("PAUSE");
     }
@@ -597,6 +649,11 @@ ActionResult::listResult AppController::pushOnIndexList() {
     int value, index;
     std::cout << "Index: " << std::endl;
     std::cin >> index;
+    if (std::cin.fail()) {
+        std::cout << "Error!" << std::endl;
+        system("PAUSE");
+        return ActionResult::MENU_LIST;
+    }
     std::cout << "Input: " << std::endl;
     std::cin >> value;
 
@@ -649,6 +706,11 @@ ActionResult::listResult AppController::popOnIndexList() {
     int index;
     std::cout << "Index: " << std::endl;
     std::cin >> index;
+    if (std::cin.fail()) {
+        std::cout << "Error!" << std::endl;
+        system("PAUSE");
+        return ActionResult::MENU_LIST;
+    }
     long long int start;
     if (manualTests) {
         start = Timer::read_QPC();
@@ -667,6 +729,11 @@ ActionResult::listResult AppController::findByIndexList() {
     int index;
     std::cout << "Index: " << std::endl;
     std::cin >> index;
+    if (std::cin.fail()) {
+        std::cout << "Error!" << std::endl;
+        system("PAUSE");
+        return ActionResult::MENU_LIST;
+    }
     long long int start;
     if (manualTests) {
         start = Timer::read_QPC();
@@ -689,7 +756,7 @@ ActionResult::listResult AppController::findIndexOfList() {
     if (manualTests) {
         start = Timer::read_QPC();
     }
-    unsigned int foundIndex = listBidirectional->getIndexOf(value);
+    int foundIndex = listBidirectional->getIndexOf(value);
     if (manualTests) {
         long long int end = Timer::read_QPC();
         listBidirectional->addFindIndexOf(Timer::getMicroSecondsAndPrint(start, end));
@@ -735,6 +802,12 @@ void AppController::heapIndex() {
                 std::cout << "How much buffer size (extra size)?" << std::endl;
                 std::cout << "Input: ";
                 std::cin >> sizeH;
+                while (std::cin.fail()) {
+                    std::cin.clear();
+                    std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+                    std::cout << "Bad entry... Enter a NUMBER: ";
+                    std::cin >> sizeH;
+                }
                 delete heap;
                 heap = new BinaryHeap(dataBufferList.size() + sizeH);
                 heap->loadFileDataAndHeapify(dataBufferList);
@@ -748,6 +821,12 @@ void AppController::heapIndex() {
         std::cout << "Count: ";
         int count;
         std::cin >> count;
+        while (std::cin.fail()) {
+            std::cin.clear();
+            std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+            std::cout << "Bad entry... Enter a NUMBER: ";
+            std::cin >> count;
+        }
         heap->testCount = count;
         system("PAUSE");
     } else {
@@ -815,6 +894,12 @@ void AppController::initHeap() {
         std::cout << "How much buffer size (extra size)?" << std::endl;
         std::cout << "Input: ";
         std::cin >> sizeH;
+        while (std::cin.fail()) {
+            std::cin.clear();
+            std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+            std::cout << "Bad entry... Enter a NUMBER: ";
+            std::cin >> sizeH;
+        }
         delete heap;
         if (dataBufferList.empty()) {
             std::cout << "Buffer is empty! Test file must be read first!" << std::endl;
@@ -826,6 +911,12 @@ void AppController::initHeap() {
         std::cout << "Please set Heap size..." << std::endl;
         std::cout << "Input: ";
         std::cin >> sizeH;
+        while (std::cin.fail()) {
+            std::cin.clear();
+            std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+            std::cout << "Bad entry... Enter a NUMBER: ";
+            std::cin >> sizeH;
+        }
         delete heap;
         heap = new BinaryHeap(sizeH);
         std::cout << "Done..." << std::endl;
@@ -928,6 +1019,11 @@ ActionResult::heapResult AppController::findByIndexHeap() {
     int index;
     std::cout << "Index: " << std::endl;
     std::cin >> index;
+    while (std::cin.fail()) {
+        std::cout << "Error!";
+        system("PAUSE");
+        return ActionResult::MENU_HEAP;
+    }
 
     long long int start;
     if (manualTests) {

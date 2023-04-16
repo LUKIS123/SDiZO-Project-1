@@ -4,7 +4,6 @@
 
 #include "DynamicArray.h"
 #include "iostream"
-#include "random"
 
 DynamicArray::DynamicArray() = default;
 
@@ -185,10 +184,14 @@ int DynamicArray::popOnIndex(int index) {
         return popped;
     }
 
-    int popped;
-    popped = pointer[index];
-    for (int i = index; i < size; i++) {
-        pointer[index] = pointer[index + 1];
+    int popped = pointer[index];
+    int counter = 0;
+    for (int i = 0; i < size; i++) {
+        if (counter == index) {
+            counter++;
+        }
+        pointer[i] = pointer[counter];
+        counter++;
     }
 
     reallocateSizeDown();

@@ -150,7 +150,6 @@ int ListBidirectional::popEnd() {
     size--;
     int value = tail->data;
 
-    // if list has only one element
     if (tail->prev == nullptr) {
         delete tail;
         head = nullptr;
