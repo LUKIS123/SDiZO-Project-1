@@ -63,3 +63,17 @@
 820	1133	7033877012731152	SDiZO_Project_1.exe	15960c9d38764cec
 3	829	7033880482981788	CMakeFiles/SDiZO_Project_1.dir/main.cpp.obj	25ffc5065ba1e104
 829	1139	7033880486028981	SDiZO_Project_1.exe	15960c9d38764cec
+11	1422	7033899483426025	CMakeFiles/SDiZO_Project_1.dir/DynamicArray.cpp.obj	79f6cfcfe247ea35
+3	1439	7033899483595463	CMakeFiles/SDiZO_Project_1.dir/main.cpp.obj	25ffc5065ba1e104
+7	1495	7033899484163554	CMakeFiles/SDiZO_Project_1.dir/ListBidirectional.cpp.obj	c38206c7d0ef15f6
+22	1510	7033899484313055	CMakeFiles/SDiZO_Project_1.dir/BinaryHeap.cpp.obj	2851a050fe722962
+18	1518	7033899484372857	CMakeFiles/SDiZO_Project_1.dir/Testing/Tests.cpp.obj	78b04c3bf6c6320e
+1439	1846	7033899487681918	CMakeFiles/SDiZO_Project_1.dir/Flow/ConsoleView.cpp.obj	bb47b24c92ae564f
+1495	2028	7033899489495846	CMakeFiles/SDiZO_Project_1.dir/FileUtils/DataFileUtility.cpp.obj	48496e0daecab80b
+14	2461	7033899493822726	CMakeFiles/SDiZO_Project_1.dir/BinarySearchTree.cpp.obj	8616948d1aa446fa
+1510	2813	7033899497348163	CMakeFiles/SDiZO_Project_1.dir/Time/Timer.cpp.obj	23fac62a82a69ffe
+1422	3023	7033899499431189	CMakeFiles/SDiZO_Project_1.dir/Flow/AppController.cpp.obj	31f74ec9d33da8a1
+1518	3041	7033899499620552	CMakeFiles/SDiZO_Project_1.dir/Testing/AutomaticTests.cpp.obj	80a2b0ce4f3ca3e
+3041	3386	7033899503016423	SDiZO_Project_1.exe	15960c9d38764cec
+3	976	7033907426220167	CMakeFiles/SDiZO_Project_1.dir/Flow/AppController.cpp.obj	31f74ec9d33da8a1
+976	1283	7033907429254584	SDiZO_Project_1.exe	15960c9d38764cec

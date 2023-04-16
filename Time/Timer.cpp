@@ -4,7 +4,6 @@
 
 #include "iostream"
 #include "Timer.h"
-#include <limits>
 
 using namespace std;
 
@@ -28,7 +27,7 @@ double Timer::getMilliSeconds(long long int start, long long int end) {
     QueryPerformanceFrequency((LARGE_INTEGER *) &frequency);
     elapsed = end - start;
     cout.precision(17);
-    cout << "Time [ms] = " << setprecision(0) << (1000.0 * elapsed) / frequency << endl;
+    cout << "Time [ms] = " << setprecision(3) << (1000.0 * elapsed) / frequency << endl;
     return ((1000.0 * elapsed) / frequency);
 }
 
@@ -37,7 +36,7 @@ double Timer::getMicroSeconds(long long int start, long long int end) {
     QueryPerformanceFrequency((LARGE_INTEGER *) &frequency);
     elapsed = end - start;
     cout.precision(17);
-    cout << "Time [us] = " << setprecision(0) << (1000000.0 * elapsed) / frequency << endl << endl;
+    cout << "Time [us] = " << setprecision(3) << (1000000.0 * elapsed) / frequency << endl << endl;
     return ((1000000.0 * elapsed) / frequency);
 }
 
@@ -48,8 +47,8 @@ double Timer::getMicroSecondsAndPrint(long long int start, long long int end) {
 
     cout.precision(17);
     cout << "Time [s] = " << fixed << setprecision(3) << (float) elapsed / frequency << endl;
-    cout << "Time [ms] = " << setprecision(0) << (1000.0 * elapsed) / frequency << endl;
-    cout << "Time [us] = " << setprecision(0) << (1000000.0 * elapsed) / frequency << endl << endl;
+    cout << "Time [ms] = " << setprecision(3) << (1000.0 * elapsed) / frequency << endl;
+    cout << "Time [us] = " << setprecision(3) << (1000000.0 * elapsed) / frequency << endl << endl;
     return ((1000000.0 * elapsed) / frequency);
 }
 

@@ -14,8 +14,6 @@ private:
 public:
     int *tab = nullptr;
 
-    void test(const std::string &FileName);
-
     std::list<int> *readData(const std::string &FileName);
 
     static bool saveData(std::list<int> &outputList, const std::string &FileName);

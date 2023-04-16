@@ -8,59 +8,6 @@
 
 using namespace std;
 
-void DataFileUtility::test(const string &FileName) {
-    if (tab != nullptr) {
-        delete tab;
-        tab = nullptr;
-    }
-    cout << "Wczytywanie tabeli z pliku..." << endl;
-    ifstream iFile;
-    iFile.open(FileName);
-    if (!iFile.is_open()) {
-        cout << "Blad przy wczytywaniu pliku, nie odnaleziono pliku o zdanej nazwie" << endl;
-        return;
-    }
-    iFile.seekg(0);
-    int i_fromFile = 0;
-    int iteration = 0;
-    int *buffer;
-    int it = 0;
-    buffer = nullptr;
-    iFile >> it;                    //it określa ilość liczb w pliku
-    for (int k = 0; k < it; k++) {
-        if (iFile >> i_fromFile) {
-            if (buffer !=
-                nullptr) {        //buffer jest tabelą pomocniczą używaną przy tworzeniu nowej tablicy o większym rozmiarze
-                delete buffer;
-            }
-            buffer = new int[iteration + 1];
-            if (tab != nullptr) {
-                for (int i = 0; i < iteration; i++) {    //kopiowanie zawartości tab do bufora
-                    buffer[i] = tab[i];
-                }
-                delete tab;
-                tab = nullptr;
-                tab = new int[iteration + 1];
-                for (int i = 0; i < iteration; i++) {    // kopiowanie bufora do właściwej tablicy
-                    tab[i] = buffer[i];
-                }
-            }
-            if (tab == nullptr) {
-                tab = new int[iteration + 1];
-            }
-            tab[iteration] = i_fromFile;                //dodanie ostatnio wczytanego elementu
-            iteration++;
-        } else {
-            cout << "Nieprawidlowy format pliku, wczytano " << k << " wartosci" << endl;
-        }
-
-    }
-    //tab = table;
-    int cnt = iteration;
-    delete buffer;
-    iFile.close();
-}
-
 list<int> *DataFileUtility::readData(const string &FileName) {
     ifstream file;
     file.open(FileName, ios::in);

@@ -332,9 +332,3 @@ ActionResult::bstResult ConsoleView::bstMenu() {
             return ActionResult::bstResult::MENU_BST;
     }
 }
-
-//void ConsoleView::quit() {
-//    system("CLS");
-//    std::cout << "Exiting..." << std::endl;
-//    exit(0);
-//}
