@@ -52,8 +52,7 @@ void BinaryHeap::display() {
 
 void BinaryHeap::push(int data) {
     if (sizeInUse + 1 > size) {
-        std::cout << "Unable to push data, heap is full!" << std::endl;
-        std::cout << "Allocating new array..." << std::endl;
+        std::cout << "Heap array full, allocating new array..." << std::endl;
         int *newPointer = new int[size + 1];
         for (int i = 0; i < size; i++) {
             newPointer[i] = heapArray[i];

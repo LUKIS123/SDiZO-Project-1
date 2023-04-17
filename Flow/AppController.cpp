@@ -1242,8 +1242,9 @@ ActionResult::bstResult AppController::findNodeBST() {
     }
     if (found == nullptr) {
         std::cout << "Node does not exist!" << std::endl;
+    } else {
+        std::cout << "Found Node of Value = " << found->key << std::endl;
     }
-    std::cout << "Found Node of Value = " << found->key << std::endl;
     system("PAUSE");
     return ActionResult::MENU_BST;
 }
